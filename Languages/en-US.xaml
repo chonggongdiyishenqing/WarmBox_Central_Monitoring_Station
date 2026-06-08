@@ -1,0 +1,187 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="SystemLanguage">Language:</system:String>
+    <system:String x:Key="SaveConfig">Save Config</system:String>
+    <system:String x:Key="CentralMonitor">Central Monitoring System</system:String>
+    <system:String x:Key="TotalDevices">Total Devices：</system:String>
+    <system:String x:Key="Critical">Critical：</system:String>
+    <system:String x:Key="Warning">Warning：</system:String>
+    <system:String x:Key="PrivacyOnText">Privacy: On</system:String>
+    <system:String x:Key="PrivacyOffText">Privacy: Off</system:String>
+    <system:String x:Key="LanguageChangedMessage">Language Changed Successfully!</system:String>
+
+    <!-- Data labels -->
+    <system:String x:Key="WorkMode">WorkMode</system:String>
+    <system:String x:Key="BoxTemp">BoxTemp</system:String>
+    <system:String x:Key="SkinTemp1">SkinTemp1</system:String>
+    <system:String x:Key="SkinTemp12">SkinTemp1/2</system:String>
+    <system:String x:Key="Humidity">Humidity</system:String>
+    <system:String x:Key="Oxygen">O2</system:String>
+    <system:String x:Key="HeartRate">HR</system:String>
+    <system:String x:Key="RespirationRate">RESP</system:String>
+    <system:String x:Key="BloodOxygen">SpO2</system:String>
+    <system:String x:Key="BloodPressure">NIBP</system:String>
+
+    <!-- View modes -->
+    <system:String x:Key="View16">16 Views</system:String>
+    <system:String x:Key="View8">8 Views</system:String>
+
+    <!-- Alarm list headers -->
+    <system:String x:Key="BedNumber">Bed No.</system:String>
+    <system:String x:Key="PatientName">Name</system:String>
+    <system:String x:Key="AlarmType">Alarm Type</system:String>
+    <system:String x:Key="Parameter">Param</system:String>
+    <system:String x:Key="CurrentValue">Current Value</system:String>
+    <system:String x:Key="DeviceModel">Device Model</system:String>
+    <system:String x:Key="AlarmContent">Alarm Content</system:String>
+    <system:String x:Key="AlarmTime">Alarm Time</system:String>
+    <system:String x:Key="AlarmLevel">Alarm Level</system:String>
+    <system:String x:Key="AlarmListTitle">Alarm List</system:String>
+    <system:String x:Key="PageDisplay">Per Page:</system:String>
+    <system:String x:Key="FirstPage">First</system:String>
+    <system:String x:Key="PreviousPage">Prev</system:String>
+    <system:String x:Key="NextPage">Next</system:String>
+    <system:String x:Key="LastPage">Last</system:String>
+    <system:String x:Key="ClearAllAlarms">Clear All Alarms</system:String>
+
+    <!-- Titles / Menus -->
+    <system:String x:Key="SystemSettings">System Settings</system:String>
+    <system:String x:Key="PatientManagement">Patient Management</system:String>
+    <system:String x:Key="AboutSystem">About System</system:String>
+    <system:String x:Key="ManufacturerMode">Manufacturer Mode</system:String>
+    <system:String x:Key="LanguageConfig">Language Configuration</system:String>
+    <system:String x:Key="DeviceMaintenance">Device Maintenance</system:String>
+    <system:String x:Key="NetworkConfiguration">Network Configuration</system:String>
+
+    <!-- Patient Info -->
+    <system:String x:Key="DeviceNumber">Device No.</system:String>
+    <system:String x:Key="PatientID">Patient ID</system:String>
+    <system:String x:Key="Sex">Sex</system:String>
+    <system:String x:Key="Male">Male</system:String>
+    <system:String x:Key="Female">Female</system:String>
+    <system:String x:Key="Name">Name</system:String>
+    <system:String x:Key="BloodType">Blood Type</system:String>
+    <system:String x:Key="BirthDate">Date of Birth</system:String>
+    <system:String x:Key="Weight">Weight (g)</system:String>
+    <system:String x:Key="GestationalAge">Gestational Age</system:String>
+    <system:String x:Key="Height">Height (cm)</system:String>
+    <system:String x:Key="DayAge">Days of Age (d)</system:String>
+
+    <!-- Engineering Mode -->
+    <system:String x:Key="EngineeringMode">Manufacturer Engineering Mode</system:String>
+    <system:String x:Key="EngineeringModeWarning">This area is only accessible to authorized engineers. Misoperation may cause system failure.</system:String>
+    <system:String x:Key="Verify">Verify</system:String>
+
+    <!-- Network / Device -->
+    <system:String x:Key="IPAddress">IP Address</system:String>
+    <system:String x:Key="Search">Search</system:String>
+    <system:String x:Key="AddDevice">Add Device</system:String>
+    <system:String x:Key="SelectAll">Select All</system:String>
+    <system:String x:Key="Brand">Brand</system:String>
+    <system:String x:Key="InstrumentType">Type</system:String>
+    <system:String x:Key="DeviceModels">Device Model</system:String>
+    <system:String x:Key="Operation">Operation</system:String>
+    <system:String x:Key="Edit">Edit</system:String>
+    <system:String x:Key="Delete">Delete</system:String>
+    <system:String x:Key="David">David</system:String>
+    <system:String x:Key="Incubator">Incubator</system:String>
+    <system:String x:Key="CentralStationServer">Central Station Server</system:String>
+    <system:String x:Key="PortNumber">Port Number</system:String>
+    <system:String x:Key="NetworkTest">Network Connection Test</system:String>
+    <system:String x:Key="TargetAddress">Target Address</system:String>
+    <system:String x:Key="TestNetworkConnection">Test Network Connection</system:String>
+    <system:String x:Key="RestartNote">Note: Changing the central server IP address and port number requires a system restart to take effect.</system:String>
+
+    <system:String x:Key="PrefixPage">Page</system:String>
+    <system:String x:Key="PrefixTotal">Total</system:String>
+    <system:String x:Key="UnitRecord">records</system:String>
+    <system:String x:Key="Department">Department</system:String>
+    <system:String x:Key="Confirm">OK</system:String>
+    <system:String x:Key="Cancel">Cancel</system:String>
+    <system:String x:Key="Success">Success</system:String>
+    <system:String x:Key="Error">Error</system:String>
+    <system:String x:Key="ConfirmDeleteDevice">Are you sure you want to delete this device?</system:String>
+    <system:String x:Key="DeviceDeleted">Device deleted</system:String>
+    <system:String x:Key="DeviceDeleteFailed">Device deletion failed!</system:String>
+    <system:String x:Key="DeleteDeviceError">Delete device error:</system:String>
+
+    <!-- Password verification -->
+    <system:String x:Key="VerifyPasswordFailed">Password incorrect. Please try again.</system:String>
+    <system:String x:Key="VerifyPasswordTitle">Verification Failed</system:String>
+
+    <!-- Ping related -->
+    <system:String x:Key="IPAddressEmpty">IP address cannot be empty.</system:String>
+    <system:String x:Key="IPAddressInvalid">Invalid IP address format. Please enter a valid IPv4 address (e.g. 192.168.1.1).</system:String>
+    <system:String x:Key="PingInitialMessage">Pinging {0} ...</system:String>
+    <system:String x:Key="PingingHeader">[{0:HH:mm:ss}] Pinging {1} with 32 bytes of data:</system:String>
+    <system:String x:Key="PingReplySuccessFormat">Reply from {0}: bytes=32 time={1}ms TTL={2}</system:String>
+    <system:String x:Key="PingRequestTimeout">Request timed out.</system:String>
+    <system:String x:Key="PingStatisticsHeader">Ping statistics for {0}:</system:String>
+    <system:String x:Key="PingStatisticsPackets">Packets: Sent = {0}, Received = {1}, Lost = {2} ({3}% loss),</system:String>
+    <system:String x:Key="PingStatisticsRoundtrip">Approximate round trip times in milli-seconds:</system:String>
+    <system:String x:Key="PingStatisticsMinMaxAvg">Minimum = {0}ms, Maximum = {1}ms, Average = {2}ms</system:String>
+    <system:String x:Key="PingError">Ping failed: {0}</system:String>
+
+    <!-- Save / load messages -->
+    <system:String x:Key="SaveSuccess">Save successful. Restart the system to take effect!</system:String>
+    <system:String x:Key="SaveFailed">Save failed: {0}</system:String>
+    <system:String x:Key="LoadFailed">Load failed: {0}</system:String>
+
+    <!-- Common titles -->
+    <system:String x:Key="ErrorTitle">Error</system:String>
+    <system:String x:Key="WarningTitle">Warning</system:String>
+    <system:String x:Key="InfoTitle">Information</system:String>
+    <system:String x:Key="InputErrorTitle">Input Error</system:String>
+
+    <system:String x:Key="DeviceFault">Device Fault</system:String>
+    <system:String x:Key="Camera">Camera</system:String>
+    <system:String x:Key="Print">Print</system:String>
+    <system:String x:Key="FreezeWaveform">Freeze Waveform</system:String>
+    <system:String x:Key="ResumeWaveform">Resume Waveform</system:String>
+    <system:String x:Key="PrintCompleted">Print completed</system:String>
+    <system:String x:Key="PrintFailed">Print failed</system:String>
+    <system:String x:Key="Printing">Printing...</system:String>
+    <system:String x:Key="NoWaveformView">No waveform to print</system:String>
+    <system:String x:Key="WaveformFrozen">Frozen</system:String>
+    <system:String x:Key="WaveformResumed">Resumed</system:String>
+    <system:String x:Key="TrendReview">Trend Review</system:String>
+    <system:String x:Key="Incubator1">Incubator</system:String>
+
+    <system:String x:Key="SkinTemp2">Skin Temp2</system:String>
+    <system:String x:Key="OxygenConcentration">O2 Concentration</system:String>
+    <system:String x:Key="Weighing">Weighing</system:String>
+    <system:String x:Key="VitalSigns">Vital Signs</system:String>
+    <system:String x:Key="AdvancedSpO2">Advanced SpO2</system:String>
+    <system:String x:Key="TrendReview24h">24h Trend Review</system:String>
+    <system:String x:Key="Temperature">Temperature</system:String>
+
+    <system:String x:Key="SyncPatientData">Sync Patient Data</system:String>
+    <system:String x:Key="Syncing">Syncing</system:String>
+    <system:String x:Key="SyncSuccess">Sync Successful</system:String>
+    <system:String x:Key="SyncFailed">Sync Failed</system:String>
+    <system:String x:Key="SyncNoData">Unable to receive patient information. Please check the device or device network.</system:String>
+
+    <system:String x:Key="CurrentDayTrendReview">Trend Review</system:String>
+    <system:String x:Key="SelectDate">Select Date</system:String>
+    <system:String x:Key="Refresh">Refresh</system:String>
+    <system:String x:Key="LineChart">Line Chart</system:String>
+    <system:String x:Key="Table">Table</system:String>
+ 
+
+    <system:String x:Key="SeriesName_HR">Heart Rate</system:String>
+    <system:String x:Key="SeriesName_SpO2">SpO2</system:String>
+    <system:String x:Key="SeriesName_RESP">Respiration</system:String>
+    <system:String x:Key="SeriesName_NIBP_SYS">Systolic</system:String>
+    <system:String x:Key="SeriesName_NIBP_DIA">Diastolic</system:String>
+    <system:String x:Key="SeriesName_TEMP1">Skin Temp</system:String>
+    <system:String x:Key="SeriesName_TEMP2">Core Temp</system:String>
+    <system:String x:Key="SeriesName_PI">PI</system:String>
+    <system:String x:Key="Unit_bpm">bpm</system:String>
+    <system:String x:Key="Unit_percent">%</system:String>
+    <system:String x:Key="Unit_rpm">rpm</system:String>
+    <system:String x:Key="Unit_mmHg">mmHg</system:String>
+    <system:String x:Key="Unit_celsius">℃</system:String>
+
+    <system:String x:Key="CameraNotConnected">Camera not connected</system:String>
+</ResourceDictionary>

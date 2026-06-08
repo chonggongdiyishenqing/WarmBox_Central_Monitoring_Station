@@ -1,0 +1,310 @@
+﻿<UserControl x:Class="WarmBox_Central_Monitoring_Station.View.BedView8"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WarmBox_Central_Monitoring_Station.View"
+             xmlns:converters="clr-namespace:WarmBox_Central_Monitoring_Station.Converters" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!-- 外层 Border 负责整体闪烁 -->
+    <Border x:Name="MainBorder" Margin="1" BorderThickness="2" 
+            BorderBrush="#404042" Background="#404042">
+        <Border.Resources>
+            <!-- 高优先级：红色呼吸 -->
+            <Storyboard x:Key="FlashHigh" RepeatBehavior="Forever" AutoReverse="True">
+                <ColorAnimation Storyboard.TargetProperty="Background.Color"
+                                From="#FF0000" To="#440000" Duration="0:0:0.5"/>
+                <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
+                                From="#FF0000" To="#440000" Duration="0:0:0.5"/>
+            </Storyboard>
+            <!-- 中优先级：黄色呼吸 -->
+            <Storyboard x:Key="FlashMedium" RepeatBehavior="Forever" AutoReverse="True">
+                <ColorAnimation Storyboard.TargetProperty="Background.Color"
+                                From="#FFD700" To="#443200" Duration="0:0:0.5"/>
+                <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
+                                From="#FFD700" To="#443200" Duration="0:0:0.5"/>
+            </Storyboard>
+        </Border.Resources>
+        <Border.Style>
+            <Style TargetType="Border">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding CurrentAlarmPriority}" Value="High">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard x:Name="FlashHighStory" 
+                                             Storyboard="{StaticResource FlashHigh}"/>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <RemoveStoryboard BeginStoryboardName="FlashHighStory"/>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding CurrentAlarmPriority}" Value="Medium">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard x:Name="FlashMediumStory" 
+                                             Storyboard="{StaticResource FlashMedium}"/>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <RemoveStoryboard BeginStoryboardName="FlashMediumStory"/>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 第一行：背景透明，让外层闪烁背景透上来 -->
+            <Grid Grid.Row="0" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 左侧：床位号 + 设备类型 + 患者姓名 -->
+                <TextBlock Grid.Column="0" 
+                           FontSize="16" 
+                           FontWeight="Bold" 
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           Margin="5,5,0,5">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} - {1} {2}">
+                            <Binding Path="BedNumber"/>
+                            <Binding Path="DeviceName"/>
+                            <Binding Path="PatientNameForDisplay"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+
+                <!-- 右侧：报警信息区域（与16视图完全一致） -->
+                <Border Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Background="#2c2c2c"
+                        CornerRadius="2"
+                        Margin="0,5,5,5"
+                        MaxWidth="200">
+                    <Border Margin="3" 
+                            Background="#4f4f52"                 
+                            CornerRadius="2">
+                        <hc:RunningBlock 
+                            Content="{Binding CurrentAlarm}"
+                            Foreground="{Binding CurrentAlarmColor}"
+                            FontWeight="Bold"
+                            BorderThickness="0"        
+                            Height="20"                         
+                            Padding="0,2,0,2" 
+                            ToolTip="{Binding CurrentAlarm}" />
+                    </Border>
+                </Border>
+            </Grid>
+
+            <!-- 第二行：内容保持不变，只将标签替换为动态资源 -->
+            <Border Padding="5" Grid.Row="1" Background="Black">
+                <Grid>
+                    <!-- 正常数据区域 -->
+                    <Grid x:Name="NormalContent" 
+                          Visibility="{Binding IsOffline, Converter={StaticResource InverseBoolToVis}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="90"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="90"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- 第一组参数 -->
+                        <Grid Grid.Row="0" Background="#1a1a1a">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.5*"/>
+                                <ColumnDefinition Width="2.5*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- 工作模式标签 -->
+                            <Grid Grid.Column="0" Grid.Row="0">
+                                <TextBlock Text="{DynamicResource WorkMode}" Foreground="#979eab" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="19" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center">
+                                  <Run Text="{Binding BoxTemp}" Foreground="#05DF72" />
+                                  <Run Text="℃" Foreground="#d7e0e4" FontSize="14" />
+                                </TextBlock>
+                            </Grid>
+
+                            <!-- 肤温1/2 标签 -->
+                            <Grid Grid.Column="1" Grid.Row="0">
+                                <TextBlock Text="{DynamicResource SkinTemp12}" Foreground="#979eab" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <!-- 数值：垂直居中，确保与同一行的其他数值中心对齐 -->
+                            <Grid Grid.Column="1" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="14" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   TextWrapping="Wrap" TextAlignment="Center">
+                                   <Run Foreground="#05DF72">
+                                       <Run.Text>
+                                           <MultiBinding StringFormat="{}{0:F1}/{1:F1}">
+                                               <Binding Path="SkinTemp1" />
+                                               <Binding Path="SkinTemp2" />
+                                           </MultiBinding>
+                                       </Run.Text>
+                                   </Run>
+                                   <Run Text="℃" Foreground="#d7e0e4" FontSize="14" />
+                                </TextBlock>
+                            </Grid>
+
+                            <!-- O2 -->
+                            <Grid Grid.Column="2" Grid.Row="0">
+                                <TextBlock Text="O2" Foreground="#979eab" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="2" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="19" 
+                                 HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Run Text="{Binding O2}" Foreground="#05DF72" />
+                                    <Run Text="%" Foreground="#d7e0e4" FontSize="14" />
+                                </TextBlock>
+                            </Grid>
+
+                            <!-- 湿度 -->
+                            <Grid Grid.Column="3" Grid.Row="0">
+                                <TextBlock Text="{DynamicResource Humidity}" Foreground="#979eab" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="3" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="19" 
+                                 HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Run Text="{Binding Humidity}" Foreground="#FFC400" />
+                                    <Run Text="%" Foreground="#d7e0e4" FontSize="14" />
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Grid.Row="1" Height="5" Background="Transparent"/>
+
+                        <!-- 第二组参数（PR, RESP, SpO2, NIBP）保持不变 -->
+                        <Grid Grid.Row="2" Background="#1a1a1a">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.2*"/>
+                                <ColumnDefinition Width="2.2*"/>
+                                <ColumnDefinition Width="2.2*"/>
+                                <ColumnDefinition Width="3.4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="0" Grid.Row="0">
+                                <TextBlock Text="PR" Foreground="#979eab" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <Run Text="{Binding PR}" Foreground="#F53D3D" />
+                                    <Run Text="min-1" Foreground="#d7e0e4" FontSize="14" />
+                                </TextBlock>
+                            </Grid>
+                            <Grid Grid.Column="1" Grid.Row="0">
+                                <TextBlock Text="RESP" Foreground="#979eab" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="1" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <Run Text="{Binding RespirationRate}" Foreground="#05DF72" />
+                                    <Run Text="rpm" Foreground="#d7e0e4" FontSize="14" />
+                                </TextBlock>
+                            </Grid>
+                            <Grid Grid.Column="2" Grid.Row="0">
+                                <TextBlock Text="SpO2" Foreground="#979eab" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="2" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <Run Text="{Binding BloodOxygen}" Foreground="#05DF72" />
+                                    <Run Text="%" Foreground="#d7e0e4" FontSize="14" />
+                                </TextBlock>
+                            </Grid>
+                            <Grid Grid.Column="3" Grid.Row="0">
+                                <TextBlock Text="NIBP" Foreground="#979eab" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="3" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <Run Text="{Binding BloodPressure}" Foreground="#F53D3D" />
+                                    <Run Text="mmHg" Foreground="#d7e0e4" FontSize="14" />
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Grid.Row="3" Height="1" Background="Transparent"/>
+
+                        <!-- 波形区域（保持不变） -->
+                        <Grid Grid.Row="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Padding="2" Grid.Row="0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*"/>
+                                        <RowDefinition Height="8*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8.5*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Ⅱ" FontSize="11" FontWeight="Bold" Foreground="#00fe00" HorizontalAlignment="Left"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="HR" FontSize="13" FontWeight="Bold" Foreground="#00fe00" HorizontalAlignment="Center"/>
+                                    <Canvas x:Name="Wave_II" Grid.Column="0" Grid.Row="1" Background="Black" />
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding HeartRate}" FontSize="28" FontWeight="Bold" Foreground="#00fe00" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <Border Padding="2" Grid.Row="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*"/>
+                                        <RowDefinition Height="8*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8.5*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Pletch" FontSize="13" FontWeight="Bold" Foreground="#06b6d4" HorizontalAlignment="Left"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="SpO2" FontSize="13" FontWeight="Bold" Foreground="#06b6d4" HorizontalAlignment="Center"/>
+                                    <Canvas x:Name="Wave_Pletch" Grid.Column="0" Grid.Row="1" Background="Black" />
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding BloodOxygen}" FontSize="28" FontWeight="Bold" Foreground="#06b6d4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Grid>
+
+                    <!-- 离线覆盖区域 -->
+                    <Grid x:Name="OfflineContent" 
+                          Visibility="{Binding IsOffline, Converter={StaticResource BoolToVis}}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/IMG/new/diannao.png" Stretch="Uniform" Width="80" Height="80" />
+                            <TextBlock Text="OFFLINE" Foreground="#5a5a5b" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

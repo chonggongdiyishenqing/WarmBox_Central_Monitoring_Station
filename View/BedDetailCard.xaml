@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="WarmBox_Central_Monitoring_Station.View.BedDetailCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:WarmBox_Central_Monitoring_Station.Converters"
+             mc:Ignorable="d" 
+             Height="281"
+             d:DesignHeight="280" d:DesignWidth="200">
+    <UserControl.Resources>
+        <converters:BoolToBrushConverter x:Key="BoolToBrushConverter"/>
+        <converters:BoolToBorderThicknessConverter x:Key="BoolToBorderThicknessConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis"/>
+    </UserControl.Resources>
+    <Border Margin="1" 
+            BorderThickness="{Binding IsSelected, Converter={StaticResource BoolToBorderThicknessConverter}}"
+            BorderBrush="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 第一行：设备信息 + 报警闪烁背景 -->
+            <Border x:Name="Part_HeaderBorder" Grid.Row="0" Background="#404042">
+                <Border.Resources>
+                    <Storyboard x:Key="FlashHigh" RepeatBehavior="Forever" AutoReverse="True">
+                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                            From="#FF0000" To="#440000" Duration="0:0:0.5"/>
+                    </Storyboard>
+                    <Storyboard x:Key="FlashMedium" RepeatBehavior="Forever" AutoReverse="True">
+                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                            From="#FFD700" To="#443200" Duration="0:0:0.5"/>
+                    </Storyboard>
+                </Border.Resources>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentAlarmPriority}" Value="High">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard x:Name="FlashHighStory" Storyboard="{StaticResource FlashHigh}"/>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <RemoveStoryboard BeginStoryboardName="FlashHighStory"/>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding CurrentAlarmPriority}" Value="Medium">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard x:Name="FlashMediumStory" Storyboard="{StaticResource FlashMedium}"/>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <RemoveStoryboard BeginStoryboardName="FlashMediumStory"/>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <Grid Background="Transparent">
+                    <!-- 设备信息文本 -->
+                    <TextBlock FontSize="14.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="5,5,0,5">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} - {1} {2}">
+                                <Binding Path="BedNumber"/>
+                                <Binding Path="DeviceName"/>
+                                <Binding Path="PatientNameForDisplay"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+            </Border>
+
+            <!-- 第二行：内容区域（支持离线覆盖） -->
+            <Border Padding="10" Grid.Row="1" Background="Black">
+                <Grid>
+                    <!-- 正常数据显示区域 -->
+                    <Grid x:Name="NormalContent" 
+                          Visibility="{Binding IsOffline, Converter={StaticResource InverseBoolToVis}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- 第一组：箱温、O2 -->
+                        <Grid Grid.Row="0" Background="#1a1a1a">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- 箱温 -->
+                            <Grid Grid.Column="0" Grid.Row="0">
+                                <TextBlock Text="箱温" Foreground="#979eab" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <Run Text="{Binding BoxTemp}" Foreground="#05DF72" />
+                                    <Run Text="℃" Foreground="#d7e0e4" FontSize="15" />
+                                </TextBlock>
+                            </Grid>
+
+                            <!-- O2 -->
+                            <Grid Grid.Column="1" Grid.Row="0">
+                                <TextBlock Text="O2" Foreground="#979eab" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="1" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <Run Text="{Binding O2}" Foreground="#05DF72" />
+                                    <Run Text="%" Foreground="#d7e0e4" FontSize="15" />
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+
+                        <!-- 间距 -->
+                        <Grid Grid.Row="1" Height="10" Background="Transparent" />
+
+                        <!-- 第二组：HR、SpO2 -->
+                        <Grid Grid.Row="2" Background="#1a1a1a">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- HR -->
+                            <Grid Grid.Column="0" Grid.Row="0">
+                                <TextBlock Text="HR" Foreground="#979eab" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <Run Text="{Binding HeartRate}" Foreground="#F53D3D" />
+                                    <Run Text="bpm" Foreground="#d7e0e4" FontSize="15" />
+                                </TextBlock>
+                            </Grid>
+
+                            <!-- SpO2 -->
+                            <Grid Grid.Column="1" Grid.Row="0">
+                                <TextBlock Text="SpO2" Foreground="#979eab" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="1" Grid.Row="1">
+                                <TextBlock FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                                    <Run Text="{Binding BloodOxygen}" Foreground="#05DF72" />
+                                    <Run Text="%" Foreground="#d7e0e4" FontSize="15" />
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <!-- 离线覆盖区域 -->
+                    <Grid x:Name="OfflineContent" 
+                          Visibility="{Binding IsOffline, Converter={StaticResource BoolToVis}}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/IMG/new/diannao.png" 
+                                   Stretch="Uniform" 
+                                   Width="60" 
+                                   Height="60" />
+                            <TextBlock Text="OFFLINE" 
+                                       Foreground="#5a5a5b" 
+                                       FontSize="20" 
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl> 

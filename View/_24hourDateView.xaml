@@ -1,0 +1,259 @@
+﻿<UserControl x:Class="WarmBox_Central_Monitoring_Station.View._24hourDateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WarmBox_Central_Monitoring_Station.View"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="1200" d:DesignWidth="1300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+                <ResourceDictionary Source="/DiyStyle/Diystyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <!-- 表格居中基础样式 -->
+            <Style x:Key="DataGridTextCenterColumnStyle" TargetType="DataGridCell" BasedOn="{StaticResource DataGridCellStyle}">
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+
+            <!-- 时间列 -->
+            <Style x:Key="CellStyle_Time" TargetType="DataGridCell" BasedOn="{StaticResource DataGridTextCenterColumnStyle}">
+                <Setter Property="Foreground" Value="#989fab"/>
+            </Style>
+            <Style x:Key="HeaderStyle_Time" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="Foreground" Value="#989fab"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <!-- HR 列 -->
+            <Style x:Key="CellStyle_HR" TargetType="DataGridCell" BasedOn="{StaticResource DataGridTextCenterColumnStyle}">
+                <Setter Property="Foreground" Value="#eb3d3d"/>
+            </Style>
+            <Style x:Key="HeaderStyle_HR" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="Foreground" Value="#eb3d3d"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <!-- SpO2 列 -->
+            <Style x:Key="CellStyle_SpO2" TargetType="DataGridCell" BasedOn="{StaticResource DataGridTextCenterColumnStyle}">
+                <Setter Property="Foreground" Value="#09c1c1"/>
+            </Style>
+            <Style x:Key="HeaderStyle_SpO2" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="Foreground" Value="#09c1c1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <!-- RESP 列 -->
+            <Style x:Key="CellStyle_RESP" TargetType="DataGridCell" BasedOn="{StaticResource DataGridTextCenterColumnStyle}">
+                <Setter Property="Foreground" Value="#fcfc01"/>
+            </Style>
+            <Style x:Key="HeaderStyle_RESP" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="Foreground" Value="#fcfc01"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <!-- TEMP 列 (合并 TEMP1/TEMP2) -->
+            <Style x:Key="CellStyle_TEMP" TargetType="DataGridCell" BasedOn="{StaticResource DataGridTextCenterColumnStyle}">
+                <Setter Property="Foreground" Value="#5086c9"/>
+            </Style>
+            <Style x:Key="HeaderStyle_TEMP" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="Foreground" Value="#5086c9"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <!-- NIBP 列 (合并 SYS/DIA) -->
+            <Style x:Key="CellStyle_NIBP" TargetType="DataGridCell" BasedOn="{StaticResource DataGridTextCenterColumnStyle}">
+                <Setter Property="Foreground" Value="#da1414"/>
+            </Style>
+            <Style x:Key="HeaderStyle_NIBP" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="Foreground" Value="#da1414"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <!-- PI 列 -->
+            <Style x:Key="CellStyle_PI" TargetType="DataGridCell" BasedOn="{StaticResource DataGridTextCenterColumnStyle}">
+                <Setter Property="Foreground" Value="#c45d94"/>
+            </Style>
+            <Style x:Key="HeaderStyle_PI" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="Foreground" Value="#c45d94"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="10,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock  Text="{DynamicResource CurrentDayTrendReview}" FontSize="26" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+            <Grid Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0">
+                <TabControl Style="{StaticResource CustomTabControlStyle}" 
+                            ItemContainerStyle="{StaticResource CustomTabItemStyle}"
+                            SelectedIndex="{Binding SelectedParameterIndex}">
+                    <TabItem Header="HR" MinWidth="120"/>
+                    <TabItem Header="SPO2" MinWidth="120"/>
+                    <TabItem Header="RESP" MinWidth="120"/>
+                    <TabItem Header="NIBP" MinWidth="120"/>
+                    <TabItem Header="TEMP" MinWidth="120"/>
+                    <TabItem Header="PI" MinWidth="120"/>
+                </TabControl>
+            </Grid>
+            <Grid Grid.Column="2"   HorizontalAlignment="Center" VerticalAlignment="Center"  >
+                <TabControl Style="{StaticResource CustomTabControlStyle}"
+                            ItemContainerStyle="{StaticResource CustomTabItemStyle}"
+                            SelectedValue="{Binding DisplayMode}"
+                            SelectedValuePath="Tag">
+                    <TabItem Header="{DynamicResource LineChart}" MinWidth="120" Tag="折线图" />
+                    <TabItem Header="{DynamicResource Table}" MinWidth="120" Tag="表格" />
+                </TabControl>
+            </Grid>
+            <Button Name="close" Grid.Column="3" Style="{StaticResource IndexbuttonStyle2}"  Command="{Binding ReturnBedIndexCommand}" HorizontalAlignment="Right" >
+                <Image Source="/IMG/new/close.png" />
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1" Margin="10,8">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <!-- 自定义标题 -->
+                <TextBlock Text="{DynamicResource SelectDate}"
+                   FontSize="16" 
+                   Foreground="White" 
+                   VerticalAlignment="Center" 
+                   Margin="0,0,8,0"/>
+                <!-- 日期选择器 -->
+                <DatePicker x:Name="datePicker"
+                    SelectedDate="{Binding SelectedDate}"
+                    Width="200"
+                    Foreground="White"
+                    Background="#2c2c2c"
+                    BorderBrush="#555555"
+                    VerticalAlignment="Center"/>
+                <!-- 刷新按钮 -->
+                <Button Content="{DynamicResource Refresh}"
+                Width="80" 
+                Height="28" 
+                Margin="12,0,0,0"
+                VerticalAlignment="Center"
+                Background="#2c2c2c" 
+                Foreground="White" 
+                BorderBrush="#555555" 
+                Cursor="Hand"
+                Command="{Binding RefreshCommand}"
+              />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2" Margin="5">
+            <!-- 折线图 -->
+            <lvc:CartesianChart
+              Background="#2B2B2B"
+              LegendTextPaint="{Binding LegendTextPaint}"  
+              Series="{Binding Series}"
+              XAxes="{Binding XAxes}"
+              YAxes="{Binding YAxes}"           
+              LegendPosition="Bottom"
+              Visibility="{Binding IsChartVisible, Converter={StaticResource BoolToVis}}"/>
+
+            <!-- 表格 -->
+            <DataGrid ItemsSource="{Binding TableData}"
+              AutoGenerateColumns="False"
+              GridLinesVisibility="Horizontal"
+              HeadersVisibility="Column"
+              IsReadOnly="True" CanUserAddRows="False"
+              HorizontalScrollBarVisibility="Auto"
+              VerticalScrollBarVisibility="Auto"
+              HorizontalGridLinesBrush="#AAAAAA"
+              Background="#2B2B2B" Foreground="White"
+              RowBackground="#2B2B2B" AlternatingRowBackground="#333333"
+              BorderBrush="#555555" BorderThickness="1"
+              SelectionUnit="Cell"
+              Visibility="{Binding IsTableVisible, Converter={StaticResource BoolToVis}}">
+                <DataGrid.Resources>
+                    <Style TargetType="ScrollBar" BasedOn="{StaticResource {x:Type ScrollBar}}" />
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+
+                    <!-- 时间 -->
+                    <DataGridTextColumn Header="时间" 
+                                Binding="{Binding RecordTime, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" 
+                                Width="*"
+                                CellStyle="{StaticResource CellStyle_Time}"
+                                HeaderStyle="{StaticResource HeaderStyle_Time}"/>
+
+                    <!-- HR -->
+                    <DataGridTextColumn Header="HR" Binding="{Binding HR}" Width="*"
+                                CellStyle="{StaticResource CellStyle_HR}"
+                                HeaderStyle="{StaticResource HeaderStyle_HR}"/>
+
+                    <!-- SpO2 -->
+                    <DataGridTextColumn Header="SpO2" Binding="{Binding SPO2}" Width="*"
+                                CellStyle="{StaticResource CellStyle_SpO2}"
+                                HeaderStyle="{StaticResource HeaderStyle_SpO2}"/>
+
+                    <!-- RESP -->
+                    <DataGridTextColumn Header="RESP" Binding="{Binding RESP}" Width="*"
+                                CellStyle="{StaticResource CellStyle_RESP}"
+                                HeaderStyle="{StaticResource HeaderStyle_RESP}"/>
+
+                    <!-- TEMP (合并 TEMP1 / TEMP2) -->
+                    <DataGridTemplateColumn Header="TEMP" Width="*"
+                                    CellStyle="{StaticResource CellStyle_TEMP}"
+                                    HeaderStyle="{StaticResource HeaderStyle_TEMP}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Center"
+                                   Foreground="#5086c9">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}/{1}">
+                                            <Binding Path="TEMP" />
+                                            <Binding Path="TEMP2" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- NIBP (合并 NIBP_SYS / NIBP_DIA) -->
+                    <DataGridTemplateColumn Header="NIBP" Width="*"
+                                    CellStyle="{StaticResource CellStyle_NIBP}"
+                                    HeaderStyle="{StaticResource HeaderStyle_NIBP}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Center"
+                                   Foreground="#da1414">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}/{1}">
+                                            <Binding Path="NIBP_SYS" />
+                                            <Binding Path="NIBP_DIA" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- PI -->
+                    <DataGridTextColumn Header="PI" Binding="{Binding PI}" Width="*"
+                                CellStyle="{StaticResource CellStyle_PI}"
+                                HeaderStyle="{StaticResource HeaderStyle_PI}"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

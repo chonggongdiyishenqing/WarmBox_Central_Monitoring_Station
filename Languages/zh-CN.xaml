@@ -1,0 +1,188 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="SystemLanguage">系统语言：</system:String>
+    <system:String x:Key="SaveConfig">保存配置</system:String>
+    <system:String x:Key="CentralMonitor">中央监护系统</system:String>
+    <system:String x:Key="TotalDevices">总设备：</system:String>
+    <system:String x:Key="Critical">紧急：</system:String>
+    <system:String x:Key="Warning">警告：</system:String>
+    <system:String x:Key="PrivacyOnText">隐私：开</system:String>
+    <system:String x:Key="PrivacyOffText">隐私：关</system:String>
+    <system:String x:Key="LanguageChangedMessage">语言切换成功！</system:String>
+
+    <!-- 数据项标签 -->
+    <system:String x:Key="WorkMode">工作模式</system:String>
+    <system:String x:Key="BoxTemp">箱温</system:String>
+    <system:String x:Key="SkinTemp1">肤温1</system:String>
+    <system:String x:Key="SkinTemp12">肤温1/2</system:String>
+    <system:String x:Key="Humidity">湿度</system:String>
+    <system:String x:Key="Oxygen">O2</system:String>
+    <system:String x:Key="HeartRate">HR</system:String>
+    <system:String x:Key="RespirationRate">RESP</system:String>
+    <system:String x:Key="BloodOxygen">SpO2</system:String>
+    <system:String x:Key="BloodPressure">NIBP</system:String>
+
+    <!-- 视图模式 -->
+    <system:String x:Key="View16">16视图</system:String>
+    <system:String x:Key="View8">8视图</system:String>
+
+    <!-- 报警列表表头 -->
+    <system:String x:Key="BedNumber">床号</system:String>
+    <system:String x:Key="PatientName">姓名</system:String>
+    <system:String x:Key="AlarmType">报警类型</system:String>
+    <system:String x:Key="Parameter">参数</system:String>
+    <system:String x:Key="CurrentValue">当前值</system:String>
+    <system:String x:Key="DeviceModel">设备型号</system:String>
+    <system:String x:Key="AlarmContent">报警内容</system:String>
+    <system:String x:Key="AlarmTime">报警时间</system:String>
+    <system:String x:Key="AlarmLevel">报警等级</system:String>
+    <system:String x:Key="AlarmListTitle">报警列表</system:String>
+    <system:String x:Key="PageDisplay">每页显示：</system:String>
+    <system:String x:Key="FirstPage">首页</system:String>
+    <system:String x:Key="PreviousPage">上一页</system:String>
+    <system:String x:Key="NextPage">下一页</system:String>
+    <system:String x:Key="LastPage">末页</system:String>
+    <system:String x:Key="ClearAllAlarms">清除所有报警</system:String>
+
+    <!-- 界面标题 / 菜单 -->
+    <system:String x:Key="SystemSettings">系统设置</system:String>
+    <system:String x:Key="PatientManagement">患者管理</system:String>
+    <system:String x:Key="AboutSystem">关于系统</system:String>
+    <system:String x:Key="ManufacturerMode">厂家模式</system:String>
+    <system:String x:Key="LanguageConfig">语言配置</system:String>
+    <system:String x:Key="DeviceMaintenance">设备维护</system:String>
+    <system:String x:Key="NetworkConfiguration">网络配置</system:String>
+
+    <!-- 患者信息字段 -->
+    <system:String x:Key="DeviceNumber">设备编号</system:String>
+    <system:String x:Key="PatientID">病人编号</system:String>
+    <system:String x:Key="Sex">性别</system:String>
+    <system:String x:Key="Male">男</system:String>
+    <system:String x:Key="Female">女</system:String>
+    <system:String x:Key="Name">姓名</system:String>
+    <system:String x:Key="BloodType">血型</system:String>
+    <system:String x:Key="BirthDate">出生日期</system:String>
+    <system:String x:Key="Weight">体重（g）</system:String>
+    <system:String x:Key="GestationalAge">胎龄</system:String>
+    <system:String x:Key="Height">身高（cm）</system:String>
+    <system:String x:Key="DayAge">日龄（天）</system:String>
+
+    <!-- 工程模式 -->
+    <system:String x:Key="EngineeringMode">厂家工程模式</system:String>
+    <system:String x:Key="EngineeringModeWarning">此区域仅限授权工程师访问，误操作可能导致系统故障。</system:String>
+    <system:String x:Key="Verify">验证</system:String>
+
+    <!-- 网络 / 设备相关 -->
+    <system:String x:Key="IPAddress">IP地址</system:String>
+    <system:String x:Key="Search">搜索</system:String>
+    <system:String x:Key="AddDevice">增添设备</system:String>
+    <system:String x:Key="SelectAll">全选</system:String>
+    <system:String x:Key="Brand">品牌</system:String>
+    <system:String x:Key="InstrumentType">仪器类型</system:String>
+    <system:String x:Key="DeviceModels">设备型号</system:String>
+    <system:String x:Key="Operation">操作</system:String>
+    <system:String x:Key="Edit">编辑</system:String>
+    <system:String x:Key="Delete">删除</system:String>
+    <system:String x:Key="David">戴维</system:String>
+    <system:String x:Key="Incubator">暖箱</system:String>
+    <system:String x:Key="CentralStationServer">中央站服务器</system:String>
+    <system:String x:Key="PortNumber">端口号</system:String>
+    <system:String x:Key="NetworkTest">网络连接测试</system:String>
+    <system:String x:Key="TargetAddress">目标地址</system:String>
+    <system:String x:Key="TestNetworkConnection">测试网络连接</system:String>
+    <system:String x:Key="RestartNote">注：修改中央服务器的IP地址和端口号需要重启系统才能生效</system:String>
+
+
+    <system:String x:Key="PrefixPage">第</system:String>
+    <system:String x:Key="UnitPage">页</system:String>
+    <system:String x:Key="PrefixTotal">共</system:String>
+    <system:String x:Key="UnitRecord">条记录</system:String>
+    <system:String x:Key="Department">科室</system:String>
+    <system:String x:Key="Confirm">确定</system:String>
+    <system:String x:Key="Cancel">取消</system:String>
+    <system:String x:Key="Success">成功</system:String>
+    <system:String x:Key="Error">错误</system:String>
+    <system:String x:Key="ConfirmDeleteDevice">确定要删除该设备吗？</system:String>
+    <system:String x:Key="DeviceDeleted">设备已删除</system:String>
+    <system:String x:Key="DeviceDeleteFailed">设备删除失败！</system:String>
+    <system:String x:Key="DeleteDeviceError">删除设备失败:</system:String>
+
+    <!-- 密码验证 -->
+    <system:String x:Key="VerifyPasswordFailed">密码错误，请重试。</system:String>
+    <system:String x:Key="VerifyPasswordTitle">验证失败</system:String>
+
+    <!-- Ping 相关 -->
+    <system:String x:Key="IPAddressEmpty">IP地址不能为空</system:String>
+    <system:String x:Key="IPAddressInvalid">IP地址格式不正确，请输入有效的IPv4地址（例如：192.168.1.1）</system:String>
+    <system:String x:Key="PingInitialMessage">正在Ping {0} ...</system:String>
+    <system:String x:Key="PingingHeader">[{0:HH:mm:ss}] 正在Ping {1} 具有 32 字节的数据:</system:String>
+    <system:String x:Key="PingReplySuccessFormat">来自 {0} 的回复: 字节=32 时间={1}ms TTL={2}</system:String>
+    <system:String x:Key="PingRequestTimeout">请求超时。</system:String>
+    <system:String x:Key="PingStatisticsHeader">{0} 的 Ping 统计信息:</system:String>
+    <system:String x:Key="PingStatisticsPackets">数据包: 已发送 = {0}，已接收 = {1}，丢失 = {2} ({3}% 丢失)，</system:String>
+    <system:String x:Key="PingStatisticsRoundtrip">往返行程的估计时间(以毫秒为单位):</system:String>
+    <system:String x:Key="PingStatisticsMinMaxAvg">最短 = {0}ms，最长 = {1}ms，平均 = {2}ms</system:String>
+    <system:String x:Key="PingError">Ping操作失败: {0}</system:String>
+
+    <!-- 保存 / 加载提示 -->
+    <system:String x:Key="SaveSuccess">保存成功，保存后重启系统生效！</system:String>
+    <system:String x:Key="SaveFailed">保存失败: {0}</system:String>
+    <system:String x:Key="LoadFailed">加载失败: {0}</system:String>
+
+    <!-- 通用标题 -->
+    <system:String x:Key="ErrorTitle">错误</system:String>
+    <system:String x:Key="WarningTitle">警告</system:String>
+    <system:String x:Key="InfoTitle">提示</system:String>
+    <system:String x:Key="InputErrorTitle">输入错误</system:String>
+
+    <system:String x:Key="DeviceFault">设备故障</system:String>
+    <system:String x:Key="Camera">摄像头</system:String>
+    <system:String x:Key="Print">打印</system:String>
+    <system:String x:Key="FreezeWaveform">冻结波形</system:String>
+    <system:String x:Key="ResumeWaveform">恢复波形</system:String>
+    <system:String x:Key="WaveformFrozen">已冻结</system:String>
+    <system:String x:Key="WaveformResumed">已恢复</system:String>
+    <system:String x:Key="PrintCompleted">打印完成</system:String>
+    <system:String x:Key="PrintFailed">打印失败</system:String>
+    <system:String x:Key="Printing">正在打印...</system:String>
+    <system:String x:Key="NoWaveformView">无可打印的波形视图</system:String>
+    <system:String x:Key="TrendReview">趋势回顾</system:String>
+    <system:String x:Key="Incubator1">培养箱</system:String>
+
+    <system:String x:Key="SkinTemp2">肤温2</system:String>
+    <system:String x:Key="OxygenConcentration">氧浓度</system:String>
+    <system:String x:Key="Weighing">称重</system:String>
+    <system:String x:Key="VitalSigns">生命体征</system:String>
+    <system:String x:Key="AdvancedSpO2">高级血氧</system:String>
+    <system:String x:Key="TrendReview24h">24小时趋势回顾</system:String>
+    <system:String x:Key="Temperature">温度</system:String>
+
+    <system:String x:Key="SyncPatientData">同步病人</system:String>
+    <system:String x:Key="Syncing">开始同步</system:String>
+    <system:String x:Key="SyncSuccess">同步成功</system:String>
+    <system:String x:Key="SyncFailed">同步失败</system:String>
+    <system:String x:Key="SyncNoData">未能接收到病人信息，请检查设备或设备网络</system:String>
+
+    <system:String x:Key="CurrentDayTrendReview">当天趋势回顾</system:String>
+    <system:String x:Key="SelectDate">选择日期</system:String>
+    <system:String x:Key="Refresh">刷新</system:String>
+    <system:String x:Key="LineChart">折线图</system:String>
+    <system:String x:Key="Table">表格</system:String>
+
+    <system:String x:Key="SeriesName_HR">心率</system:String>
+    <system:String x:Key="SeriesName_SpO2">血氧</system:String>
+    <system:String x:Key="SeriesName_RESP">呼吸</system:String>
+    <system:String x:Key="SeriesName_NIBP_SYS">收缩压</system:String>
+    <system:String x:Key="SeriesName_NIBP_DIA">舒张压</system:String>
+    <system:String x:Key="SeriesName_TEMP1">体表温度</system:String>
+    <system:String x:Key="SeriesName_TEMP2">核心温度</system:String>
+    <system:String x:Key="SeriesName_PI">PI</system:String>
+    <system:String x:Key="Unit_bpm">次/分</system:String>
+    <system:String x:Key="Unit_percent">%</system:String>
+    <system:String x:Key="Unit_rpm">次/分</system:String>
+    <system:String x:Key="Unit_mmHg">mmHg</system:String>
+    <system:String x:Key="Unit_celsius">℃</system:String>
+
+    <system:String x:Key="CameraNotConnected">未连接到摄像头</system:String>
+</ResourceDictionary>

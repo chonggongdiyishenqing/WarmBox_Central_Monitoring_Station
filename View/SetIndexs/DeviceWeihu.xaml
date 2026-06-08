@@ -1,0 +1,250 @@
+﻿<UserControl x:Class="WarmBox_Central_Monitoring_Station.View.SetIndexs.DeviceWeihu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WarmBox_Central_Monitoring_Station.View.SetIndexs"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/DiyStyle/Diystyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 搜索栏 -->
+        <Border Grid.Row="0" Background="Transparent" Padding="10,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Style="{StaticResource LabelTextStyle}">
+                    <Run Text="{DynamicResource DeviceNumber}"/><Run Text="："/>
+                </TextBlock>
+                <TextBox Grid.Column="1" 
+                         Style="{StaticResource SearchTextBoxStyle}" 
+                         Text="{Binding SearchText_sb, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="IpSearchTextBox"                   
+                         VerticalAlignment="Center" 
+                         Height="32"/>
+
+                <TextBlock Grid.Column="2" Style="{StaticResource LabelTextStyle}" Margin="15,0,0,0">
+                    <Run Text="{DynamicResource IPAddress}"/><Run Text="："/>
+                </TextBlock>
+                <TextBox Grid.Column="3" 
+                         Style="{StaticResource SearchTextBoxStyle}" 
+                         Text="{Binding SearchText_ip, UpdateSourceTrigger=PropertyChanged}"
+                         x:Name="IpSearchIPTextBox"                   
+                         VerticalAlignment="Center" 
+                         Height="32"/>
+
+                <!-- 搜索按钮 -->
+                <Button Grid.Column="4"
+                        Style="{StaticResource SearchButtonStyle}"
+                        Command="{Binding SearchCommand}"
+                        Height="32"
+                        VerticalAlignment="Center"
+                        Margin="15,0,15,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Source="/IMG/new/serach.png" Width="16" Height="16" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource Search}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Border Grid.Column="5" Background="Transparent"/>
+
+                <!-- 增添设备按钮 -->
+                <Button Grid.Column="6"
+                        Style="{StaticResource RoundedButtonStyle}" 
+                        Command="{Binding AddCommand}"
+                        Width="120" 
+                        Height="32"
+                        VerticalAlignment="Center"                    
+                        Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Source="/IMG/new/add.png" Width="16" Height="16" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource AddDevice}" VerticalAlignment="Center" Foreground="Black"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- 设备列表 -->
+        <Grid Grid.Row="1">
+            <DataGrid Style="{StaticResource CustomDataGridStyle2}"
+                      Margin="10"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding Devices}">
+                <DataGrid.Columns>
+                    <!-- 复选框列 -->
+                    <DataGridTemplateColumn Width="80">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox x:Name="SelectAllCheckBox" 
+                                          Foreground="White">
+                                    <AccessText Text="{DynamicResource SelectAll}"/>
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- 设备编号 -->
+                    <DataGridTemplateColumn Width="100">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource DeviceNumber}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Device_Num}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- 品牌 -->
+                    <DataGridTemplateColumn Width="100">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource Brand}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Pingpai}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- 仪器类型 -->
+                    <DataGridTemplateColumn Width="100">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource InstrumentType}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Device_type}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- 设备型号 -->
+                    <DataGridTemplateColumn Width="160">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource DeviceModel}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Device_Name}" 
+                                           TextTrimming="CharacterEllipsis" 
+                                           ToolTip="{Binding Device_Name}"
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- IP地址 -->
+                    <DataGridTemplateColumn Width="150">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource IPAddress}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Device_ip}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- 操作列 -->
+                    <DataGridTemplateColumn Width="160">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource Operation}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Margin="0,0,23,0" VerticalAlignment="Center">
+                                        <Hyperlink Command="{Binding DataContext.EditDeviceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                   CommandParameter="{Binding}"
+                                                   Foreground="#4FC3F7">
+                                            <TextBlock Text="{DynamicResource Edit}"/>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock VerticalAlignment="Center">
+                                        <Hyperlink Command="{Binding DataContext.DeleteDeviceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                   CommandParameter="{Binding}"
+                                                   Foreground="#e03f3f">
+                                            <TextBlock Text="{DynamicResource Delete}"/>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!-- 分页控件 -->
+        <Border Grid.Row="2" Padding="10" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Content="{DynamicResource PreviousPage}" Command="{Binding PreviousPageCommand}" Style="{StaticResource RoundedButtonStyle}" Width="80" Margin="0,0,10,0"/>
+                <TextBlock Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Run Text="{DynamicResource PrefixPage}"/>
+                    <Run Text="{Binding CurrentPage, Mode=OneWay}"/>
+                    <Run Text="{DynamicResource UnitPage}"/>
+                </TextBlock>
+                <TextBlock Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Run Text="{DynamicResource PrefixTotal}"/>
+                   <Run Text="{Binding TotalPages, Mode=OneWay}"/>
+                    <Run Text="{DynamicResource UnitPage}"/>
+                </TextBlock>
+                <TextBlock Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Run Text="{DynamicResource PrefixTotal}"/>
+                    <Run Text="{Binding TotalCount, Mode=OneWay}"/>
+                    <Run Text="{DynamicResource UnitRecord}"/>
+                </TextBlock>
+                <Button Content="{DynamicResource NextPage}" Command="{Binding NextPageCommand}" Style="{StaticResource RoundedButtonStyle}" Width="80"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
