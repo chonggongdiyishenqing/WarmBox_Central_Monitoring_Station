@@ -361,11 +361,8 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             _alarmTimer.Tick += AlarmTimer_Tick;
 
             // 默认值
-            HeartRate = "--";
-            BloodOxygen = "--";
-            RespirationRate = "--";
-            BloodPressure = "--/--";
-            IsOffline = true;
+           
+            ChushihuaCanshu();
 
             PauseWaveformCommand = new RelayCommand(_ =>
             {
@@ -638,6 +635,99 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             set { _spco = value; OnPropertyChanged(); }
         }
 
+        // 设定值
+        // W_SKIN
+        private string _wSkin;
+        public string W_SKIN
+        {
+            get => _wSkin;
+            set { _wSkin = value; OnPropertyChanged(); }
+        }
+
+        // C_SKIN
+        private string _cSkin;
+        public string C_SKIN
+        {
+            get => _cSkin;
+            set { _cSkin = value; OnPropertyChanged(); }
+        }
+
+        // W_MAN
+        private string _wMan;
+        public string W_MAN
+        {
+            get => _wMan;
+            set { _wMan = value; OnPropertyChanged(); }
+        }
+        private string _cAir;
+        public string C_AIR
+        {
+            get => _cAir;
+            set { _cAir = value; OnPropertyChanged(); }
+        }
+
+        private string _cHum;
+        public string C_HUM
+        {
+            get => _cHum;
+            set { _cHum = value; OnPropertyChanged(); }
+        }
+
+        private string _cO2;
+        public string C_O2
+        {
+            get => _cO2;
+            set { _cO2 = value; OnPropertyChanged(); }
+        }
+
+        // 摇床角度
+        private string _g1;
+        public string G1
+        {
+            get => _g1;
+            set { _g1 = value; OnPropertyChanged(); }
+        }
+
+        // 风帘开关
+        private string _w1;
+        public string W1
+        {
+            get => _w1;
+            set { _w1 = value; OnPropertyChanged(); }
+        }
+
+        // 蓝光状态
+        private string _led;
+        public string LED
+        {
+            get => _led;
+            set { _led = value; OnPropertyChanged(); }
+        }
+
+        // 机型
+        private string _status;
+        public string STATUS
+        {
+            get => _status;
+            set { _status = value; OnPropertyChanged(); }
+        }
+
+        // 保暖台加热功率
+        private string _warmPercent;
+        public string WARM_Percent    // 注意 XAML 中绑定的名称
+        {
+            get => _warmPercent;
+            set { _warmPercent = value; OnPropertyChanged(); }
+        }
+
+        // 亲子模式
+        private string _kangarooMode;
+        public string KangarooMode
+        {
+            get => _kangarooMode;
+            set { _kangarooMode = value; OnPropertyChanged(); }
+        }
+
         // ==================== 波形属性 ====================
         public string Ecto2WaveData
         {
@@ -685,6 +775,171 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
         {
             get => _hr_LL;
             set { _hr_LL = value; OnPropertyChanged(); hrllWaveDataUpdated?.Invoke(value); }
+        }
+
+        // ==================== 参数范围属性 ====================
+        private string _hrHigh;
+        public string HR_High
+        {
+            get => _hrHigh;
+            set { _hrHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _hrLow;
+        public string HR_Low
+        {
+            get => _hrLow;
+            set { _hrLow = value; OnPropertyChanged(); }
+        }
+
+        // SPO2
+        private string _spo2High;
+        public string SPO2_High
+        {
+            get => _spo2High;
+            set { _spo2High = value; OnPropertyChanged(); }
+        }
+
+        private string _spo2Low;
+        public string SPO2_Low
+        {
+            get => _spo2Low;
+            set { _spo2Low = value; OnPropertyChanged(); }
+        }
+
+        // RESP
+        private string _respHigh;
+        public string RESP_High
+        {
+            get => _respHigh;
+            set { _respHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _respLow;
+        public string RESP_Low
+        {
+            get => _respLow;
+            set { _respLow = value; OnPropertyChanged(); }
+        }
+
+        // PI
+        private string _piHigh;
+        public string PI_High
+        {
+            get => _piHigh;
+            set { _piHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _piLow;
+        public string PI_Low
+        {
+            get => _piLow;
+            set { _piLow = value; OnPropertyChanged(); }
+        }
+
+        // PR
+        private string _prHigh;
+        public string PR_High
+        {
+            get => _prHigh;
+            set { _prHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _prLow;
+        public string PR_Low
+        {
+            get => _prLow;
+            set { _prLow = value; OnPropertyChanged(); }
+        }
+
+        // PVI
+        private string _pviHigh;
+        public string PVI_High
+        {
+            get => _pviHigh;
+            set { _pviHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _pviLow;
+        public string PVI_Low
+        {
+            get => _pviLow;
+            set { _pviLow = value; OnPropertyChanged(); }
+        }
+
+        // SpHb
+        private string _sphbHigh;
+        public string SpHb_High
+        {
+            get => _sphbHigh;
+            set { _sphbHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _sphbLow;
+        public string SpHb_Low
+        {
+            get => _sphbLow;
+            set { _sphbLow = value; OnPropertyChanged(); }
+        }
+
+        // SpOC
+        private string _spocHigh;
+        public string SpOC_High
+        {
+            get => _spocHigh;
+            set { _spocHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _spocLow;
+        public string SpOC_Low
+        {
+            get => _spocLow;
+            set { _spocLow = value; OnPropertyChanged(); }
+        }
+
+        // SpMet
+        private string _spmetHigh;
+        public string SpMet_High
+        {
+            get => _spmetHigh;
+            set { _spmetHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _spmetLow;
+        public string SpMet_Low
+        {
+            get => _spmetLow;
+            set { _spmetLow = value; OnPropertyChanged(); }
+        }
+
+        // SpCO
+        private string _spcoHigh;
+        public string SpCO_High
+        {
+            get => _spcoHigh;
+            set { _spcoHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _spcoLow;
+        public string SpCO_Low
+        {
+            get => _spcoLow;
+            set { _spcoLow = value; OnPropertyChanged(); }
+        }
+
+        // NIBP (只用收缩压上限和舒张压下限)
+        private string _nibpSysHigh;
+        public string NIBP_SYS_High
+        {
+            get => _nibpSysHigh;
+            set { _nibpSysHigh = value; OnPropertyChanged(); }
+        }
+
+        private string _nibpSysLow;
+        public string NIBP_SYS_Low
+        {
+            get => _nibpSysLow;
+            set { _nibpSysLow = value; OnPropertyChanged(); }
         }
 
         // ==================== 报警字符串属性（核心） ====================
@@ -864,16 +1119,19 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
                 {
                     HeartRate = hrElement.GetRawText().Trim('"');
                     hasValidData = true;
+                    ParseRangeField("HR", root, v => HR_High = v, v => HR_Low = v);
                 }
                 if (root.TryGetProperty("SPO2", out var spo2Element))
                 {
                     BloodOxygen = spo2Element.GetRawText().Trim('"');
                     hasValidData = true;
+                    ParseRangeField("SPO2", root, v => SPO2_High = v, v => SPO2_Low = v);
                 }
                 if (root.TryGetProperty("RESP", out var respElement))
                 {
                     RespirationRate = respElement.GetRawText().Trim('"');
                     hasValidData = true;
+                    ParseRangeField("RESP", root, v => RESP_High = v, v => RESP_Low = v);
                 }
                 if (root.TryGetProperty("NIBP_SYS", out var sysElement) &&
                     root.TryGetProperty("NIBP_DIA", out var diaElement))
@@ -882,6 +1140,7 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
                     string dia = diaElement.GetRawText().Trim('"');
                     BloodPressure = $"{sys}/{dia}";
                     hasValidData = true;
+                    ParseRangeField("NIBP_SYS", root, v => NIBP_SYS_High = v, v => NIBP_SYS_Low = v);
                 }
                 if (root.TryGetProperty("BOX_TEMP", out var boxTempElement))
                 {
@@ -917,35 +1176,42 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
                 {
                     PI = piElement.GetRawText().Trim('"');
                     hasValidData = true;
+                    ParseRangeField("PI", root, v => PI_High = v, v => PI_Low = v);
                 }
                 if (root.TryGetProperty("PR", out var prElement))
                 {
                     PR = prElement.GetRawText().Trim('"');
                     hasValidData = true;
+                    ParseRangeField("PR", root, v => PR_High = v, v => PR_Low = v);
                 }
                 if (root.TryGetProperty("PVI", out var pviElement))
                 {
                     PV1 = pviElement.GetRawText().Trim('"');
                     hasValidData = true;
+                    ParseRangeField("PVI", root, v => PVI_High = v, v => PVI_Low = v);
                 }
                 if (root.TryGetProperty("SpHb", out var sphbElement))
                 {
                     SpHb = sphbElement.GetRawText().Trim('"');
                     hasValidData = true;
+                    ParseRangeField("SpHb", root, v => SpHb_High = v, v => SpHb_Low = v);
                 }
                 if (root.TryGetProperty("SpOC", out var spocElement))
                 {
                     SpOC = spocElement.GetRawText().Trim('"');
                     hasValidData = true;
+                    ParseRangeField("SpOC", root, v => SpOC_High = v, v => SpOC_Low = v);
                 }
                 if (root.TryGetProperty("SpMet", out var spmetElement))
                 {
                     SpMet = spmetElement.GetRawText().Trim('"');
+                    ParseRangeField("SpMet", root, v => SpMet_High = v, v => SpMet_Low = v);
                     hasValidData = true;
                 }
                 if (root.TryGetProperty("SpCO", out var spcoElement))
                 {
                     SpCO = spcoElement.GetRawText().Trim('"');
+                    ParseRangeField("SpCO", root, v => SpCO_High = v, v => SpCO_Low = v);
                     hasValidData = true;
                 }
                 if (root.TryGetProperty("WorkMode", out var workModeElement))
@@ -969,6 +1235,42 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
                             hasValidData = true;
                         }
                     }
+                }
+                if (root.TryGetProperty("W1", out var w1El))
+                {
+                    int? val = NormalizeToInt(w1El);
+                    W1 = val == 1 ? "开" : (val == 0 ? "关" : w1El.GetRawText().Trim('"'));
+                }
+                if (root.TryGetProperty("LED", out var ledEl))
+                {
+                    int? val = NormalizeToInt(ledEl);
+                    LED = val == 1 ? "开" : (val == 0 ? "关" : ledEl.GetRawText().Trim('"'));
+                }
+                if (root.TryGetProperty("kangaroo_mode", out var kmEl))
+                {
+                    int? val = NormalizeToInt(kmEl);
+                    KangarooMode = val == 1 ? "开" : (val == 0 ? "关" : kmEl.GetRawText().Trim('"'));
+                }
+                // STATUS 和 WARM 保持原样，不做转换
+                if (root.TryGetProperty("STATUS", out var statusEl)) STATUS = statusEl.GetRawText().Trim('"');
+                if (root.TryGetProperty("WARM", out var warmEl)) WARM_Percent = warmEl.GetRawText().Trim('"');
+                if (root.TryGetProperty("C_AIR", out var cAirElement))
+                if (root.TryGetProperty("W_SKIN", out var wSkinEl)) W_SKIN = wSkinEl.GetRawText().Trim('"');
+                if (root.TryGetProperty("C_SKIN", out var cSkinEl)) C_SKIN = cSkinEl.GetRawText().Trim('"');
+                if (root.TryGetProperty("W_MAN", out var wManEl)) W_MAN = wManEl.GetRawText().Trim('"');
+                {
+                    C_AIR = cAirElement.GetRawText().Trim('"');
+                    hasValidData = true;
+                }
+                if (root.TryGetProperty("C_HUM", out var cHumElement))
+                {
+                    C_HUM = cHumElement.GetRawText().Trim('"');
+                    hasValidData = true;
+                }
+                if (root.TryGetProperty("C_O2", out var cO2Element))
+                {
+                    C_O2 = cO2Element.GetRawText().Trim('"');
+                    hasValidData = true;
                 }
                 if (root.TryGetProperty("Qibo", out var qiboElement))
                 {
@@ -1153,6 +1455,65 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
                 if (!string.IsNullOrWhiteSpace(newVal) && newVal != BloodType)
                     BloodType = newVal;
             }
+        }
+
+        private void ParseRangeField(string key, JsonElement root, Action<string> highSetter, Action<string> lowSetter)
+        {
+            string highKey = key + "_High";
+            string lowKey = key + "_Low";
+            if (root.TryGetProperty(highKey, out var hElem))
+                highSetter(hElem.ValueKind == JsonValueKind.Number ? hElem.GetRawText() : hElem.GetString());
+            if (root.TryGetProperty(lowKey, out var lElem))
+                lowSetter(lElem.ValueKind == JsonValueKind.Number ? lElem.GetRawText() : lElem.GetString());
+        }
+
+        private void ChushihuaCanshu()
+        {
+            HeartRate = "--";
+            BloodOxygen = "--";
+            RespirationRate = "--";
+            BloodPressure = "--/--";
+            IsOffline = true;
+            HR_High = "--"; HR_Low = "--";
+            SPO2_High = "--"; SPO2_Low = "--";
+            RESP_High = "--"; RESP_Low = "--";
+            PI_High = "--"; PI_Low = "--";
+            PR_High = "--"; PR_Low = "--";
+            PVI_High = "--"; PVI_Low = "--";
+            SpHb_High = "--"; SpHb_Low = "--";
+            SpOC_High = "--"; SpOC_Low = "--";
+            SpMet_High = "--"; SpMet_Low = "--";
+            SpCO_High = "--"; SpCO_Low = "--";
+            NIBP_SYS_High = "--"; NIBP_SYS_Low = "--";
+            C_AIR = "--";
+            C_HUM = "--";
+            C_O2 = "--";
+            G1 = "--";
+            W1 = "--";
+            LED = "--";
+            STATUS = "--";
+            WARM_Percent = "--";
+            KangarooMode = "--";
+            C_SKIN="--";
+            W_SKIN = "--";
+            W_MAN="--";
+        }
+
+        private static int? NormalizeToInt(JsonElement el)
+        {
+            if (el.ValueKind == JsonValueKind.Number)
+            {
+                return (int)el.GetDouble(); // 0.0 → 0, 1.0 → 1
+            }
+            else if (el.ValueKind == JsonValueKind.String)
+            {
+                string s = el.GetString();
+                if (int.TryParse(s, out int intVal))
+                    return intVal;
+                if (double.TryParse(s, out double dVal))
+                    return (int)dVal;
+            }
+            return null;
         }
 
         // ==================== 资源清理 ====================

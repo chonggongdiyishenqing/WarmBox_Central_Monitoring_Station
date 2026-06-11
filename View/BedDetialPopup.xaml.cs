@@ -42,35 +42,35 @@ namespace WarmBox_Central_Monitoring_Station.View
             }
         }
 
-        private void OnPrintTriggered()
+      private void OnPrintTriggered()
+{
+    if (ContentControl.Content is FrameworkElement waveformView)
+    {
+        // 开始打印
+        string printingMsg = Application.Current.TryFindResource("Printing") as string ?? "正在打印...";
+        ToastHelper.Show(printingMsg, "#FFFFFF", 1500);
+
+        bool success = PrintHelper.PrintUIElement(waveformView, "监护波形");
+
+        string msg, color;
+        if (success)
         {
-            if (ContentControl.Content is FrameworkElement waveformView)
-            {
-                // 开始打印
-                string printingMsg = Application.Current.TryFindResource("Printing") as string ?? "正在打印...";
-                ToastHelper.Show(printingMsg, "#FFFFFF", 1500);
-
-                bool success = PrintHelper.PrintUIElement(waveformView, "监护波形");
-
-                string msg, color;
-                if (success)
-                {
-                    msg = Application.Current.TryFindResource("PrintCompleted") as string ?? "打印完成";
-                    color = "#44FF44";
-                }
-                else
-                {
-                    msg = Application.Current.TryFindResource("PrintFailed") as string ?? "打印失败";
-                    color = "#FF4444";
-                }
-                ToastHelper.Show(msg, color);
-            }
-            else
-            {
-                string msg = Application.Current.TryFindResource("NoWaveformView") as string ?? "无可打印的波形视图";
-                ToastHelper.Show(msg, "#FF4444");
-            }
+            msg = Application.Current.TryFindResource("PrintCompleted") as string ?? "打印完成";
+            color = "#44FF44";
         }
+        else
+        {
+            msg = Application.Current.TryFindResource("PrintFailed") as string ?? "打印失败";
+            color = "#FF4444";
+        }
+        ToastHelper.Show(msg, color);
+    }
+    else
+    {
+        string msg = Application.Current.TryFindResource("NoWaveformView") as string ?? "无可打印的波形视图";
+        ToastHelper.Show(msg, "#FF4444");
+    }
+}
 
 
     }

@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WarmBox_Central_Monitoring_Station.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1000">
+             d:DesignHeight="450" d:DesignWidth="1000"
+             VerticalAlignment="Stretch">
     <UserControl.Resources>
         <ResourceDictionary Source="/DiyStyle/Diystyle.xaml"/>
     </UserControl.Resources>
     <Border BorderBrush="Gray" BorderThickness="0.5">
-        <Grid>
+        <Grid VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -99,9 +100,8 @@
             </Border>
 
             <!-- 内容区域：放置波形等详细信息 -->
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-                <ContentControl x:Name="ContentControl" Content="{Binding CurrentDetailView}" />
-            </ScrollViewer>
+            <ContentControl Grid.Row="1" x:Name="ContentControl" Content="{Binding CurrentDetailView}" 
+                VerticalAlignment="Stretch" />
         </Grid>
     </Border>
 </UserControl>

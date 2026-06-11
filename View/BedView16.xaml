@@ -132,8 +132,8 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3.8*"/>
                                 <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="1.2*"/>
+                                <ColumnDefinition Width="2.5*"/>
+                                <ColumnDefinition Width="1.5*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>

@@ -22,6 +22,12 @@
     <system:String x:Key="RespirationRate">RESP</system:String>
     <system:String x:Key="BloodOxygen">SpO2</system:String>
     <system:String x:Key="BloodPressure">NIBP</system:String>
+    <system:String x:Key="StrG1">摇床角度</system:String>
+    <system:String x:Key="StrW1">W1</system:String>
+    <system:String x:Key="StrLED">LED</system:String>
+    <system:String x:Key="StrSTATUS">STATUS</system:String>
+    <system:String x:Key="StrWARM">保暖台加热功率</system:String>
+    <system:String x:Key="StrKangaroo">亲子模式</system:String>
 
     <!-- 视图模式 -->
     <system:String x:Key="View16">16视图</system:String>

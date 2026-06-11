@@ -147,6 +147,12 @@
     <system:String x:Key="WaveformResumed">Resumed</system:String>
     <system:String x:Key="TrendReview">Trend Review</system:String>
     <system:String x:Key="Incubator1">Incubator</system:String>
+    <system:String x:Key="StrG1">Tilt</system:String>
+    <system:String x:Key="StrW1">Air Curtain</system:String>
+    <system:String x:Key="StrLED">BlueLight</system:String>
+    <system:String x:Key="StrSTATUS">Model</system:String>
+    <system:String x:Key="StrWARM">HeaterPower</system:String>
+    <system:String x:Key="StrKangaroo">KangarooMode</system:String>
 
     <system:String x:Key="SkinTemp2">Skin Temp2</system:String>
     <system:String x:Key="OxygenConcentration">O2 Concentration</system:String>

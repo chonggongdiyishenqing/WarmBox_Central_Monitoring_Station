@@ -58,7 +58,7 @@ namespace WarmBox_Central_Monitoring_Station.View
                 ["RL"] = CreateRenderer(Wave_RL, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
                 ["LL"] = CreateRenderer(Wave_LL, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
                 ["V"] = CreateRenderer(Wave_V, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
-                ["Pletch"] = CreateRenderer(Wave_Pletch, Brushes.Cyan, 300, 700, 1.0, 0.5),
+                ["Pletch"] = CreateRenderer(Wave_Pletch, Brushes.Cyan, 0, 1000, 1.0, 0.5),//原300-700
                 ["EtCO2"] = CreateRenderer(Wave_EtCO2, Brushes.Orange, 200, 400, 1.0, 0.11)
             };
 

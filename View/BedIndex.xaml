@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="1280" d:DesignWidth="1600">
-    <Grid Background="#2c2c2c">
+    <Grid Background="#2c2c2c" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="6*"/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
+        <!-- 左侧波形区域（Canvas 名称已改为英文） -->
         <!-- 左侧波形区域（Canvas 名称已改为英文） -->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -22,58 +23,111 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" Margin="5,5,5,0" Background="Black" CornerRadius="6">
-                <StackPanel>
-                    <TextBlock Text="Ⅱ" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas x:Name="Wave_II"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Ⅰ" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_II" ClipToBounds="True"/>
+                </Grid>
             </Border>
             <Border Grid.Row="1" Margin="5,5,5,0" Background="Black" CornerRadius="6">
-                <StackPanel>
-                    <TextBlock Text="RA" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas x:Name="Wave_RA"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Ⅱ" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_RA" ClipToBounds="True"/>
+                </Grid>
             </Border>
             <Border Grid.Row="2" Margin="5,5,5,0" Background="Black" CornerRadius="6">
-                <StackPanel>
-                    <TextBlock Text="LA" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas x:Name="Wave_LA"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Ⅲ" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_LA" ClipToBounds="True"/>
+                </Grid>
             </Border>
             <Border Grid.Row="3" Margin="5,5,5,0" Background="Black" CornerRadius="6">
-                <StackPanel>
-                    <TextBlock Text="RL" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas x:Name="Wave_RL"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="aVR" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_RL" ClipToBounds="True"/>
+                </Grid>
             </Border>
             <Border Grid.Row="4" Margin="5,5,5,0" Background="Black" CornerRadius="6">
-                <StackPanel>
-                    <TextBlock Text="LL" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas x:Name="Wave_LL"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="aVL" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_LL" ClipToBounds="True"/>
+                </Grid>
             </Border>
             <Border Grid.Row="5" Margin="5,5,5,0" Background="Black" CornerRadius="6">
-                <StackPanel>
-                    <TextBlock Text="Ⅴ" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas x:Name="Wave_V"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="aVF" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_V" ClipToBounds="True"/>
+                </Grid>
             </Border>
             <Border Grid.Row="6" Margin="5,5,5,0" Background="Black" CornerRadius="6">
-                <StackPanel>
-                    <TextBlock Text="Pletch" Foreground="#00DBDB" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas x:Name="Wave_Pletch"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="V1" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_V1" ClipToBounds="True"/>
+                </Grid>
             </Border>
-            <Border Grid.Row="7" Margin="5,5,5,5" Background="Black" CornerRadius="6">
-                <StackPanel>
-                    <TextBlock Text="EtCO2" Foreground="#FFC400" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas x:Name="Wave_EtCO2"/>
-                </StackPanel>
+            <Border Grid.Row="7" Margin="5,5,5,0" Background="Black" CornerRadius="6">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Pletch" Foreground="#00DBDB" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_Pletch" ClipToBounds="True"/>
+                </Grid>
+            </Border>
+            <Border Grid.Row="8" Margin="5,5,5,0" Background="Black" CornerRadius="6">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="EtCO2" Foreground="#FFC400" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_EtCO2" ClipToBounds="True"/>
+                </Grid>
+            </Border>
+            <Border Grid.Row="9" Margin="5,5,5,5" Background="Black" CornerRadius="6">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="RESP" Foreground="#FFA200" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_Resp" ClipToBounds="True"/>
+                </Grid>
             </Border>
         </Grid>
-
         <!-- 右侧生理参数区域（不变） -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -84,32 +138,31 @@
 
             <!-- 培养箱卡片 -->
             <Border Grid.Row="0" Margin="10,5,10,0" CornerRadius="6" Background="Black">
-                <Border Padding="8">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                <DockPanel>
+                    <!-- 标题 + 分割线 -->
+                    <StackPanel DockPanel.Dock="Top">
+                        <TextBlock Text="{DynamicResource Incubator1}" FontWeight="Bold" FontSize="18" Foreground="White" Margin="8,5"/>
+                        <Border Background="#303030" Margin="0,5" Height="1"/>
+                    </StackPanel>
+
+                    <!-- 可滚动的参数网格 -->
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden" PanningMode="VerticalOnly">
                         <Grid>
-                            <TextBlock Text="{DynamicResource Incubator1}" FontWeight="Bold" FontSize="18" Foreground="White" Margin="0,5"/>
-                            <Border Background="#292929" CornerRadius="2.5" HorizontalAlignment="Right" Padding="5">
-                                <TextBlock Text="{Binding WorkModeSetDisplay}" FontWeight="Bold" FontSize="18" Foreground="#6b7280"/>
-                            </Border>
-                        </Grid>
-                        <Border Grid.Row="1" Background="#303030" Margin="0,5" Height="1"/>
-                        <Grid Grid.Row="2">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <!-- 箱温 -->
-                            <Border Grid.Row="0" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6">
+
+                            <!-- ===== 第1行：箱温 | 肤温1 ===== -->
+                            <Border Grid.Row="0" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6" MinHeight="90">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -117,15 +170,20 @@
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource BoxTemp}" Margin="11,15,0,0" Foreground="#9ca3af" FontWeight="Bold" FontSize="14"/>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Bed.BoxTemp}" Margin="10,0,0,5" VerticalAlignment="Center" Foreground="#60a5fa" FontSize="20" FontWeight="Bold"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="℃" Margin="0,0,10,5" Foreground="#6b7280" FontWeight="Bold" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Right"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,10,5" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <TextBlock Text="℃" Foreground="#6b7280" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center"/>
+                                        <TextBlock Foreground="#6b7280" FontWeight="Bold" FontSize="10" HorizontalAlignment="Center">
+                                <Run Text="Set:"/>
+                                <Run Text="{Binding Bed.C_AIR}"/>
+                                        </TextBlock>
+                                    </StackPanel>
                                 </Grid>
                             </Border>
-                            <!-- 肤温1 -->
-                            <Border Grid.Row="0" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6">
+                            <Border Grid.Row="0" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6" MinHeight="90">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -133,15 +191,30 @@
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource SkinTemp1}" Margin="11,15,0,0" Foreground="#9ca3af" FontWeight="Bold" FontSize="14"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Bed.SkinTemp1}" Margin="10,0,0,5" VerticalAlignment="Center" Foreground="#ff99bb" FontSize="20" FontWeight="Bold"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="℃" Margin="0,0,10,5" Foreground="#6b7280" FontWeight="Bold" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Right"/>
+                                    <!-- 数值和℃水平排列 -->
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="10,0,0,5" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Bed.SkinTemp1}" Foreground="#ff99bb" FontSize="20" FontWeight="Bold"/>
+                                        <TextBlock Text="℃" Foreground="#6b7280" FontWeight="Bold" FontSize="14" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                    <!-- 右侧设定值垂直堆叠 -->
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,20,5" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <TextBlock Foreground="#6b7280" FontWeight="Bold" FontSize="10" HorizontalAlignment="Right">
+                                            <Run Text="C_SKIN Set:"/>
+                                            <Run Text="{Binding Bed.C_SKIN}"/>
+                                        </TextBlock>
+                                        <TextBlock Foreground="#6b7280" FontWeight="Bold" FontSize="10" HorizontalAlignment="Right" Margin="0,5,0,0">
+                                            <Run Text="W_SKIN Set:"/>
+                                            <Run Text="{Binding Bed.W_SKIN}"/>
+                                        </TextBlock>
+                                    </StackPanel>
                                 </Grid>
-                            </Border>
-                            <!-- 肤温2 -->
-                            <Border Grid.Row="1" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6">
+                            </Border> 
+
+                            <!-- ===== 第2行：肤温2 | 湿度 ===== -->
+                            <Border Grid.Row="1" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6" MinHeight="90">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -156,8 +229,7 @@
                                     <TextBlock Grid.Row="1" Grid.Column="1" Text="℃" Margin="0,0,10,5" Foreground="#6b7280" FontWeight="Bold" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Right"/>
                                 </Grid>
                             </Border>
-                            <!-- 湿度 -->
-                            <Border Grid.Row="1" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6">
+                            <Border Grid.Row="1" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6" MinHeight="90">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -171,12 +243,13 @@
                                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Bed.Humidity}" Margin="10,0,0,5" VerticalAlignment="Center" Foreground="#60a5fa" FontSize="20" FontWeight="Bold"/>
                                     <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Vertical">
                                         <TextBlock Text="%RH" Foreground="#6b7280" FontWeight="Bold" FontSize="14"/>
-                                        <TextBlock Text="{Binding HumiditySetDisplay}" Foreground="#6b7280" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="{Binding Bed.C_HUM}" Foreground="#6b7280" FontWeight="Bold" FontSize="14"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
-                            <!-- 氧浓度 -->
-                            <Border Grid.Row="2" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6">
+
+                            <!-- ===== 第3行：氧浓度 | 称重 ===== -->
+                            <Border Grid.Row="2" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6" MinHeight="90">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -190,12 +263,11 @@
                                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Bed.O2}" Margin="10,0,0,5" VerticalAlignment="Center" Foreground="#60a5fa" FontSize="20" FontWeight="Bold"/>
                                     <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Vertical">
                                         <TextBlock Text="%" Foreground="#6b7280" FontWeight="Bold" FontSize="14"/>
-                                        <TextBlock Text="{Binding O2SetDisplay}" Foreground="#6b7280" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="{Binding Bed.C_O2}" Foreground="#6b7280" FontWeight="Bold" FontSize="14"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
-                            <!-- 称重 -->
-                            <Border Grid.Row="2" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6">
+                            <Border Grid.Row="2" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6" MinHeight="90">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -210,9 +282,65 @@
                                     <TextBlock Grid.Row="1" Grid.Column="1" Text="g" Margin="0,0,10,5" Foreground="#6b7280" FontWeight="Bold" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Right"/>
                                 </Grid>
                             </Border>
+
+                            <!-- ===== 第4行：摇床角度 | 风帘 ===== -->
+                            <Border Grid.Row="3" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6" MinHeight="70">
+                                <StackPanel Margin="10,10" VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource StrG1}" Foreground="#9ca3af" FontWeight="Bold" FontSize="12"/>
+                                    <TextBlock Text="{Binding Bed.G1}" Foreground="White" FontWeight="Bold" FontSize="18" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="3" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6" MinHeight="70">
+                                <StackPanel Margin="10,10" VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource StrW1}" Foreground="#9ca3af" FontWeight="Bold" FontSize="12"/>
+                                    <TextBlock Text="{Binding Bed.W1}" Foreground="White" FontWeight="Bold" FontSize="18" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- ===== 第5行：蓝光 | 机型 ===== -->
+                            <Border Grid.Row="4" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6" MinHeight="70">
+                                <StackPanel Margin="10,10" VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource StrLED}" Foreground="#9ca3af" FontWeight="Bold" FontSize="12"/>
+                                    <TextBlock Text="{Binding Bed.LED}" Foreground="White" FontWeight="Bold" FontSize="18" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="4" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6" MinHeight="70">
+                                <StackPanel Margin="10,10" VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource StrSTATUS}" Foreground="#9ca3af" FontWeight="Bold" FontSize="12"/>
+                                    <TextBlock Text="{Binding Bed.STATUS}" Foreground="White" FontWeight="Bold" FontSize="18" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- ===== 第6行：保暖台功率 | 亲子模式 ===== -->
+                            <Border Grid.Row="5" Grid.Column="0" Margin="5" Background="#303030" CornerRadius="6" MinHeight="70">
+                                <Grid Margin="10,10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{DynamicResource StrWARM}" Foreground="#9ca3af" FontWeight="Bold" FontSize="12"/>
+                                    <Grid Grid.Row="1" Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Bed.WARM_Percent}" Foreground="White" FontWeight="Bold" FontSize="18" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Foreground="#6b7280" FontWeight="Bold" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0,0,0">
+                                         <Run Text="Set:"/>
+                                         <Run Text="{Binding Bed.W_MAN}"/>
+                                        </TextBlock>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Row="5" Grid.Column="1" Margin="5" Background="#303030" CornerRadius="6" MinHeight="70">
+                                <StackPanel Margin="10,10" VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource StrKangaroo}" Foreground="#9ca3af" FontWeight="Bold" FontSize="12"/>
+                                    <TextBlock Text="{Binding Bed.KangarooMode}" Foreground="White" FontWeight="Bold" FontSize="18" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
                         </Grid>
-                    </Grid>
-                </Border>
+                    </ScrollViewer>
+                </DockPanel>
             </Border>
 
             <!-- 生命体征卡片 -->
@@ -248,12 +376,12 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="HR" Foreground="#05df72" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="200" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Bed.HR_High}" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#05df72" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.HeartRate}"/>
                                         <Run Text=" bpm" Foreground="#6b7280" FontSize="12"/>
                                     </TextBlock>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="100" Foreground="#6b7280" FontSize="12" Margin="0,0,6,8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Bed.HR_Low}" Foreground="#6b7280" FontSize="12" Margin="0,0,6,8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
 
@@ -269,12 +397,12 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="SpO₂" Foreground="#00FFFF" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="95" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Bed.SPO2_High}" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#00FFFF" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.BloodOxygen}"/>
                                         <Run Text=" %" Foreground="#6b7280" FontSize="12"/>
                                     </TextBlock>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="85" Foreground="#6b7280" FontSize="12" Margin="0,0,6,8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Bed.SPO2_Low}" Foreground="#6b7280" FontSize="12" Margin="0,0,6,8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
 
@@ -290,14 +418,26 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="NIBP" Foreground="#D62626" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="SYS 100" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#D62626" FontSize="20" FontWeight="Bold">
-                                        <Run Text="{Binding SystolicBP, Mode=OneWay}"/>
-                                        <Run Text="/"/>
-                                        <Run Text="{Binding DiastolicBP, Mode=OneWay}"/>
-                                        <Run Text=" mmHg" Foreground="#6b7280" FontSize="12"/>
+                                    <!-- 右上角：收缩压上限 -->
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}SYS {0}">
+                                                <Binding Path="Bed.NIBP_SYS_High"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
                                     </TextBlock>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="50" Foreground="#6b7280" FontSize="12" Margin="0,0,6,8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#D62626" FontSize="20" FontWeight="Bold">
+                                          <Run Text="{Binding SystolicBP, Mode=OneWay}"/>
+                                          <Run Text="/"/>
+                                          <Run Text="{Binding DiastolicBP, Mode=OneWay}"/>
+                                          <Run Text=" mmHg" Foreground="#6b7280" FontSize="12"/>
+                                    </TextBlock>
+                                    <!-- 右下角：舒张压下限（或收缩压下界，根据你的字段名调整） -->
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,0,6,8" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <Binding Path="Bed.NIBP_SYS_Low"/>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </Grid>
                             </Border>
 
@@ -313,12 +453,12 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="RESP" Foreground="#FFFF00" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="80" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Bed.RESP_High}" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#FFFF00" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.RespirationRate}"/>
                                         <Run Text=" rpm" Foreground="#6b7280" FontSize="12"/>
                                     </TextBlock>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="12" Foreground="#6b7280" FontSize="12" Margin="0,0,6,8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Bed.RESP_Low}" Foreground="#6b7280" FontSize="12" Margin="0,0,6,8" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
                         </Grid>
@@ -361,7 +501,14 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="PI" Foreground="#9ca3af" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="10.00/5.00" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Bed.PI_High"/>
+                                                <Binding Path="Bed.PI_Low"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#FF99BB" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.PI}"/>
                                         <Run Text=" %"  FontSize="12"/>
@@ -381,7 +528,14 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="PR" Foreground="#9ca3af" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="160/75" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Bed.PR_High"/>
+                                                <Binding Path="Bed.PR_Low"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#FF99BB" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.PR}"/>
                                         <Run Text=" min-1"  FontSize="12"/>
@@ -401,7 +555,14 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="PVI" Foreground="#9ca3af" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="100/50" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Bed.PVI_High"/>
+                                                <Binding Path="Bed.PVI_Low"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#FF99BB" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.PV1}"/>
                                         <Run Text=" %"  FontSize="12"/>
@@ -421,7 +582,14 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="SpHb" Foreground="#9ca3af" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="24.5/2.0" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Bed.SpHb_High"/>
+                                                <Binding Path="Bed.SpHb_Low"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#FF99BB" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.SpHb}"/>
                                         <Run Text=" g/dL"  FontSize="12"/>
@@ -441,7 +609,14 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="SpOC" Foreground="#9ca3af" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="34.0/1.0" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Bed.SpOC_High"/>
+                                                <Binding Path="Bed.SpOC_Low"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#FF99BB" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.SpOC}"/>
                                         <Run Text=" ml/dl"  FontSize="12"/>
@@ -461,7 +636,14 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="SpMet" Foreground="#9ca3af" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="30.0/20.0" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Bed.SpMet_High"/>
+                                                <Binding Path="Bed.SpMet_Low"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#FF99BB" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.SpMet}"/>
                                         <Run Text=" %"  FontSize="12"/>
@@ -481,7 +663,14 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="SpCO" Foreground="#9ca3af" FontWeight="Bold" FontSize="14" Margin="6,8,0,5"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="100/20" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="#6b7280" FontSize="12" Margin="0,8,6,5">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Bed.SpCO_High"/>
+                                                <Binding Path="Bed.SpCO_Low"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="6,0,0,8" VerticalAlignment="Center" Foreground="#FF99BB" FontSize="20" FontWeight="Bold">
                                         <Run Text="{Binding Bed.SpCO}"/>
                                         <Run Text=" %"  FontSize="12"/>
