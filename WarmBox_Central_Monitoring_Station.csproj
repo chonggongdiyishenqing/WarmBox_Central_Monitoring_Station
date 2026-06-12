@@ -19,6 +19,7 @@
     <None Remove="IMG\new\dayin.png" />
     <None Remove="IMG\new\diannao.png" />
     <None Remove="IMG\new\dp.png" />
+    <None Remove="IMG\new\faild.png" />
     <None Remove="IMG\new\fanhui.png" />
     <None Remove="IMG\new\gj.png" />
     <None Remove="IMG\new\jg.png" />
@@ -27,6 +28,7 @@
     <None Remove="IMG\new\qjfd.png" />
     <None Remove="IMG\new\serach.png" />
     <None Remove="IMG\new\set22.png" />
+    <None Remove="IMG\new\successe2.png" />
     <None Remove="IMG\new\sxt.png" />
     <None Remove="IMG\new\tixing.png" />
     <None Remove="IMG\new\user_login.png" />
@@ -67,6 +69,9 @@
     <Content Include="IMG\new\dp.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="IMG\new\faild.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="IMG\new\fanhui.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -86,6 +91,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\new\serach.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IMG\new\successe2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\new\sxt.png">

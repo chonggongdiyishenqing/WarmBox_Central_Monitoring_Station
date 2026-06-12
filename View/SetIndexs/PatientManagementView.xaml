@@ -370,7 +370,7 @@
                     <Border Grid.Row="3" BorderThickness="0,1,0,0" BorderBrush="#555555">
                         <Button MinWidth="150" Width="150" HorizontalAlignment="Right" Margin="15,10" 
                            Content="{DynamicResource SyncPatientData}" Cursor="Hand" FontSize="13" FontWeight="Bold" 
-                           Command="{Binding  StartSyncCommand }"
+                           Command="{Binding SyncPatientCommand}"
                            Foreground="WhiteSmoke" Background="#4A90E2">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
@@ -383,10 +383,9 @@
                             </Button.Template>
                         </Button>
                     </Border>
-                    <!-- 同步加载弹窗（局部引入 HandyControl 样式） -->
-                    <!-- 同步弹窗（局部引入 HandyControl 样式） -->
+                    <!-- 同步弹窗 -->
                     <Popup x:Name="SyncPopup" 
-       IsOpen="{Binding IsSyncing}" 
+       IsOpen="{Binding IsPopupOpen, Mode=OneWay}" 
        StaysOpen="False"
        Placement="Center"
        AllowsTransparency="True">
@@ -401,26 +400,32 @@
                                 </ResourceDictionary>
                             </Border.Resources>
                             <StackPanel>
-                                <!-- 加载动画，同步运行时可见 -->
+                                <!-- 转圈动画（同步中可见） -->
                                 <hc:CircleProgressBar Width="80" Height="80" 
                                   ArcThickness="8"
                                   IsIndeterminate="True"
                                   Margin="0,10,0,20"
                                   Foreground="#4A90E2"
-                                  Visibility="{Binding IsSyncRunning, Converter={StaticResource BoolToVis}}" />
+                                  Visibility="{Binding IsProcessingVisible, Converter={StaticResource BoolToVis}}" />
+                                <!-- 成功图标 -->
+                                <Image Source="/IMG/new/successe2.png" Width="64" Height="64" Margin="0,10,0,20"
+                       Visibility="{Binding IsSuccessVisible, Converter={StaticResource BoolToVis}}" />
+
+                                <!-- 失败图标 -->
+                                <Image Source="/IMG/new/faild.png" Width="64" Height="64" Margin="0,10,0,20"
+                       Visibility="{Binding IsFailureVisible, Converter={StaticResource BoolToVis}}" />
 
                                 <!-- 提示文字 -->
-                                <TextBlock Text="{Binding SyncResultMessage, TargetNullValue='开始同步'}" 
+                                <TextBlock Text="{Binding SyncResultMessage}" 
                        Foreground="White" FontSize="18" FontWeight="Bold"
                        HorizontalAlignment="Center" Margin="0,10"
                        TextWrapping="Wrap" TextAlignment="Center" />
 
                                 <!-- 按钮区域 -->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                                    <!-- 开始同步 / 确定 按钮 -->
                                     <Button Width="100" Height="36" Margin="10,0"
                         Background="#4A90E2" Foreground="White" Cursor="Hand"
-                        Command="{Binding CancelSyncCommand}">
+                        Command="{Binding CloseSyncPopupCommand}">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}" 
@@ -429,26 +434,12 @@
                                                 </Border>
                                             </ControlTemplate>
                                         </Button.Template>
-                                        <Button.Content>
-                                            <TextBlock>
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Text" Value="{DynamicResource StartSync}" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsSyncCompleted}" Value="True">
-                                                                <Setter Property="Text" Value="{DynamicResource Confirm}" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </Button.Content>
+                                        <TextBlock Text="{DynamicResource Confirm}" />
                                     </Button>
 
-                                    <!-- 取消按钮 -->
                                     <Button Width="100" Height="36" Margin="10,0"
                         Background="#555555" Foreground="White" Cursor="Hand"
-                        Command="{Binding CancelSyncCommand}">
+                        Command="{Binding CloseSyncPopupCommand}">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}" 

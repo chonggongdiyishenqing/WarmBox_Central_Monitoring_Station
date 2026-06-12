@@ -41,40 +41,63 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
         // 是否正在加载
         private bool _isLoading;
 
-        // ---------- 同步相关状态 ----------
-        private bool _isSyncing;                 // 弹窗是否打开
-        private bool _isSyncRunning;             // 是否正在执行同步（控制动画）
-        private string _syncResultMessage;       // 显示的结果消息
-        private bool _isSyncCompleted;           // 同步任务是否已完成（成功/失败）
-
+        // ---------- 同步弹窗状态 ----------
+        private bool _isSyncing;                // 正在转圈阶段
         public bool IsSyncing
         {
             get => _isSyncing;
-            set { _isSyncing = value; OnPropertyChanged(); }
+            set
+            {
+                _isSyncing = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsPopupOpen));
+                OnPropertyChanged(nameof(IsProcessingVisible));
+            }
         }
 
-        public bool IsSyncRunning
+        private bool _isResultShown;            // 是否显示结果（成功/失败）
+        public bool IsResultShown
         {
-            get => _isSyncRunning;
-            set { _isSyncRunning = value; OnPropertyChanged(); }
+            get => _isResultShown;
+            set
+            {
+                _isResultShown = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsPopupOpen));
+                OnPropertyChanged(nameof(IsSuccessVisible));
+                OnPropertyChanged(nameof(IsFailureVisible));
+            }
         }
 
+        private bool _isSuccess;                // 同步是否成功
+        public bool IsSuccess
+        {
+            get => _isSuccess;
+            set
+            {
+                _isSuccess = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSuccessVisible));
+                OnPropertyChanged(nameof(IsFailureVisible));
+            }
+        }
+
+        // 辅助可见性
+        public bool IsPopupOpen => IsSyncing || IsResultShown;
+        public bool IsProcessingVisible => IsSyncing;
+        public bool IsSuccessVisible => IsResultShown && IsSuccess;
+        public bool IsFailureVisible => IsResultShown && !IsSuccess;
+
+        private string _syncResultMessage;
         public string SyncResultMessage
         {
             get => _syncResultMessage;
             set { _syncResultMessage = value; OnPropertyChanged(); }
         }
 
-        public bool IsSyncCompleted
-        {
-            get => _isSyncCompleted;
-            set { _isSyncCompleted = value; OnPropertyChanged(); }
-        }
-
         // 命令
-        public ICommand OpenSyncCommand { get; }
-        public ICommand StartSyncCommand { get; }   // 原 ConfirmSyncCommand，改为开始同步
-        public ICommand CancelSyncCommand { get; }
+        public ICommand SyncPatientCommand { get; }
+        public ICommand CloseSyncPopupCommand { get; }
 
         public PatientManagementViewModel(IServiceDataService serviceDataService, IServiceProvider serviceProvider)
         {
@@ -83,39 +106,18 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
 
             BloodTypeList = new ObservableCollection<string> { "A型", "B型", "AB型", "O型" };
 
-            OpenSyncCommand = new RelayCommand(() =>
-            {
-                ResetSyncState();
-                IsSyncRunning = true;               // 打开弹窗就让圆圈旋转
-                SyncResultMessage = GetRes("Syncing"); // 显示初始文字
-                IsSyncing = true;
-            });
-
-            StartSyncCommand = new RelayCommand(async () =>
-            {
-                ResetSyncState();
-                IsSyncRunning = true;               // 打开弹窗就让圆圈旋转
-                SyncResultMessage = GetRes("Syncing"); // 显示初始文字
-                IsSyncing = true;
-                // 开始同步（此时 IsSyncRunning 已为 true，按钮禁用）
-                await ExecuteSyncAsync();
-            }, () => !IsSyncRunning); // 同步运行中禁用按钮
-
-            CancelSyncCommand = new RelayCommand(() =>
-            {
-                IsSyncing = false;
-                ResetSyncState();
-            });
+            SyncPatientCommand = new RelayCommand(async () => await StartSyncProcessAsync());
+            CloseSyncPopupCommand = new RelayCommand(CloseSyncPopup);
 
             Task.Run(async () => await LoadDeviceListAsync());
         }
 
-        private void ResetSyncState()
+        private void CloseSyncPopup()
         {
-            IsSyncRunning = false;
-            IsSyncCompleted = false;
-            SyncResultMessage = string.Empty;
+            IsSyncing = false;
+            IsResultShown = false;
         }
+
         #region 属性
 
         public ObservableCollection<string> DeviceList
@@ -133,8 +135,6 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
                 {
                     _selectedDevice = value;
                     OnPropertyChanged();
-                    System.Diagnostics.Debug.WriteLine($"SelectedDevice changed to: {value}"); // 添加这行
-                    // 设备改变时加载对应患者信息
                     _ = LoadPatientInfoAsync();
                 }
             }
@@ -229,9 +229,6 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
 
         #region 数据加载方法
 
-        /// <summary>
-        /// 加载设备编号列表（从 Device 表获取 Device_Num）
-        /// </summary>
         private async Task LoadDeviceListAsync()
         {
             try
@@ -241,13 +238,11 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
                 DeviceList = new ObservableCollection<string>(devices);
                 if (DeviceList.Any())
                 {
-                    // 默认选中第一个设备
                     SelectedDevice = DeviceList.First();
                 }
             }
             catch (Exception ex)
             {
-                // 处理异常，可记录日志或显示消息
                 System.Diagnostics.Debug.WriteLine($"加载设备列表失败: {ex.Message}");
                 DeviceList = new ObservableCollection<string>();
             }
@@ -257,9 +252,6 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
             }
         }
 
-        /// <summary>
-        /// 根据选中的设备编号加载患者信息
-        /// </summary>
         private async Task LoadPatientInfoAsync()
         {
             if (string.IsNullOrEmpty(SelectedDevice))
@@ -274,11 +266,9 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
                 var patient = await _serviceDataService.GetPatientByDeviceAsync(SelectedDevice);
                 if (patient != null)
                 {
-                    // 映射到界面字段
                     PatientId = patient.PatientId?.ToString() ?? string.Empty;
                     Name = patient.Name ?? string.Empty;
-                    IsMale = patient.Gender == "男";  // 假设 Gender 存储 "男" 或 "女"
-                    // 解析出生日期
+                    IsMale = patient.Gender == "男";
                     if (patient.BirthDate.HasValue)
                     {
                         BirthYear = patient.BirthDate.Value.Year.ToString();
@@ -313,14 +303,11 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
             }
         }
 
-        /// <summary>
-        /// 清空所有患者信息字段
-        /// </summary>
         private void ClearPatientInfo()
         {
             PatientId = string.Empty;
             Name = string.Empty;
-            IsMale = false;  // 默认不选中
+            IsMale = false;
             BirthYear = string.Empty;
             BirthMonth = string.Empty;
             BirthDay = string.Empty;
@@ -335,31 +322,76 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
 
         #endregion
 
+        #region 同步逻辑
 
-        private async Task ExecuteSyncAsync()
+        private async Task StartSyncProcessAsync()
         {
-            IsSyncCompleted = false;
+            var bed = GetLiveBed();
+            if (bed == null)
+            {
+                ShowResultImmediately(false, "设备未绑定，无法同步");
+                return;
+            }
+
+            // 数据完整性校验
+            var missingFields = new List<string>();
+            if (string.IsNullOrWhiteSpace(bed.PatientName) || bed.PatientName == "未绑定")
+                missingFields.Add("姓名");
+            if (string.IsNullOrWhiteSpace(bed.Height) || bed.Height == "--")
+                missingFields.Add("身高");
+            if (string.IsNullOrWhiteSpace(bed.Weight) || bed.Weight == "--")
+                missingFields.Add("体重");
+
+            if (missingFields.Count > 0)
+            {
+                string msg = $"同步失败：缺少信息 - {string.Join("、", missingFields)}";
+                ShowResultImmediately(false, msg);
+                return;
+            }
+
+            // 开始同步（带转圈动画）
+            IsSyncing = true;
+            IsResultShown = false;
+            IsSuccess = false;
             SyncResultMessage = GetRes("Syncing");
+
+            var syncTask = ExecuteSyncAsync(bed);
+            var delayTask = Task.Delay(3000);
+            await Task.WhenAll(syncTask, delayTask);
+
+            bool success = syncTask.Result;
+            IsSyncing = false;
+            IsResultShown = true;
+            IsSuccess = success;
+            SyncResultMessage = success ? GetRes("SyncSuccess") : GetRes("SyncFailed");
+        }
+
+        private void ShowResultImmediately(bool success, string message)
+        {
+            IsSyncing = false;          // 不显示转圈
+            IsResultShown = true;
+            IsSuccess = success;
+            SyncResultMessage = message;
+        }
+
+        // 辅助方法：获取当前设备对应的 BedViewModel（假设已实现）
+        private BedViewModel GetLiveBed()
+        {
+            if (string.IsNullOrEmpty(SelectedDeviceIp)) return null;
+            return BedViewModel.GetLiveBed(SelectedDeviceIp);
+        }
+
+        private async Task<bool> ExecuteSyncAsync(BedViewModel bed)
+        {
             try
             {
-                // 1. 获取当前选中设备对应的 BedViewModel
-                var warmBoxVM = _serviceProvider.GetRequiredService<WarmBoxViewModel>();
-
-                // 改为用 SelectedDeviceIp 匹配
-                if (string.IsNullOrEmpty(SelectedDeviceIp))
-                {
-                    SyncResultMessage = GetRes("SyncNoData");
-                    return;
-                }
-
-                var bed = warmBoxVM.AllBeds?.FirstOrDefault(b => b.DeviceIp == SelectedDeviceIp);
+              
                 if (bed == null)
                 {
                     SyncResultMessage = GetRes("SyncNoData");
-                    return;
+                    return false;
                 }
 
-                // 后续同步逻辑不变...
                 var patientInfo = new PatientSyncInfo
                 {
                     PatientId = bed.PatientId > 0 ? bed.PatientId : null,
@@ -371,33 +403,33 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
                     Height = decimal.TryParse(bed.Height, out var h) ? h : (decimal?)null,
                     AgeDays = int.TryParse(bed.PatientOld, out var d) ? d : (int?)null,
                     BloodType = bed.BloodType,
-                    DeviceNum = SelectedDevice      // 设备编号仍然从 SelectedDevice 获取
+                    DeviceNum = SelectedDevice
                 };
-
-                IsSyncRunning = true;
-                IsSyncCompleted = false;
-                SyncResultMessage = GetRes("Syncing");
 
                 var result = await _serviceDataService.SyncPatientInfoAsync(patientInfo);
                 if (result.Success)
                 {
-                    SyncResultMessage = GetRes("SyncSuccess");
+                    string chuangwei = ExtractChuangweiFromMessage(result.Message);
+                    if (!string.IsNullOrEmpty(chuangwei))
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            bed.BedNumber = chuangwei;
+                        });
+                    }
                     await LoadPatientInfoAsync();
+                    return true;
                 }
                 else
                 {
                     SyncResultMessage = GetRes("SyncFailed") + "\n" + result.Message;
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 SyncResultMessage = GetRes("SyncFailed") + "\n" + ex.Message;
-            }
-            finally
-            {
-                // 根据需要决定是否停止动画，这里保持原样
-                // IsSyncRunning = false;
-                // IsSyncCompleted = true;
+                return false;
             }
         }
 
@@ -410,8 +442,17 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
             }
             return null;
         }
-
+        private static string ExtractChuangweiFromMessage(string message)
+        {
+            if (string.IsNullOrEmpty(message)) return null;
+            int idx = message.LastIndexOf('|');
+            if (idx >= 0 && idx < message.Length - 1)
+                return message.Substring(idx + 1);
+            return null;
+        }
         private static string GetRes(string key) => Application.Current.TryFindResource(key) as string ?? key;
+
+        #endregion
 
         // INotifyPropertyChanged 实现
         public event PropertyChangedEventHandler PropertyChanged;
@@ -421,7 +462,6 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel.SetIndexs
         }
     }
 
-    // Patient 类保持不变
     public class Patient
     {
         public int? PatientId { get; set; }

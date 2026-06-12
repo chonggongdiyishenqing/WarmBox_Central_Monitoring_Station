@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -335,7 +336,7 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
            // 可以按需再移动
        };
 
-        // 注意：未出现在上述映射中的报警名称，在 BedViewModel 中会默认使用 AlarmPriority.Medium。
+        // 未出现在上述映射中的报警名称，在 BedViewModel 中会默认使用 AlarmPriority.Medium。
 
         private AlarmPriority? _currentAlarmPriority;
         public AlarmPriority? CurrentAlarmPriority
@@ -347,6 +348,15 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
         public event Action<AlarmPriority?> AlarmPriorityChanged;
 
         private AlarmPriority? _previousPriority;// 记录上次优先级
+
+        //Bedviewmodel的标识 方便后续在
+        private static readonly ConcurrentDictionary<string, BedViewModel> LiveBeds = new();
+
+        public static BedViewModel GetLiveBed(string ip)
+        {
+            LiveBeds.TryGetValue(ip, out var bed);
+            return bed;
+        }
 
         // ==================== 构造函数 ====================
         public BedViewModel()
@@ -463,9 +473,19 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
         public string DeviceIp
         {
             get => _deviceIp;
-            set { _deviceIp = value; OnPropertyChanged(); }
+            set
+            {
+                if (_deviceIp != value)
+                {
+                    // 从旧 IP 移除
+                    if (_deviceIp != null) LiveBeds.TryRemove(_deviceIp, out _);
+                    _deviceIp = value;
+                    // 注册到新 IP
+                    if (_deviceIp != null) LiveBeds[_deviceIp] = this;
+                    OnPropertyChanged();
+                }
+            }
         }
-
         public string PatientName
         {
             get => _patientName;
@@ -1166,12 +1186,7 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
                 {
                     O2 = oxygenConcElement.GetRawText().Trim('"');
                     hasValidData = true;
-                }
-                if (root.TryGetProperty("WEIGHT", out var weightElement))
-                {
-                    Weight = weightElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
+                }               
                 if (root.TryGetProperty("PI", out var piElement))
                 {
                     PI = piElement.GetRawText().Trim('"');
@@ -1322,6 +1337,13 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
 
                 if (hasValidData && IsOffline)
                     SetOffline(false);
+                if (!string.IsNullOrEmpty(DeviceIp))
+                {
+                    if (!LiveBeds.TryGetValue(DeviceIp, out var existing) || existing != this)
+                    {
+                        LiveBeds[DeviceIp] = this;
+                    }
+                }
 
                 OnPropertyChanged(nameof(PatientNameForDisplay));
             }
@@ -1497,6 +1519,11 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             C_SKIN="--";
             W_SKIN = "--";
             W_MAN="--";
+        }
+
+        public void Updatechuangwei(string chuangwei)
+        {
+            BedNumber= chuangwei;
         }
 
         private static int? NormalizeToInt(JsonElement el)

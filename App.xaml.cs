@@ -74,7 +74,7 @@ namespace WarmBox_Central_Monitoring_Station
 
             services.AddTransient<BedIndex>();
             services.AddTransient<BedIndexViewModel>();
-
+            services.AddSingleton<BedViewModel>();
             services.AddSingleton<WarmBoxViewModel>();
         }
         protected override async void OnStartup(StartupEventArgs e)
