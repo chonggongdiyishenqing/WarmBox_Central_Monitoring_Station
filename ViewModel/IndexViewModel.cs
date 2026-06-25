@@ -203,10 +203,10 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             if (result == MessageBoxResult.Yes)
             {
                 StopClock();
-                if (_processService != null)
-                {
-                    await _processService.StopProcessAsync("WarmBox_Date_AcceptSend");
-                }
+                //if (_processService != null)
+                //{
+                //    await _processService.StopProcessAsync("WarmBox_Date_AcceptSend");
+                //}
                 Application.Current.Shutdown();
             }
         }

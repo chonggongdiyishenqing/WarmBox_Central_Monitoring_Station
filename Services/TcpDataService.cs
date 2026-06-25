@@ -12,8 +12,9 @@ namespace WarmBox_Central_Monitoring_Station.Services
     {
         private TcpListener _listener;
         private CancellationTokenSource _cancellationTokenSource;
-        public readonly int _port;
         private bool _isRunning;
+        private readonly string _listenIp;      // 新增
+        private readonly int _port;             // 保留
 
         // 用于管理所有活跃的客户端处理任务
         private List<Task> _activeClientTasks = new List<Task>();
@@ -27,24 +28,85 @@ namespace WarmBox_Central_Monitoring_Station.Services
         private readonly Dictionary<string, StringBuilder> _deviceDataBuffers = new Dictionary<string, StringBuilder>();
         private readonly object _bufferLock = new object();
 
-        public TcpDataService(int port = 8888)
+        // 新增：直接接收原始 HL7 消息的事件
+        public event Action<string, string> OnHl7MessageReceived; // 参数 (deviceIp, hl7Message)
+
+        private async Task HandleClientAsync(TcpClient client)
         {
+            var clientEndPoint = client.Client.RemoteEndPoint.ToString();
+            Console.WriteLine($"客户端连接: {clientEndPoint}");
+            string clientIp = GetClientIp(client);
+
+            // 每个客户端一个消息缓冲区
+            var dataBuffer = new StringBuilder();
+
+            try
+            {
+                using (client)
+                using (var stream = client.GetStream())
+                {
+                    byte[] buffer = new byte[4096];
+                    while (!_cancellationTokenSource.Token.IsCancellationRequested && client.Connected)
+                    {
+                        int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, _cancellationTokenSource.Token);
+                        if (bytesRead == 0) break;
+
+                        string chunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        dataBuffer.Append(chunk);
+
+                        // 提取完整 HL7 消息：以 MSH 开头，下一个 MSH 结尾
+                        string allData = dataBuffer.ToString();
+                        while (true)
+                        {
+                            int firstMsh = allData.IndexOf("MSH");
+                            if (firstMsh == -1) { dataBuffer.Clear(); break; }
+
+                            int secondMsh = allData.IndexOf("MSH", firstMsh + 3);
+                            if (secondMsh == -1)
+                            {
+                                // 消息不完整，保留有效部分
+                                if (firstMsh > 0) dataBuffer.Remove(0, firstMsh);
+                                break;
+                            }
+
+                            // 取出完整消息
+                            string hl7Msg = allData.Substring(firstMsh, secondMsh - firstMsh);
+                            dataBuffer.Remove(0, secondMsh);
+                            allData = dataBuffer.ToString();
+
+                            // 触发事件，交由外部解析
+                            OnHl7MessageReceived?.Invoke(clientIp, hl7Msg);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"客户端错误: {ex.Message}");
+            }
+        }
+        public TcpDataService(string listenIp, int port)
+        {
+            _listenIp = listenIp;
             _port = port;
         }
 
         public async Task StartAsync()
         {
             if (_isRunning) return;
-
             _cancellationTokenSource = new CancellationTokenSource();
-            _listener = new TcpListener(IPAddress.Any, _port);
-            _listener.Start();
-            _isRunning = true;
-
-            Console.WriteLine($"TCP服务器已启动，端口：{_port}");
-
-            // 开始接受客户端连接
-            _ = AcceptClientsAsync();
+            try
+            {
+                _listener = new TcpListener(IPAddress.Parse(_listenIp), _port);
+                _listener.Start();
+                _isRunning = true;
+                Console.WriteLine($"数据监听已启动: {_listenIp}:{_port}");
+                _ = AcceptClientsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"无法启动数据监听 ({_listenIp}:{_port})：{ex.Message}");
+            }
         }
 
         private async Task AcceptClientsAsync()
@@ -76,56 +138,56 @@ namespace WarmBox_Central_Monitoring_Station.Services
             }
         }
 
-        private async Task HandleClientAsync(TcpClient client)
-        {
-            var clientEndPoint = client.Client.RemoteEndPoint.ToString();
-            Console.WriteLine($"客户端连接: {clientEndPoint}");
-            OnClientConnected?.Invoke(clientEndPoint);
+        //private async Task HandleClientAsync(TcpClient client)
+        //{
+        //    var clientEndPoint = client.Client.RemoteEndPoint.ToString();
+        //    Console.WriteLine($"客户端连接: {clientEndPoint}");
+        //    OnClientConnected?.Invoke(clientEndPoint);
 
-            // 为每个客户端创建独立的数据缓冲区
-            var dataBuffer = new StringBuilder();
-            string clientIp = GetClientIp(client);
+        //    // 为每个客户端创建独立的数据缓冲区
+        //    var dataBuffer = new StringBuilder();
+        //    string clientIp = GetClientIp(client);
 
-            lock (_bufferLock)
-            {
-                _deviceDataBuffers[clientIp] = dataBuffer;
-            }
+        //    lock (_bufferLock)
+        //    {
+        //        _deviceDataBuffers[clientIp] = dataBuffer;
+        //    }
 
-            try
-            {
-                using (client)
-                using (var stream = client.GetStream())
-                {
-                    var buffer = new byte[1024];
+        //    try
+        //    {
+        //        using (client)
+        //        using (var stream = client.GetStream())
+        //        {
+        //            var buffer = new byte[1024];
 
-                    while (!_cancellationTokenSource.Token.IsCancellationRequested && client.Connected)
-                    {
-                        var bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, _cancellationTokenSource.Token);
-                        if (bytesRead == 0) break; // 客户端断开连接
+        //            while (!_cancellationTokenSource.Token.IsCancellationRequested && client.Connected)
+        //            {
+        //                var bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, _cancellationTokenSource.Token);
+        //                if (bytesRead == 0) break; // 客户端断开连接
 
-                        var data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        Console.WriteLine($"从 {clientIp} 接收到数据: {data}");
+        //                var data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+        //                Console.WriteLine($"从 {clientIp} 接收到数据: {data}");
 
-                        // 处理接收到的数据（不阻塞当前线程）
-                        _ = Task.Run(() => ProcessReceivedData(clientIp, data));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"处理客户端数据时出错: {ex.Message}");
-            }
-            finally
-            {
-                lock (_bufferLock)
-                {
-                    _deviceDataBuffers.Remove(clientIp);
-                }
+        //                // 处理接收到的数据（不阻塞当前线程）
+        //                _ = Task.Run(() => ProcessReceivedData(clientIp, data));
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"处理客户端数据时出错: {ex.Message}");
+        //    }
+        //    finally
+        //    {
+        //        lock (_bufferLock)
+        //        {
+        //            _deviceDataBuffers.Remove(clientIp);
+        //        }
 
-                Console.WriteLine($"客户端断开: {clientEndPoint}");
-                OnClientDisconnected?.Invoke(clientEndPoint);
-            }
-        }
+        //        Console.WriteLine($"客户端断开: {clientEndPoint}");
+        //        OnClientDisconnected?.Invoke(clientEndPoint);
+        //    }
+        //}
 
         /// <summary>
         /// 处理接收到的数据（在独立线程中执行）

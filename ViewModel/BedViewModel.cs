@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
@@ -69,12 +70,62 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
         // ==================== 波形数据 ====================
         private string _ecto2WaveData;
         private string _pletchWaveData;
+        private string _hr_Ⅰ;
+        public string Hr_Ⅰ
+        {
+            get => _hr_Ⅰ;
+            set { _hr_Ⅰ = value; OnPropertyChanged(); Hr1WaveDataUpdated?.Invoke(value); }
+        }
+
         private string _hr_Ⅱ;
-        private string _hr_RA;
-        private string _hr_RL;
-        private string _hr_LA;
-        private string _hr_LL;
-        private string _hr_Ⅴ;
+        public string Hr_Ⅱ
+        {
+            get => _hr_Ⅱ;
+            set { _hr_Ⅱ = value; OnPropertyChanged(); Hr2WaveDataUpdated?.Invoke(value); }
+        }
+
+        private string _hr_Ⅲ;
+        public string Hr_Ⅲ
+        {
+            get => _hr_Ⅲ;
+            set { _hr_Ⅲ = value; OnPropertyChanged(); Hr3WaveDataUpdated?.Invoke(value); }
+        }
+
+        private string _hr_avr;
+        public string Hr_AVR
+        {
+            get => _hr_avr;
+            set { _hr_avr = value; OnPropertyChanged(); HrAVRWaveDataUpdated?.Invoke(value); }
+        }
+
+        private string _hr_avl;
+        public string Hr_AVL
+        {
+            get => _hr_avl;
+            set { _hr_avl = value; OnPropertyChanged(); HrAVLWaveDataUpdated?.Invoke(value); }
+        }
+
+        private string _hr_avf;
+        public string Hr_AVF
+        {
+            get => _hr_avf;
+            set { _hr_avf = value; OnPropertyChanged(); HrAVFWaveDataUpdated?.Invoke(value); }
+        }
+
+        private string _hr_v1;
+        public string Hr_V1
+        {
+            get => _hr_v1;
+            set { _hr_v1 = value; OnPropertyChanged(); HrV1WaveDataUpdated?.Invoke(value); }
+        }
+
+        private string _respWaveData;
+
+        public string RespWaveData
+        {
+            get => _respWaveData;
+            set { _respWaveData = value; OnPropertyChanged(); RespWaveDataUpdated?.Invoke(value); }
+        }
 
         // 波形暂停状态
         private bool _isWaveformPaused;
@@ -132,12 +183,14 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
         // ==================== 事件 ====================
         public event Action<string> Etco2WaveDataUpdated;
         public event Action<string> PletchWaveDataUpdated;
-        public event Action<string> hr2WaveDataUpdated;
-        public event Action<string> hrraWaveDataUpdated;
-        public event Action<string> hrrlWaveDataUpdated;
-        public event Action<string> hrlaWaveDataUpdated;
-        public event Action<string> hrllWaveDataUpdated;
-        public event Action<string> hr5WaveDataUpdated;
+        public event Action<string> Hr1WaveDataUpdated;
+        public event Action<string> Hr2WaveDataUpdated;
+        public event Action<string> Hr3WaveDataUpdated;
+        public event Action<string> HrAVRWaveDataUpdated;
+        public event Action<string> HrAVLWaveDataUpdated;
+        public event Action<string> HrAVFWaveDataUpdated;
+        public event Action<string> HrV1WaveDataUpdated;
+        public event Action<string> RespWaveDataUpdated;
 
         // ==================== 报警优先级映射表（完整版需根据说明书补充所有报警） ====================
         private static readonly Dictionary<string, AlarmPriority> AlarmPriorityMap = new()
@@ -761,41 +814,7 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             set { _pletchWaveData = value; OnPropertyChanged(); PletchWaveDataUpdated?.Invoke(value); }
         }
 
-        public string Hr_Ⅱ
-        {
-            get => _hr_Ⅱ;
-            set { _hr_Ⅱ = value; OnPropertyChanged(); hr2WaveDataUpdated?.Invoke(value); }
-        }
-
-        public string Hr_Ⅴ
-        {
-            get => _hr_Ⅴ;
-            set { _hr_Ⅴ = value; OnPropertyChanged(); hr5WaveDataUpdated?.Invoke(value); }
-        }
-
-        public string Hr_RA
-        {
-            get => _hr_RA;
-            set { _hr_RA = value; OnPropertyChanged(); hrraWaveDataUpdated?.Invoke(value); }
-        }
-
-        public string Hr_RL
-        {
-            get => _hr_RL;
-            set { _hr_RL = value; OnPropertyChanged(); hrrlWaveDataUpdated?.Invoke(value); }
-        }
-
-        public string Hr_LA
-        {
-            get => _hr_LA;
-            set { _hr_LA = value; OnPropertyChanged(); hrlaWaveDataUpdated?.Invoke(value); }
-        }
-
-        public string Hr_LL
-        {
-            get => _hr_LL;
-            set { _hr_LL = value; OnPropertyChanged(); hrllWaveDataUpdated?.Invoke(value); }
-        }
+       
 
         // ==================== 参数范围属性 ====================
         private string _hrHigh;
@@ -1353,16 +1372,35 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             }
         }
 
+        public static AlarmPriority GetAlarmPriority(string alarmName)
+        {
+            return AlarmPriorityMap.TryGetValue(alarmName, out var p) ? p : AlarmPriority.Medium;
+        }
         private void ParseWaveformData(JsonElement root)
         {
-            if (root.TryGetProperty("Wave_II", out var w)) Hr_Ⅱ = w.GetString();
-            if (root.TryGetProperty("Wave_RA", out w)) Hr_RA = w.GetString();
-            if (root.TryGetProperty("Wave_LA", out w)) Hr_LA = w.GetString();
-            if (root.TryGetProperty("Wave_RL", out w)) Hr_RL = w.GetString();
-            if (root.TryGetProperty("Wave_LL", out w)) Hr_LL = w.GetString();
-            if (root.TryGetProperty("Wave_V", out w)) Hr_Ⅴ = w.GetString();
-            if (root.TryGetProperty("Wave_Pletch", out w)) PletchWaveData = w.GetString();
-            if (root.TryGetProperty("Wave_EtCO2", out w)) Ecto2WaveData = w.GetString();
+            if (root.TryGetProperty("Wave_Ⅰ", out var w)) Hr_Ⅰ = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_Ⅱ", out w)) Hr_Ⅱ = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_Ⅲ", out w)) Hr_Ⅲ = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_AVR", out w)) Hr_AVR = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_AVL", out w)) Hr_AVL = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_AVF", out w)) Hr_AVF = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_V1", out w)) Hr_V1 = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_Pletch", out w)) PletchWaveData = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_EtCO2", out w)) Ecto2WaveData = Sanitize(w.GetString());
+            if (root.TryGetProperty("Wave_RESP", out w)) RespWaveData = Sanitize(w.GetString());
+        }
+
+        // 简单清洗：只保留数字、逗号、^、负号
+        private static string Sanitize(string raw)
+        {
+            if (string.IsNullOrEmpty(raw)) return raw;
+            var sb = new StringBuilder();
+            foreach (char c in raw)
+            {
+                if (char.IsDigit(c) || c == ',' || c == '^' || c == '-')
+                    sb.Append(c);
+            }
+            return sb.ToString();
         }
 
         private void UpdatePatientInfo(JsonElement patientElement)
@@ -1495,7 +1533,12 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             BloodOxygen = "--";
             RespirationRate = "--";
             BloodPressure = "--/--";
-            IsOffline = true;
+            IsOffline = true;        
+            SpCO= "--";
+            SpHb = "--";
+            SpOC = "--";
+            SpMet = "--";
+            PV1 = "--";
             HR_High = "--"; HR_Low = "--";
             SPO2_High = "--"; SPO2_Low = "--";
             RESP_High = "--"; RESP_Low = "--";
@@ -1504,7 +1547,7 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             PVI_High = "--"; PVI_Low = "--";
             SpHb_High = "--"; SpHb_Low = "--";
             SpOC_High = "--"; SpOC_Low = "--";
-            SpMet_High = "--"; SpMet_Low = "--";
+            SpMet_High = "--"; SpMet_Low = "--";    
             SpCO_High = "--"; SpCO_Low = "--";
             NIBP_SYS_High = "--"; NIBP_SYS_Low = "--";
             C_AIR = "--";

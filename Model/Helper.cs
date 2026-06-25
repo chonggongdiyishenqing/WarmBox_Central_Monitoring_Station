@@ -547,6 +547,311 @@ namespace WarmBox_Central_Monitoring_Station.Model
     //        });
     //    }
     //}
+    //public class SimpleWaveformRenderer : IDisposable
+    //{
+    //    private readonly Canvas _canvas;
+    //    private readonly Brush _stroke;
+    //    private readonly double _strokeThickness;
+    //    private readonly double _pointSpacing;
+    //    private readonly bool _fixedYRange;
+    //    private readonly double _fixedMinY;
+    //    private readonly double _fixedMaxY;
+    //    private readonly int _batchSize;
+    //    private readonly int _intervalMs;
+    //    private readonly bool _addInitialPoints;
+
+    //    private Polyline _polyline;
+    //    private PointCollection _points;
+    //    private DispatcherTimer _timer;
+    //    private Queue<double> _dataQueue = new Queue<double>();
+    //    private readonly object _queueLock = new object();
+    //    private int _totalPointsDrawn = 0;
+    //    private double _canvasHeight;
+    //    private double _fixedCanvasWidth;      // 当前画布固定宽度（动态更新）
+    //    private double _dynamicMinY = double.MaxValue;
+    //    private double _dynamicMaxY = double.MinValue;
+
+    //    public bool IsRunning { get; private set; }
+
+    //    public SimpleWaveformRenderer(Canvas canvas, Brush stroke, double strokeThickness = 1.0,
+    //                                  double pointSpacing = 1.0, int batchSize = 3, int intervalMs = 10,
+    //                                  double? fixedMinY = null, double? fixedMaxY = null,
+    //                                  bool addInitialPoints = true)
+    //    {
+    //        _canvas = canvas;
+    //        _stroke = stroke;
+    //        _strokeThickness = strokeThickness;
+    //        _pointSpacing = pointSpacing;
+    //        _batchSize = batchSize;
+    //        _intervalMs = intervalMs;
+    //        _fixedYRange = fixedMinY.HasValue && fixedMaxY.HasValue;
+    //        _fixedMinY = fixedMinY ?? 0;
+    //        _fixedMaxY = fixedMaxY ?? 1;
+    //        _addInitialPoints = addInitialPoints;
+
+    //        Initialize();
+    //    }
+
+    //    private void Initialize()
+    //    {
+    //        Application.Current.Dispatcher.Invoke(() =>
+    //        {
+    //            _canvas.Children.Clear();
+
+    //            _polyline = new Polyline
+    //            {
+    //                Stroke = _stroke,
+    //                StrokeThickness = _strokeThickness,
+    //                StrokeLineJoin = PenLineJoin.Round
+    //            };
+
+    //            _points = new PointCollection();
+    //            _polyline.Points = _points;
+    //            _canvas.Children.Add(_polyline);
+
+    //            // 初始获取画布实际宽度（可能为0，稍后在第一次更新时再处理）
+    //            UpdateCanvasSize();
+
+    //            // 获取画布高度（留边距）
+    //            _canvasHeight = _canvas.ActualHeight > 0 ? _canvas.ActualHeight :
+    //                            (_canvas.Height > 0 ? _canvas.Height : 80);
+    //            if (_canvasHeight <= 0) _canvasHeight = 80;
+    //            _canvasHeight -= 10; // 上下边距
+    //            if (_canvasHeight < 20) _canvasHeight = 20;
+
+    //            if (_addInitialPoints && _fixedCanvasWidth > 0)
+    //            {
+    //                int initialCount = (int)(_fixedCanvasWidth / _pointSpacing / 2);
+    //                initialCount = Math.Min(initialCount, 20);
+    //                for (int i = 0; i < initialCount; i++)
+    //                {
+    //                    double x = i * _pointSpacing;
+    //                    double y = _canvasHeight / 2;
+    //                    _points.Add(new Point(x, y));
+    //                }
+    //                _totalPointsDrawn = initialCount;
+    //            }
+    //            else
+    //            {
+    //                _totalPointsDrawn = 0;
+    //            }
+    //        });
+
+    //        _timer = new DispatcherTimer
+    //        {
+    //            Interval = TimeSpan.FromMilliseconds(_intervalMs)
+    //        };
+    //        _timer.Tick += Timer_Tick;
+    //    }
+
+    //    /// <summary>
+    //    /// 更新画布尺寸，当父容器大小改变时调用
+    //    /// </summary>
+    //    public void UpdateCanvasSize()
+    //    {
+    //        Application.Current.Dispatcher.Invoke(() =>
+    //        {
+    //            if (_canvas == null) return;
+
+    //            double newWidth = _canvas.ActualWidth;
+    //            if (newWidth <= 0) newWidth = _canvas.Width;
+    //            if (newWidth <= 0) newWidth = 500;
+
+    //            if (Math.Abs(newWidth - _fixedCanvasWidth) < 0.1) return;
+
+    //            _fixedCanvasWidth = newWidth;
+    //            _canvas.Width = _fixedCanvasWidth;
+
+    //            // 重新调整当前点集，使波形填满新宽度
+    //            if (_points == null || _points.Count == 0) return;
+
+    //            int pointsToKeep = (int)(_fixedCanvasWidth / _pointSpacing);
+    //            if (pointsToKeep < 1) pointsToKeep = 1;
+
+    //            if (_points.Count > pointsToKeep)
+    //            {
+    //                int removeCount = _points.Count - pointsToKeep;
+    //                var newPoints = new PointCollection();
+    //                for (int i = removeCount; i < _points.Count; i++)
+    //                {
+    //                    var p = _points[i];
+    //                    newPoints.Add(new Point(p.X - removeCount * _pointSpacing, p.Y));
+    //                }
+    //                _points = newPoints;
+    //                _polyline.Points = _points;
+    //                _totalPointsDrawn -= removeCount;
+    //            }
+    //            else if (_points.Count < pointsToKeep && _totalPointsDrawn == _points.Count)
+    //            {
+    //                // 如果当前点数不足，可以补充空白？不处理，等待新数据自然填充
+    //            }
+    //        });
+    //    }
+
+    //    private void Timer_Tick(object sender, EventArgs e)
+    //    {
+    //        List<double> newValues = new List<double>();
+    //        lock (_queueLock)
+    //        {
+    //            int count = Math.Min(_batchSize, _dataQueue.Count);
+    //            for (int i = 0; i < count; i++)
+    //            {
+    //                newValues.Add(_dataQueue.Dequeue());
+    //            }
+    //        }
+
+    //        if (newValues.Count == 0) return;
+
+    //        Application.Current.Dispatcher.Invoke(() =>
+    //        {
+    //            if (_fixedCanvasWidth <= 0) UpdateCanvasSize();
+
+    //            foreach (double val in newValues)
+    //            {
+    //                double x = _totalPointsDrawn * _pointSpacing;
+    //                double y = MapValueToY(val);
+    //                _points.Add(new Point(x, y));
+    //                _totalPointsDrawn++;
+    //            }
+
+    //            double totalWidth = _totalPointsDrawn * _pointSpacing;
+    //            if (totalWidth > _fixedCanvasWidth)
+    //            {
+    //                int pointsToKeep = (int)(_fixedCanvasWidth / _pointSpacing);
+    //                if (pointsToKeep < 1) pointsToKeep = 1;
+    //                int removeCount = _points.Count - pointsToKeep;
+    //                if (removeCount > 0)
+    //                {
+    //                    var newPoints = new PointCollection();
+    //                    for (int i = removeCount; i < _points.Count; i++)
+    //                    {
+    //                        var p = _points[i];
+    //                        newPoints.Add(new Point(p.X - removeCount * _pointSpacing, p.Y));
+    //                    }
+    //                    _points = newPoints;
+    //                    _polyline.Points = _points;
+    //                    _totalPointsDrawn -= removeCount;
+    //                }
+    //            }
+    //        });
+    //    }
+
+    //    private double MapValueToY(double value)
+    //    {
+    //        double minY, maxY;
+    //        if (_fixedYRange)
+    //        {
+    //            minY = _fixedMinY;
+    //            maxY = _fixedMaxY;
+    //        }
+    //        else
+    //        {
+    //            minY = _dynamicMinY;
+    //            maxY = _dynamicMaxY;
+    //            if (maxY - minY < 0.1) maxY = minY + 1;
+    //        }
+
+    //        double normalized = (value - minY) / (maxY - minY);
+    //        normalized = Math.Max(0, Math.Min(1, normalized));
+    //        double margin = 5;
+    //        double y = margin + (1 - normalized) * (_canvasHeight - 2 * margin);
+    //        return y;
+    //    }
+
+    //    public void AddDataPoint(double value)
+    //    {
+    //        lock (_queueLock)
+    //        {
+    //            _dataQueue.Enqueue(value);
+    //            if (!_fixedYRange)
+    //            {
+    //                if (value < _dynamicMinY) _dynamicMinY = value;
+    //                if (value > _dynamicMaxY) _dynamicMaxY = value;
+    //            }
+    //        }
+    //    }
+
+    //    public void AddDataPoints(IEnumerable<double> values)
+    //    {
+    //        lock (_queueLock)
+    //        {
+    //            foreach (var val in values)
+    //            {
+    //                _dataQueue.Enqueue(val);
+    //                if (!_fixedYRange)
+    //                {
+    //                    if (val < _dynamicMinY) _dynamicMinY = val;
+    //                    if (val > _dynamicMaxY) _dynamicMaxY = val;
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    public void AddCsvData(string csvData)
+    //    {
+    //        if (string.IsNullOrEmpty(csvData)) return;
+
+    //        var values = new List<double>();
+    //        var parts = csvData.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    //        foreach (var part in parts)
+    //        {
+    //            if (double.TryParse(part, out double val))
+    //            {
+    //                values.Add(val);
+    //            }
+    //        }
+    //        if (values.Count > 0)
+    //        {
+    //            AddDataPoints(values);
+    //        }
+    //    }
+
+    //    public void Start()
+    //    {
+    //        if (_timer != null && !_timer.IsEnabled)
+    //        {
+    //            _timer.Start();
+    //            IsRunning = true;
+    //        }
+    //    }
+
+    //    public void Stop()
+    //    {
+    //        if (_timer != null && _timer.IsEnabled)
+    //        {
+    //            _timer.Stop();
+    //            IsRunning = false;
+    //        }
+    //    }
+
+    //    public void Clear()
+    //    {
+    //        lock (_queueLock)
+    //        {
+    //            _dataQueue.Clear();
+    //        }
+    //        Application.Current.Dispatcher.Invoke(() =>
+    //        {
+    //            _points.Clear();
+    //            _totalPointsDrawn = 0;
+    //            _dynamicMinY = double.MaxValue;
+    //            _dynamicMaxY = double.MinValue;
+    //        });
+    //    }
+
+    //    public void Dispose()
+    //    {
+    //        Stop();
+    //        _timer = null;
+    //        Application.Current.Dispatcher.Invoke(() =>
+    //        {
+    //            if (_canvas != null)
+    //            {
+    //                _canvas.Children.Clear();
+    //            }
+    //        });
+    //    }
+    //}
     public class SimpleWaveformRenderer : IDisposable
     {
         private readonly Canvas _canvas;
@@ -563,13 +868,16 @@ namespace WarmBox_Central_Monitoring_Station.Model
         private Polyline _polyline;
         private PointCollection _points;
         private DispatcherTimer _timer;
-        private Queue<double> _dataQueue = new Queue<double>();
-        private readonly object _queueLock = new object();
+        private Queue<double> _dataQueue = new();
+        private readonly object _queueLock = new();
         private int _totalPointsDrawn = 0;
         private double _canvasHeight;
-        private double _fixedCanvasWidth;      // 当前画布固定宽度（动态更新）
+        private double _fixedCanvasWidth;
         private double _dynamicMinY = double.MaxValue;
         private double _dynamicMaxY = double.MinValue;
+
+        // 用于调试丢点统计
+        private int _parseFailCount = 0;
 
         public bool IsRunning { get; private set; }
 
@@ -597,22 +905,18 @@ namespace WarmBox_Central_Monitoring_Station.Model
             Application.Current.Dispatcher.Invoke(() =>
             {
                 _canvas.Children.Clear();
-
                 _polyline = new Polyline
                 {
                     Stroke = _stroke,
                     StrokeThickness = _strokeThickness,
                     StrokeLineJoin = PenLineJoin.Round
                 };
-
                 _points = new PointCollection();
                 _polyline.Points = _points;
                 _canvas.Children.Add(_polyline);
 
-                // 初始获取画布实际宽度（可能为0，稍后在第一次更新时再处理）
                 UpdateCanvasSize();
 
-                // 获取画布高度（留边距）
                 _canvasHeight = _canvas.ActualHeight > 0 ? _canvas.ActualHeight :
                                 (_canvas.Height > 0 ? _canvas.Height : 80);
                 if (_canvasHeight <= 0) _canvasHeight = 80;
@@ -621,13 +925,10 @@ namespace WarmBox_Central_Monitoring_Station.Model
 
                 if (_addInitialPoints && _fixedCanvasWidth > 0)
                 {
-                    int initialCount = (int)(_fixedCanvasWidth / _pointSpacing / 2);
-                    initialCount = Math.Min(initialCount, 20);
+                    int initialCount = Math.Min((int)(_fixedCanvasWidth / _pointSpacing / 2), 20);
                     for (int i = 0; i < initialCount; i++)
                     {
-                        double x = i * _pointSpacing;
-                        double y = _canvasHeight / 2;
-                        _points.Add(new Point(x, y));
+                        _points.Add(new Point(i * _pointSpacing, _canvasHeight / 2));
                     }
                     _totalPointsDrawn = initialCount;
                 }
@@ -637,37 +938,25 @@ namespace WarmBox_Central_Monitoring_Station.Model
                 }
             });
 
-            _timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(_intervalMs)
-            };
+            _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_intervalMs) };
             _timer.Tick += Timer_Tick;
         }
 
-        /// <summary>
-        /// 更新画布尺寸，当父容器大小改变时调用
-        /// </summary>
         public void UpdateCanvasSize()
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (_canvas == null) return;
-
                 double newWidth = _canvas.ActualWidth;
                 if (newWidth <= 0) newWidth = _canvas.Width;
                 if (newWidth <= 0) newWidth = 500;
 
                 if (Math.Abs(newWidth - _fixedCanvasWidth) < 0.1) return;
-
                 _fixedCanvasWidth = newWidth;
                 _canvas.Width = _fixedCanvasWidth;
 
-                // 重新调整当前点集，使波形填满新宽度
                 if (_points == null || _points.Count == 0) return;
-
-                int pointsToKeep = (int)(_fixedCanvasWidth / _pointSpacing);
-                if (pointsToKeep < 1) pointsToKeep = 1;
-
+                int pointsToKeep = Math.Max((int)(_fixedCanvasWidth / _pointSpacing), 1);
                 if (_points.Count > pointsToKeep)
                 {
                     int removeCount = _points.Count - pointsToKeep;
@@ -681,32 +970,28 @@ namespace WarmBox_Central_Monitoring_Station.Model
                     _polyline.Points = _points;
                     _totalPointsDrawn -= removeCount;
                 }
-                else if (_points.Count < pointsToKeep && _totalPointsDrawn == _points.Count)
-                {
-                    // 如果当前点数不足，可以补充空白？不处理，等待新数据自然填充
-                }
             });
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            List<double> newValues = new List<double>();
+            List<double> batch = new();
             lock (_queueLock)
             {
                 int count = Math.Min(_batchSize, _dataQueue.Count);
                 for (int i = 0; i < count; i++)
-                {
-                    newValues.Add(_dataQueue.Dequeue());
-                }
+                    batch.Add(_dataQueue.Dequeue());
             }
 
-            if (newValues.Count == 0) return;
+            if (batch.Count == 0) return;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
+                // 确保尺寸有效
                 if (_fixedCanvasWidth <= 0) UpdateCanvasSize();
+                if (_fixedCanvasWidth <= 0 || _canvasHeight <= 0) return; // 尺寸无效时保留数据在队列中
 
-                foreach (double val in newValues)
+                foreach (double val in batch)
                 {
                     double x = _totalPointsDrawn * _pointSpacing;
                     double y = MapValueToY(val);
@@ -714,12 +999,12 @@ namespace WarmBox_Central_Monitoring_Station.Model
                     _totalPointsDrawn++;
                 }
 
+                // 裁剪旧点
                 double totalWidth = _totalPointsDrawn * _pointSpacing;
                 if (totalWidth > _fixedCanvasWidth)
                 {
-                    int pointsToKeep = (int)(_fixedCanvasWidth / _pointSpacing);
-                    if (pointsToKeep < 1) pointsToKeep = 1;
-                    int removeCount = _points.Count - pointsToKeep;
+                    int keep = Math.Max((int)(_fixedCanvasWidth / _pointSpacing), 1);
+                    int removeCount = _points.Count - keep;
                     if (removeCount > 0)
                     {
                         var newPoints = new PointCollection();
@@ -750,7 +1035,6 @@ namespace WarmBox_Central_Monitoring_Station.Model
                 maxY = _dynamicMaxY;
                 if (maxY - minY < 0.1) maxY = minY + 1;
             }
-
             double normalized = (value - minY) / (maxY - minY);
             normalized = Math.Max(0, Math.Min(1, normalized));
             double margin = 5;
@@ -791,24 +1075,53 @@ namespace WarmBox_Central_Monitoring_Station.Model
         {
             if (string.IsNullOrEmpty(csvData)) return;
 
-            var values = new List<double>();
-            var parts = csvData.Split(new[] { '^' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var part in parts)
+            // 强力清洗：只保留数字、逗号、负号
+            var cleanBuilder = new StringBuilder();
+            foreach (char c in csvData)
             {
+                if (char.IsDigit(c) || c == ',' || c == '-')
+                    cleanBuilder.Append(c);
+            }
+            string cleaned = cleanBuilder.ToString();
+
+            // 修复常见错误：将粘连的数字-数字拆开（如 "2-6" -> "2,-6"）
+            cleaned = System.Text.RegularExpressions.Regex.Replace(
+                cleaned,
+                @"(\d)-(-?\d)",
+                "$1,$2");
+
+            // 分割并解析
+            string[] parts = cleaned.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var values = new List<double>();
+            foreach (string part in parts)
+            {
+                // 跳过孤立负号
+                if (part == "-" || part == "--")
+                    continue;
+
                 if (double.TryParse(part, out double val))
                 {
                     values.Add(val);
                 }
+                else
+                {
+                    // 依然无效，记录日志（可注释掉）
+                    System.Diagnostics.Debug.WriteLine($"[AddCsvData] 无效数值: '{part}'，原始片段: '{csvData.Substring(0, Math.Min(csvData.Length, 80))}'");
+                }
             }
+
             if (values.Count > 0)
-            {
                 AddDataPoints(values);
-            }
         }
 
         public void Start()
         {
-            if (_timer != null && !_timer.IsEnabled)
+            if (_timer == null)
+            {
+                _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_intervalMs) };
+                _timer.Tick += Timer_Tick;
+            }
+            if (!_timer.IsEnabled)
             {
                 _timer.Start();
                 IsRunning = true;
@@ -817,7 +1130,7 @@ namespace WarmBox_Central_Monitoring_Station.Model
 
         public void Stop()
         {
-            if (_timer != null && _timer.IsEnabled)
+            if (_timer?.IsEnabled == true)
             {
                 _timer.Stop();
                 IsRunning = false;
@@ -826,13 +1139,10 @@ namespace WarmBox_Central_Monitoring_Station.Model
 
         public void Clear()
         {
-            lock (_queueLock)
-            {
-                _dataQueue.Clear();
-            }
+            lock (_queueLock) _dataQueue.Clear();
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _points.Clear();
+                _points?.Clear();
                 _totalPointsDrawn = 0;
                 _dynamicMinY = double.MaxValue;
                 _dynamicMaxY = double.MinValue;
@@ -843,16 +1153,9 @@ namespace WarmBox_Central_Monitoring_Station.Model
         {
             Stop();
             _timer = null;
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                if (_canvas != null)
-                {
-                    _canvas.Children.Clear();
-                }
-            });
+            Application.Current.Dispatcher.Invoke(() => _canvas?.Children.Clear());
         }
     }
-
     public static class ToastHelper
     {
         public static void Show(string message, string colorHex = "#FFFFFF", int durationMs = 2000)

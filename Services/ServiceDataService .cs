@@ -916,11 +916,11 @@ namespace WarmBox_Central_Monitoring_Station.Services
                 return ApiResponse<bool>.Failure("患者编号（PatientId）不能为空", 400);
 
             string patientNum = info.PatientId.Value.ToString();
-            string message = "同步成功"; // 默认消息
+            string message = "同步成功";
+
             using (var connection = new SqliteConnection(_connectionString))
             {
                 await connection.OpenAsync();
-
                 using (var transaction = await connection.BeginTransactionAsync())
                 {
                     try
@@ -929,7 +929,6 @@ namespace WarmBox_Central_Monitoring_Station.Services
                         var findDeviceCmd = connection.CreateCommand();
                         findDeviceCmd.CommandText = "SELECT ID FROM Device WHERE Device_Num = @num LIMIT 1";
                         findDeviceCmd.Parameters.AddWithValue("@num", info.DeviceNum);
-
                         var deviceIdObj = await findDeviceCmd.ExecuteScalarAsync();
                         if (deviceIdObj == null || deviceIdObj == DBNull.Value)
                         {
@@ -938,17 +937,49 @@ namespace WarmBox_Central_Monitoring_Station.Services
                         }
                         int deviceId = Convert.ToInt32(deviceIdObj);
 
-                        // 2. 查找患者（以 Patient_Num 为准）
-                        var findPatientCmd = connection.CreateCommand();
-                        findPatientCmd.CommandText = "SELECT ID FROM Patient WHERE Patient_Num = @pnum LIMIT 1";
-                        findPatientCmd.Parameters.AddWithValue("@pnum", patientNum);
+                        // 2. 在中间表中查找该设备是否已关联患者
+                        var linkQuery = connection.CreateCommand();
+                        linkQuery.CommandText = "SELECT patientid FROM patient_device WHERE deviceid = @did LIMIT 1";
+                        linkQuery.Parameters.AddWithValue("@did", deviceId);
+                        var existPatientIdObj = await linkQuery.ExecuteScalarAsync();
 
-                        var patientIdObj = await findPatientCmd.ExecuteScalarAsync();
-                        int patientId;
-
-                        if (patientIdObj == null || patientIdObj == DBNull.Value)
+                        if (existPatientIdObj != null && existPatientIdObj != DBNull.Value)
                         {
-                            // 3a. 患者不存在，新增
+                            // 3a. 已关联 → 更新患者信息
+                            int patientId = Convert.ToInt32(existPatientIdObj);
+                            var updateCmd = connection.CreateCommand();
+                            updateCmd.CommandText = @"
+                        UPDATE Patient
+                        SET Patient_Name = @name,
+                            Patient_Sex = @sex,
+                            Patient_BloodType = @blood,
+                            Patient_BirthDay = @birth,
+                            Patient_GestationalAge = @gest,
+                            Patient_Weight = @weight,
+                            Patient_Height = @height,
+                            Patient_dayold = @dayold,
+                            Patient_Num = @pnum,
+                            Patient_Chuangwei = @chuangwei
+                        WHERE ID = @id";
+
+                            updateCmd.Parameters.AddWithValue("@name", info.Name ?? (object)DBNull.Value);
+                            updateCmd.Parameters.AddWithValue("@sex", info.Gender == "男" ? 1 : 0);
+                            updateCmd.Parameters.AddWithValue("@blood", info.BloodType ?? (object)DBNull.Value);
+                            updateCmd.Parameters.AddWithValue("@birth", info.BirthDate?.ToString("yyyy-MM-dd") ?? (object)DBNull.Value);
+                            updateCmd.Parameters.AddWithValue("@gest", info.GestationalAge ?? (object)DBNull.Value);
+                            updateCmd.Parameters.AddWithValue("@weight", info.Weight.HasValue ? (int)info.Weight.Value : (object)DBNull.Value);
+                            updateCmd.Parameters.AddWithValue("@height", info.Height.HasValue ? (int)info.Height.Value : (object)DBNull.Value);
+                            updateCmd.Parameters.AddWithValue("@dayold", info.AgeDays ?? (object)DBNull.Value);
+                            updateCmd.Parameters.AddWithValue("@pnum", patientNum);
+                            updateCmd.Parameters.AddWithValue("@chuangwei", info.DeviceNum);
+                            updateCmd.Parameters.AddWithValue("@id", patientId);
+
+                            await updateCmd.ExecuteNonQueryAsync();
+                            // 更新时不返回床位数
+                        }
+                        else
+                        {
+                            // 3b. 未关联 → 新增患者，再插入关联表
                             // 自动生成床位号
                             var countCmd = connection.CreateCommand();
                             countCmd.CommandText = "SELECT COUNT(*) FROM Patient";
@@ -975,51 +1006,19 @@ namespace WarmBox_Central_Monitoring_Station.Services
                             insertCmd.Parameters.AddWithValue("@chuangwei", newChuangwei);
 
                             var newId = await insertCmd.ExecuteScalarAsync();
-                            patientId = Convert.ToInt32(newId);
+                            int patientId = Convert.ToInt32(newId);
+
+                            // 插入关联表
+                            var insertLinkCmd = connection.CreateCommand();
+                            insertLinkCmd.CommandText = @"
+                        INSERT INTO patient_device (patientid, deviceid)
+                        VALUES (@pid, @did)";
+                            insertLinkCmd.Parameters.AddWithValue("@pid", patientId);
+                            insertLinkCmd.Parameters.AddWithValue("@did", deviceId);
+                            await insertLinkCmd.ExecuteNonQueryAsync();
 
                             message = $"同步成功|{newChuangwei}";
                         }
-                        else
-                        {
-                            // 3b. 患者已存在，更新
-                            patientId = Convert.ToInt32(patientIdObj);
-
-                            var updateCmd = connection.CreateCommand();
-                            updateCmd.CommandText = @"
-                        UPDATE Patient
-                        SET Patient_Name = @name,
-                            Patient_Sex = @sex,
-                            Patient_BloodType = @blood,
-                            Patient_BirthDay = @birth,
-                            Patient_GestationalAge = @gest,
-                            Patient_Weight = @weight,
-                            Patient_Height = @height,
-                            Patient_dayold = @dayold,
-                            Patient_Chuangwei = @chuangwei
-                        WHERE Patient_Num = @pnum";
-
-                            updateCmd.Parameters.AddWithValue("@name", info.Name ?? (object)DBNull.Value);
-                            updateCmd.Parameters.AddWithValue("@sex", info.Gender == "男" ? 1 : 0);
-                            updateCmd.Parameters.AddWithValue("@blood", info.BloodType ?? (object)DBNull.Value);
-                            updateCmd.Parameters.AddWithValue("@birth", info.BirthDate?.ToString("yyyy-MM-dd") ?? (object)DBNull.Value);
-                            updateCmd.Parameters.AddWithValue("@gest", info.GestationalAge ?? (object)DBNull.Value);
-                            updateCmd.Parameters.AddWithValue("@weight", info.Weight.HasValue ? (int)info.Weight.Value : (object)DBNull.Value);
-                            updateCmd.Parameters.AddWithValue("@height", info.Height.HasValue ? (int)info.Height.Value : (object)DBNull.Value);
-                            updateCmd.Parameters.AddWithValue("@dayold", info.AgeDays ?? (object)DBNull.Value);
-                            updateCmd.Parameters.AddWithValue("@chuangwei", info.DeviceNum);   // 用设备编号作为床位号，或保留原有？原来的逻辑是更新时用 info.DeviceNum 赋值给 Patient_Chuangwei，保持原样
-                            updateCmd.Parameters.AddWithValue("@pnum", patientNum);
-
-                            await updateCmd.ExecuteNonQueryAsync();
-                        }
-
-                        // 4. 维护 patient_device 关联表
-                        var linkCmd = connection.CreateCommand();
-                        linkCmd.CommandText = @"
-                    INSERT OR IGNORE INTO patient_device (patientid, deviceid)
-                    VALUES (@pid, @did)";
-                        linkCmd.Parameters.AddWithValue("@pid", patientId);
-                        linkCmd.Parameters.AddWithValue("@did", deviceId);
-                        await linkCmd.ExecuteNonQueryAsync();
 
                         await transaction.CommitAsync();
                         return ApiResponse<bool>.SuccessFunction(true, message);

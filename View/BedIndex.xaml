@@ -34,7 +34,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Ⅰ" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas Grid.Row="1" x:Name="Wave_II" ClipToBounds="True"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_Ⅰ" ClipToBounds="True"/>
                 </Grid>
             </Border>
             <Border Grid.Row="1" Margin="5,5,5,0" Background="Black" CornerRadius="6">
@@ -44,7 +44,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Ⅱ" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas Grid.Row="1" x:Name="Wave_RA" ClipToBounds="True"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_Ⅱ" ClipToBounds="True"/>
                 </Grid>
             </Border>
             <Border Grid.Row="2" Margin="5,5,5,0" Background="Black" CornerRadius="6">
@@ -54,7 +54,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Ⅲ" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas Grid.Row="1" x:Name="Wave_LA" ClipToBounds="True"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_Ⅲ" ClipToBounds="True"/>
                 </Grid>
             </Border>
             <Border Grid.Row="3" Margin="5,5,5,0" Background="Black" CornerRadius="6">
@@ -64,7 +64,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="aVR" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas Grid.Row="1" x:Name="Wave_RL" ClipToBounds="True"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_AVR" ClipToBounds="True"/>
                 </Grid>
             </Border>
             <Border Grid.Row="4" Margin="5,5,5,0" Background="Black" CornerRadius="6">
@@ -74,7 +74,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="aVL" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas Grid.Row="1" x:Name="Wave_LL" ClipToBounds="True"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_AVL" ClipToBounds="True"/>
                 </Grid>
             </Border>
             <Border Grid.Row="5" Margin="5,5,5,0" Background="Black" CornerRadius="6">
@@ -84,7 +84,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="aVF" Foreground="#05df72" FontWeight="Bold" FontSize="10" Margin="5"/>
-                    <Canvas Grid.Row="1" x:Name="Wave_V" ClipToBounds="True"/>
+                    <Canvas Grid.Row="1" x:Name="Wave_AVF" ClipToBounds="True"/>
                 </Grid>
             </Border>
             <Border Grid.Row="6" Margin="5,5,5,0" Background="Black" CornerRadius="6">
@@ -123,7 +123,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="RESP" Foreground="#FFA200" FontWeight="Bold" FontSize="10" Margin="5"/>
+                    <TextBlock Grid.Row="0" Text="Resp" Foreground="#FFA200" FontWeight="Bold" FontSize="10" Margin="5"/>
                     <Canvas Grid.Row="1" x:Name="Wave_Resp" ClipToBounds="True"/>
                 </Grid>
             </Border>

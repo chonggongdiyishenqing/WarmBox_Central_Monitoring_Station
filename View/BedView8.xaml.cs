@@ -99,14 +99,14 @@ namespace WarmBox_Central_Monitoring_Station.View
 
         private void SubscribeToEvents(BedViewModel bed)
         {
-            bed.hr2WaveDataUpdated += OnEcgData;
+            bed.Hr2WaveDataUpdated += OnEcgData;
             bed.PletchWaveDataUpdated += OnPletchData;
         }
 
         private void UnsubscribeFromEvents(BedViewModel bed)
         {
             if (bed == null) return;
-            bed.hr2WaveDataUpdated -= OnEcgData;
+            bed.Hr2WaveDataUpdated -= OnEcgData;
             bed.PletchWaveDataUpdated -= OnPletchData;
         }
 

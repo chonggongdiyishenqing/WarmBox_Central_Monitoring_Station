@@ -126,7 +126,7 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
                     // 登录成功，进入主界面
                     ShowMainWindow();
 
-                    StartServiceAsync();
+                    //StartServiceAsync();
 
                     await Task.Delay(100);
                   
