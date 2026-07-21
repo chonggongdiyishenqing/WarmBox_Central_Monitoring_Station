@@ -385,12 +385,12 @@
                     </Border>
                     <!-- 同步弹窗 -->
                     <Popup x:Name="SyncPopup" 
-       IsOpen="{Binding IsPopupOpen, Mode=OneWay}" 
-       StaysOpen="False"
-       Placement="Center"
-       AllowsTransparency="True">
+                        IsOpen="{Binding IsPopupOpen, Mode=OneWay}" 
+                        StaysOpen="False"
+                        Placement="Center"
+                        AllowsTransparency="True">
                         <Border Background="#2c2c2c" CornerRadius="8" Padding="30" Width="360"
-            BorderBrush="#555555" BorderThickness="1">
+                             BorderBrush="#555555" BorderThickness="1">
                             <Border.Resources>
                                 <ResourceDictionary>
                                     <ResourceDictionary.MergedDictionaries>
@@ -422,28 +422,38 @@
                        TextWrapping="Wrap" TextAlignment="Center" />
 
                                 <!-- 按钮区域 -->
+                                <!-- 按钮区域 -->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                                    <!-- 确定按钮（同步完成后才可用，禁用时显示灰色） -->
                                     <Button Width="100" Height="36" Margin="10,0"
-                        Background="#4A90E2" Foreground="White" Cursor="Hand"
-                        Command="{Binding CloseSyncPopupCommand}">
+            Background="#4A90E2" Foreground="White" Cursor="Hand"
+            Command="{Binding CloseSyncPopupCommand}"
+            IsEnabled="{Binding IsResultShown}">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" 
-                                    CornerRadius="6" Padding="10,5">
+                                                <Border x:Name="border" 
+                        Background="{TemplateBinding Background}" 
+                        CornerRadius="6" Padding="10,5">
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter TargetName="border" Property="Background" Value="#555555"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </Button.Template>
                                         <TextBlock Text="{DynamicResource Confirm}" />
                                     </Button>
 
+                                    <!-- 取消按钮（始终可用） -->
                                     <Button Width="100" Height="36" Margin="10,0"
-                        Background="#555555" Foreground="White" Cursor="Hand"
-                        Command="{Binding CloseSyncPopupCommand}">
+            Background="#555555" Foreground="White" Cursor="Hand"
+            Command="{Binding CloseSyncPopupCommand}">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}" 
-                                    CornerRadius="6" Padding="10,5">
+                        CornerRadius="6" Padding="10,5">
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>

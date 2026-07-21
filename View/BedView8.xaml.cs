@@ -65,9 +65,9 @@ namespace WarmBox_Central_Monitoring_Station.View
                 canvas: Wave_II,
                 stroke: Brushes.LimeGreen,
                 strokeThickness: 1.2,
-                pointSpacing: 0.11,
-                fixedMinY: -700,
-                fixedMaxY: 1100,
+                pointSpacing: 0.2,          // 与详情页Ⅱ导联一致
+                fixedMinY: -300,            // 与详情页Ⅱ导联一致
+                fixedMaxY: 800,
                 intervalMs: 6,
                 addInitialPoints: false
             );
@@ -76,10 +76,10 @@ namespace WarmBox_Central_Monitoring_Station.View
                 canvas: Wave_Pletch,
                 stroke: Brushes.Cyan,
                 strokeThickness: 1.2,
-                pointSpacing: 0.5,
-                fixedMinY: 300,
-                fixedMaxY: 700,
-                intervalMs: 6,
+                pointSpacing: 0.6,          // 与详情页Pletch一致
+                fixedMinY: -30000,          // 大范围固定，防止动态范围失真
+                fixedMaxY: 30000,
+                intervalMs: 4,              // 略加快刷新，使波形更流畅
                 addInitialPoints: false
             );
 
@@ -112,11 +112,13 @@ namespace WarmBox_Central_Monitoring_Station.View
 
         private void OnEcgData(string csvData)
         {
+            if (_currentBed != null && _currentBed.IsWaveformPaused) return;
             Dispatcher.Invoke(() => _ecgRenderer?.AddCsvData(csvData));
         }
 
         private void OnPletchData(string csvData)
         {
+            if (_currentBed != null && _currentBed.IsWaveformPaused) return;
             Dispatcher.Invoke(() => _pletchRenderer?.AddCsvData(csvData));
         }
 

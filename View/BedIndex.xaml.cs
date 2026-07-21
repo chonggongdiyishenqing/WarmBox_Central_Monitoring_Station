@@ -53,24 +53,24 @@ namespace WarmBox_Central_Monitoring_Station.View
 
             _renderers = new Dictionary<string, SimpleWaveformRenderer>
             {
-                ["Ⅰ"] = CreateRenderer(Wave_Ⅰ, Brushes.LimeGreen, -100, 500, 1.0, 0.2),
-                ["Ⅱ"] = CreateRenderer(Wave_Ⅱ, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
-                ["Ⅲ"] = CreateRenderer(Wave_Ⅲ, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
-                ["aVR"] = CreateRenderer(Wave_AVR, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
-                ["aVL"] = CreateRenderer(Wave_AVL, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
-                ["aVF"] = CreateRenderer(Wave_AVF, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
-                ["V1"] = CreateRenderer(Wave_V1, Brushes.LimeGreen, -700, 1100, 1.0, 0.2),
-                ["Pletch"] = CreateRenderer(Wave_Pletch, Brushes.Cyan, 0, 1000, 1.0, 0.5),
-                ["EtCO2"] = CreateRenderer(Wave_EtCO2, Brushes.Orange, 200, 400, 1.0, 0.11),
-                ["Resp"] = CreateRenderer(Wave_Resp, Brushes.OrangeRed, 0, 1000, 1.0, 0.5) // 范围根据实际调整
+                ["Ⅰ"] = CreateRenderer(Wave_Ⅰ, Brushes.LimeGreen, -150, 600, 1.0, 0.2),
+                ["Ⅱ"] = CreateRenderer(Wave_Ⅱ, Brushes.LimeGreen, -300, 800, 1.0, 0.2),
+                ["Ⅲ"] = CreateRenderer(Wave_Ⅲ, Brushes.LimeGreen, -200, 300, 1.0, 0.2),
+                // aVR 和 V1 使用动态范围，自动适应正向/反向波形
+                ["aVR"] = CreateRenderer(Wave_AVR, Brushes.LimeGreen, null, null, 1.0, 0.2),
+                ["aVL"] = CreateRenderer(Wave_AVL, Brushes.LimeGreen, -100, 200, 1.0, 0.2),
+                ["aVF"] = CreateRenderer(Wave_AVF, Brushes.LimeGreen, -250, 550, 1.0, 0.2),
+                ["V1"] = CreateRenderer(Wave_V1, Brushes.LimeGreen, null, null, 1.0, 0.2),
+                ["Pletch"] = CreateRenderer(Wave_Pletch, Brushes.Cyan, -30000, 30000, 1.0, 0.6),
+                ["EtCO2"] = CreateRenderer(Wave_EtCO2, Brushes.Orange, 200, 400, 1.0, 0.1),
+                ["Resp"] = CreateRenderer(Wave_Resp, Brushes.OrangeRed, -200, 200, 1.0, 0.3)
             };
 
             foreach (var renderer in _renderers.Values)
                 renderer.Start();
-            
         }
 
-        private SimpleWaveformRenderer CreateRenderer(Canvas canvas, Brush stroke, double minY, double maxY, double st, double sp)
+        private SimpleWaveformRenderer CreateRenderer(Canvas canvas, Brush stroke, double? minY, double? maxY, double st, double sp, int intervalMs = 6)
         {
             return new SimpleWaveformRenderer(
                 canvas: canvas,
@@ -79,25 +79,24 @@ namespace WarmBox_Central_Monitoring_Station.View
                 pointSpacing: sp,
                 fixedMinY: minY,
                 fixedMaxY: maxY,
-                intervalMs: 6,
+                intervalMs: intervalMs,   // 传入参数
                 addInitialPoints: false
             );
         }
 
         private void SubscribeToEvents(BedViewModel bed)
         {
-            bed.Hr1WaveDataUpdated += data => UpdateWaveform("Ⅰ", data);
-            bed.Hr2WaveDataUpdated += data => UpdateWaveform("Ⅱ", data);
-            bed.Hr3WaveDataUpdated += data => UpdateWaveform("Ⅲ", data);
-            bed.HrAVRWaveDataUpdated += data => UpdateWaveform("aVR", data);
-            bed.HrAVLWaveDataUpdated += data => UpdateWaveform("aVL", data);
-            bed.HrAVFWaveDataUpdated += data => UpdateWaveform("aVF", data);
-            bed.HrV1WaveDataUpdated += data => UpdateWaveform("V1", data);
-            bed.PletchWaveDataUpdated += data => UpdateWaveform("Pletch", data);
-            bed.Etco2WaveDataUpdated += data => UpdateWaveform("EtCO2", data);
-            bed.RespWaveDataUpdated += data => UpdateWaveform("Resp", data);
+            bed.Hr1WaveDataUpdated += OnHr1Data;
+            bed.Hr2WaveDataUpdated += OnHr2Data;
+            bed.Hr3WaveDataUpdated += OnHr3Data;
+            bed.HrAVRWaveDataUpdated += OnHrAVRData;
+            bed.HrAVLWaveDataUpdated += OnHrAVLData;
+            bed.HrAVFWaveDataUpdated += OnHrAVFData;
+            bed.HrV1WaveDataUpdated += OnHrV1ata;
+            bed.PletchWaveDataUpdated += OnPletchData;
+            bed.Etco2WaveDataUpdated += OnEtco2Data;
+            bed.RespWaveDataUpdated += OnRespData;
         }
-
         private void UnsubscribeFromEvents(BedViewModel bed)
         {
             if (bed == null) return;

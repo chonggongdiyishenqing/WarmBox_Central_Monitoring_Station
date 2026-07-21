@@ -194,200 +194,94 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
 
         // ==================== 报警优先级映射表（完整版需根据说明书补充所有报警） ====================
         private static readonly Dictionary<string, AlarmPriority> AlarmPriorityMap = new()
-       {
-           // ===== High =====
-           {"系统板与主板通讯故障", AlarmPriority.High},
-           {"控制仪与传感器盒通讯故障", AlarmPriority.High},
-           {"主从机通讯故障", AlarmPriority.High},
-           {"从机间通讯故障", AlarmPriority.High},
-           {"备份配置数据异常", AlarmPriority.High},
-           {"箱篷故障", AlarmPriority.High},
-           {"升降系统故障", AlarmPriority.High},
-           {"辐射门故障", AlarmPriority.High},
-           {"培养箱加热系统故障", AlarmPriority.High},
-           {"辐射加热系统故障", AlarmPriority.High},
-           {"床垫加热系统故障", AlarmPriority.High},
-           {"传感器盒放置错误报警", AlarmPriority.High},
-           {"箱温传感器故障", AlarmPriority.High},
-           {"独立箱温传感器故障", AlarmPriority.High},
-           {"箱温传感器差异", AlarmPriority.High},
-           {"风道温度传感器故障", AlarmPriority.High},
-           {"床温传感器故障", AlarmPriority.High},
-           {"床温独立传感器故障", AlarmPriority.High},
-           {"床温传感器差异故障", AlarmPriority.High},
-           {"肤温传感器1故障", AlarmPriority.High},
-           {"独立肤温传感器故障", AlarmPriority.High},
-           {"肤温传感器2故障", AlarmPriority.High},
-           {"肤温传感器差异", AlarmPriority.High},
-           {"体重秤传感器未连接", AlarmPriority.High},
-           {"箱温超温", AlarmPriority.High},
-           {"床温超温", AlarmPriority.High},
-           {"肤温超温", AlarmPriority.High},
-           {"风道超温", AlarmPriority.High},
-           {"肤温传感器放置错误", AlarmPriority.High},
-           {"风机故障", AlarmPriority.High},
-           {"控制仪内风扇故障", AlarmPriority.High},
-           {"O₂传感器1故障", AlarmPriority.High},
-           {"O₂传感器2故障", AlarmPriority.High},
-           {"O₂传感器差异", AlarmPriority.High},
-           {"血氧模块通信中断", AlarmPriority.High},
-           {"血氧系统故障", AlarmPriority.High},
-           {"血氧诊断故障", AlarmPriority.High},
-           {"血氧导电线未连接", AlarmPriority.High},
-           {"血氧导电线过期", AlarmPriority.High},
-           {"血氧导电线不匹配", AlarmPriority.High},
-           {"血氧无法识别导电线", AlarmPriority.High},
-           {"血氧导电线故障", AlarmPriority.High},
-           {"血氧传感器连接错误", AlarmPriority.High},
-           {"血氧传感器过期", AlarmPriority.High},
-           {"血氧传感器故障", AlarmPriority.High},
-           {"血氧传感器无法识别", AlarmPriority.High},
-           {"检查血氧导电线或传感器", AlarmPriority.High},
-           {"未连接血氧粘黏探头", AlarmPriority.High},
-           {"血氧粘黏探头过期", AlarmPriority.High},
-           {"血氧粘黏探头不匹配", AlarmPriority.High},
-           {"无法识别血氧粘黏探头", AlarmPriority.High},
-           {"血氧粘黏探头故障", AlarmPriority.High},
-           {"血氧传感器脱落", AlarmPriority.High},
-           {"检查血氧传感器连接", AlarmPriority.High},
-           {"ECG通信中断", AlarmPriority.High},
-           {"RESP通信中断", AlarmPriority.High},
-           {"NIBP模块禁用", AlarmPriority.High},
-           {"NIBP通信中断", AlarmPriority.High},
-           {"NIBP自检失败", AlarmPriority.High},
-           {"唤醒模块通信中断", AlarmPriority.High},
-           {"唤醒器连接错误", AlarmPriority.High},
-           {"打印机错误", AlarmPriority.High},
-           {"打印机通信中断", AlarmPriority.High},
-           {"湿度加热系统故障报警", AlarmPriority.High},
-           {"湿度传感器报警", AlarmPriority.High},
-           {"低压报警", AlarmPriority.High},
-           {"电池连接故障", AlarmPriority.High},
-           {"镍氢电池报警", AlarmPriority.High},
-           {"锂电池1硬件故障", AlarmPriority.High},
-           {"锂电池2硬件故障", AlarmPriority.High},
-           {"锂电池硬件故障", AlarmPriority.High},
-           {"ECG导联脱落", AlarmPriority.High},
-           {"ECG V 导联脱落", AlarmPriority.High},
-           {"ECG过载", AlarmPriority.High},
-           {"NIBP袖带错误", AlarmPriority.High},
-           {"NIBP硬件错误", AlarmPriority.High},
-           {"CO₂硬件错误", AlarmPriority.High},
-           {"CO₂软件错误", AlarmPriority.High},
-           {"CO₂电机转速超限", AlarmPriority.High},
-           {"CO₂出厂未校准", AlarmPriority.High},
-           {"CO₂采样管堵塞", AlarmPriority.High},
-           {"CO₂没有采样管", AlarmPriority.High},
-           {"CO₂超出精度范围", AlarmPriority.High},
-           {"CO₂温度超界", AlarmPriority.High},
-           {"CO₂大气压力超限", AlarmPriority.High},
-           {"CO₂需要校零", AlarmPriority.High},
-           {"CO₂禁止校零", AlarmPriority.High},
-           {"CO₂正在校零", AlarmPriority.High},
-           {"CO₂校准失败", AlarmPriority.High},
-           {"CO₂正在校准", AlarmPriority.High},
-           {"打印机缺纸", AlarmPriority.High},
-           {"水箱放置错误报警", AlarmPriority.High},
-           {"缺水报警", AlarmPriority.High},
-           {"血氧低信号质量", AlarmPriority.High},
-           {"无效的SpO₂", AlarmPriority.High},
-           {"低可信度的PR", AlarmPriority.High},
-           {"无效的PR", AlarmPriority.High},
-           {"低可信度的PI", AlarmPriority.High},
-           {"无效的PI", AlarmPriority.High},
-           {"无效平滑的PI", AlarmPriority.High},
-           {"低可信度的SpCO", AlarmPriority.High},
-           {"低血流灌注SpCO", AlarmPriority.High},
-           {"无效的SpCO", AlarmPriority.High},
-           {"低可信度的SpMet", AlarmPriority.High},
-           {"低血流灌注SpMet", AlarmPriority.High},
-           {"无效的SpMet", AlarmPriority.High},
-           {"低可信度的SpHb", AlarmPriority.High},
-           {"低血流灌注SpHb", AlarmPriority.High},
-           {"无效的SpHb", AlarmPriority.High},
-           {"低可信度的SpOC", AlarmPriority.High},
-           {"低血流灌注SpOC", AlarmPriority.High},
-           {"无效的SpOC", AlarmPriority.High},
-           {"低可信度的PVI", AlarmPriority.High},
-           {"无效的PVI", AlarmPriority.High},
-           {"低血流灌注", AlarmPriority.High},
-           {"血氧传感器初始化", AlarmPriority.High},
-           {"搜寻脉搏", AlarmPriority.High},
-           {"血氧探测到干扰", AlarmPriority.High},
-           {"血氧粘黏探头将要过期", AlarmPriority.High},
-           {"摇床板与主板通信故障", AlarmPriority.High},
-           {"仅限SpO₂模式", AlarmPriority.High},
-           {"血氧导电线将要过期", AlarmPriority.High},
-           {"血氧传感器不匹配", AlarmPriority.High},
-           {"血氧传感器将要过期", AlarmPriority.High},
-           {"前门打开", AlarmPriority.High},
-           {"温度上偏差", AlarmPriority.High},
-           {"温度下偏差", AlarmPriority.High},
-           {"床温上偏差", AlarmPriority.High},
-           {"床温下偏差", AlarmPriority.High},
-           {"设置报警A", AlarmPriority.High},
-           {"设置报警C", AlarmPriority.High},
-           {"请检查肤温", AlarmPriority.High},
-           {"手控检查报警", AlarmPriority.High},
-           {"O₂上偏差", AlarmPriority.High},
-           {"O₂下偏差", AlarmPriority.High},
-           {"停搏", AlarmPriority.High},
-           {"室颤/室速", AlarmPriority.High},
-           {"窒息", AlarmPriority.High},
-           {"SpO₂高", AlarmPriority.High},
-           {"SpO₂低", AlarmPriority.High},
-           {"PR高", AlarmPriority.High},
-           {"PR低", AlarmPriority.High},
-           {"SpHb高", AlarmPriority.High},
-           {"SpHb低", AlarmPriority.High},
-           {"SpOC高", AlarmPriority.High},
-           {"SpOC低", AlarmPriority.High},
-           {"SpMet高", AlarmPriority.High},
-           {"SpMet低", AlarmPriority.High},
-           {"SpCO高", AlarmPriority.High},
-           {"SpCO低", AlarmPriority.High},
-           {"PI高", AlarmPriority.High},
-           {"PI低", AlarmPriority.High},
-           {"PVI高", AlarmPriority.High},
-           {"PVI低", AlarmPriority.High},
-           {"心率高", AlarmPriority.High},
-           {"心率低", AlarmPriority.High},
-           {"呼吸率高", AlarmPriority.High},
-           {"呼吸率低", AlarmPriority.High},
-           {"NIBP收缩压高", AlarmPriority.High},
-           {"NIBP收缩压低", AlarmPriority.High},
-           {"NIBP舒张压高", AlarmPriority.High},
-           {"NIBP舒张压低", AlarmPriority.High},
-           {"NIBP平均压高", AlarmPriority.High},
-           {"NIBP平均压低", AlarmPriority.High},
-           {"CO₂通信中断", AlarmPriority.High},
-           {"EtCO₂高", AlarmPriority.High},
-           {"EtCO₂低", AlarmPriority.High},
-           {"FiCO₂高", AlarmPriority.High},
-           {"FiCO₂低", AlarmPriority.High},
-           {"BR高", AlarmPriority.High},
-           {"BR低", AlarmPriority.High},
-           {"湿度上偏差", AlarmPriority.High},
-           {"湿度下偏差", AlarmPriority.High},
-           {"血氧饱和度低于85%", AlarmPriority.High},
-       
-           // ===== Medium =====
-           {"NIBP袖带微弱", AlarmPriority.Medium},
-           {"NIBP测量超界", AlarmPriority.Medium},
-           {"NIBP袖带过压", AlarmPriority.Medium},
-           {"NIBP测量超时", AlarmPriority.Medium},
-           {"NIBP信号饱和", AlarmPriority.Medium},
-           {"NIBP测量中断", AlarmPriority.Medium},
-           {"NIBP袖带类型错误", AlarmPriority.Medium},
-           {"NIBP袖带漏气", AlarmPriority.Medium},
-           {"NIBP气动堵塞", AlarmPriority.Medium},
-           {"NIBP过分运动", AlarmPriority.Medium},
-           {"锂电池1电压过低", AlarmPriority.Medium},
-           {"锂电池2电压过低", AlarmPriority.Medium},
-           {"锂电池电量低", AlarmPriority.Medium},
-           // 以下部分如果认为仍是严重问题也可保留在 High，这里暂且分到 Medium 供调整
-           // 可以按需再移动
-       };
+        {
+          // ===== High =====
+          {"系统板与主板通讯故障",AlarmPriority.High},{"控制仪与传感器盒通讯故障",AlarmPriority.High},
+          {"主从机通讯故障",AlarmPriority.High},{"从机间通讯故障",AlarmPriority.High},
+          {"备份配置数据异常",AlarmPriority.High},{"箱篷故障",AlarmPriority.High},
+          {"升降系统故障",AlarmPriority.High},{"辐射门故障",AlarmPriority.High},
+          {"培养箱加热系统故障",AlarmPriority.High},{"辐射加热系统故障",AlarmPriority.High},
+          {"床垫加热系统故障",AlarmPriority.High},{"传感器盒放置错误报警",AlarmPriority.High},
+          {"箱温传感器故障",AlarmPriority.High},{"独立箱温传感器故障",AlarmPriority.High},
+          {"箱温传感器差异",AlarmPriority.High},{"风道温度传感器故障",AlarmPriority.High},
+          {"床温传感器故障",AlarmPriority.High},{"床温独立传感器故障",AlarmPriority.High},
+          {"床温传感器差异故障",AlarmPriority.High},{"肤温传感器1故障",AlarmPriority.High},
+          {"独立肤温传感器故障",AlarmPriority.High},{"肤温传感器2故障",AlarmPriority.High},
+          {"肤温传感器差异",AlarmPriority.High},{"箱温超温",AlarmPriority.High},
+          {"床温超温",AlarmPriority.High},{"肤温超温",AlarmPriority.High},{"风道超温",AlarmPriority.High},
+          {"肤温传感器放置错误",AlarmPriority.High},{"风机故障",AlarmPriority.High},
+          {"控制仪内风扇故障",AlarmPriority.High},{"O₂传感器1故障",AlarmPriority.High},
+          {"O₂传感器2故障",AlarmPriority.High},{"O₂传感器差异",AlarmPriority.High},
+          {"血氧模块通信中断",AlarmPriority.High},{"血氧系统故障",AlarmPriority.High},
+          {"血氧诊断故障",AlarmPriority.High},{"血氧导电线未连接",AlarmPriority.High},
+          {"血氧导电线过期",AlarmPriority.High},{"血氧导电线不匹配",AlarmPriority.High},
+          {"血氧无法识别导电线",AlarmPriority.High},{"血氧导电线故障",AlarmPriority.High},
+          {"血氧传感器连接错误",AlarmPriority.High},{"血氧传感器过期",AlarmPriority.High},
+          {"血氧传感器故障",AlarmPriority.High},{"血氧传感器无法识别",AlarmPriority.High},
+          {"检查血氧导电线或传感器",AlarmPriority.High},{"未连接血氧粘黏探头",AlarmPriority.High},
+          {"血氧粘黏探头过期",AlarmPriority.High},{"血氧粘黏探头不匹配",AlarmPriority.High},
+          {"无法识别血氧粘黏探头",AlarmPriority.High},{"血氧粘黏探头故障",AlarmPriority.High},
+          {"血氧传感器脱落",AlarmPriority.High},{"检查血氧传感器连接",AlarmPriority.High},
+          {"ECG通信中断",AlarmPriority.High},{"NIBP通信中断",AlarmPriority.High},
+          {"NIBP自检失败",AlarmPriority.High},{"唤醒模块通信中断",AlarmPriority.High},
+          {"唤醒器连接错误",AlarmPriority.High},{"打印机错误",AlarmPriority.High},
+          {"打印机通信中断",AlarmPriority.High},{"低压报警",AlarmPriority.High},
+          {"电池连接故障",AlarmPriority.High},{"镍氢电池报警",AlarmPriority.High},
+          {"锂电池1电压过低",AlarmPriority.High},{"锂电池2电压过低",AlarmPriority.High},
+          {"锂电池1硬件故障",AlarmPriority.High},{"锂电池2硬件故障",AlarmPriority.High},
+          {"锂电池电量低",AlarmPriority.High},{"锂电池硬件故障",AlarmPriority.High},
+          {"CO₂通信中断",AlarmPriority.High},{"温度上偏差",AlarmPriority.High},
+          {"温度下偏差",AlarmPriority.High},{"床温上偏差",AlarmPriority.High},
+          {"床温下偏差",AlarmPriority.High},{"设置报警A",AlarmPriority.High},
+          {"设置报警C",AlarmPriority.High},{"请检查肤温",AlarmPriority.High},
+          {"手控检查报警",AlarmPriority.High},{"O₂上偏差",AlarmPriority.High},
+          {"O₂下偏差",AlarmPriority.High},{"停搏",AlarmPriority.High},
+          {"室颤/室速",AlarmPriority.High},{"窒息",AlarmPriority.High},
+          // ===== Medium =====
+          {"湿度加热系统故障报警",AlarmPriority.Medium},{"湿度传感器报警",AlarmPriority.Medium},
+          {"ECG导联脱落",AlarmPriority.Medium},{"ECG V 导联脱落",AlarmPriority.Medium},
+          {"ECG过载",AlarmPriority.Medium},{"NIBP袖带错误",AlarmPriority.Medium},
+          {"NIBP袖带微弱",AlarmPriority.Medium},{"NIBP测量超界",AlarmPriority.Medium},
+          {"NIBP袖带过压",AlarmPriority.Medium},{"NIBP测量超时",AlarmPriority.Medium},
+          {"NIBP信号饱和",AlarmPriority.Medium},{"NIBP测量中断",AlarmPriority.Medium},
+          {"NIBP袖带类型错误",AlarmPriority.Medium},{"NIBP袖带漏气",AlarmPriority.Medium},
+          {"NIBP气动堵塞",AlarmPriority.Medium},{"NIBP过分运动",AlarmPriority.Medium},
+          {"NIBP硬件错误",AlarmPriority.Medium},{"CO₂硬件错误",AlarmPriority.Medium},
+          {"CO₂软件错误",AlarmPriority.Medium},{"CO₂电机转速超限",AlarmPriority.Medium},
+          {"CO₂出厂未校准",AlarmPriority.Medium},{"CO₂采样管堵塞",AlarmPriority.Medium},
+          {"CO₂没有采样管",AlarmPriority.Medium},{"CO₂超出精度范围",AlarmPriority.Medium},
+          {"CO₂温度超界",AlarmPriority.Medium},{"CO₂大气压力超限",AlarmPriority.Medium},
+          {"CO₂需要校零",AlarmPriority.Medium},{"CO₂禁止校零",AlarmPriority.Medium},
+          {"CO₂正在校零",AlarmPriority.Medium},{"CO₂校准失败",AlarmPriority.Medium},
+          {"CO₂正在校准",AlarmPriority.Medium},{"打印机缺纸",AlarmPriority.Medium},
+          {"SpO₂高",AlarmPriority.Medium},{"SpO₂低",AlarmPriority.Medium},
+          {"PR高",AlarmPriority.Medium},{"PR低",AlarmPriority.Medium},
+          {"SpHb高",AlarmPriority.Medium},{"SpHb低",AlarmPriority.Medium},
+          {"SpOC高",AlarmPriority.Medium},{"SpOC低",AlarmPriority.Medium},
+          {"SpMet高",AlarmPriority.Medium},{"SpMet低",AlarmPriority.Medium},
+          {"SpCO高",AlarmPriority.Medium},{"SpCO低",AlarmPriority.Medium},
+          {"PI高",AlarmPriority.Medium},{"PI低",AlarmPriority.Medium},
+          {"PVI高",AlarmPriority.Medium},{"PVI低",AlarmPriority.Medium},
+          {"心率高",AlarmPriority.Medium},{"心率低",AlarmPriority.Medium},
+          {"呼吸率高",AlarmPriority.Medium},{"呼吸率低",AlarmPriority.Medium},
+          {"NIBP收缩压高",AlarmPriority.Medium},{"NIBP收缩压低",AlarmPriority.Medium},
+          {"NIBP舒张压高",AlarmPriority.Medium},{"NIBP舒张压低",AlarmPriority.Medium},
+          {"NIBP平均压高",AlarmPriority.Medium},{"NIBP平均压低",AlarmPriority.Medium},
+          {"EtCO₂高",AlarmPriority.Medium},{"EtCO₂低",AlarmPriority.Medium},
+          {"FiCO₂高",AlarmPriority.Medium},{"FiCO₂低",AlarmPriority.Medium},
+          {"BR高",AlarmPriority.Medium},{"BR低",AlarmPriority.Medium},
+          {"血氧饱和度低于85%",AlarmPriority.Medium},
+          // ===== Low（包含原 Info） =====
+          {"水箱放置错误报警",AlarmPriority.Low},{"缺水报警",AlarmPriority.Low},
+          {"血氧低信号质量",AlarmPriority.Low},{"湿度上偏差",AlarmPriority.Low},
+          {"湿度下偏差",AlarmPriority.Low},
+          {"低血流灌注",AlarmPriority.Low},{"血氧传感器初始化",AlarmPriority.Low},
+          {"搜寻脉搏",AlarmPriority.Low},{"血氧探测到干扰",AlarmPriority.Low},
+          {"血氧粘黏探头将要过期",AlarmPriority.Low},{"摇床板与主板通信故障",AlarmPriority.Low},
+          {"仅限SpO₂模式",AlarmPriority.Low},{"血氧导电线将要过期",AlarmPriority.Low},
+          {"血氧传感器不匹配",AlarmPriority.Low},{"血氧传感器将要过期",AlarmPriority.Low},
+          {"前门打开",AlarmPriority.Low}
+        };
 
         // 未出现在上述映射中的报警名称，在 BedViewModel 中会默认使用 AlarmPriority.Medium。
 
@@ -1103,279 +997,275 @@ namespace WarmBox_Central_Monitoring_Station.ViewModel
             }
         }
 
-        // ==================== JSON 数据更新 ====================
-        public void UpdateFromJsonData(string jsonData)
-        {
-            try
-            {
-                var jsonDoc = System.Text.Json.JsonDocument.Parse(jsonData);
-                var root = jsonDoc.RootElement;
+        // ==================== JSON 数据更新 （原接受解析程序传递做法）====================
+        //public void UpdateFromJsonData(string jsonData)
+        //{
+        //    try
+        //    {
+        //        var jsonDoc = System.Text.Json.JsonDocument.Parse(jsonData);
+        //        var root = jsonDoc.RootElement;
 
-                // 1. 处理离线标记
-                if (root.TryGetProperty("online", out var statusElement))
-                {
-                    string status = statusElement.GetString();
-                    if (status == "false")
-                    {
-                        SetOffline(true);
-                        return;
-                    }
-                    else if (status == "true")
-                    {
-                        SetOffline(false);
-                    }
-                }
-
-
-
-                // 2. 判断数据类型
-                //if (root.TryGetProperty("dataType", out var dataTypeElement))
-                //{
-                //    string dataType = dataTypeElement.GetString();
-                //    if (dataType == "waveform")
-                //    {
-                //        ParseWaveformData(root);
-                //        return;
-                //    }
-                //}
-
-                // 2. 先尝试解析波形数据（无论是否有 dataType 字段）
-                ParseWaveformData(root);  // 方法内部会检查字段是否存在，无字段时不做任何事
+        //        // 1. 处理离线标记
+        //        if (root.TryGetProperty("online", out var statusElement))
+        //        {
+        //            string status = statusElement.GetString();
+        //            if (status == "false")
+        //            {
+        //                SetOffline(true);
+        //                return;
+        //            }
+        //            else if (status == "true")
+        //            {
+        //                SetOffline(false);
+        //            }
+        //        }
 
 
-                // 3. 解析生理参数
-                bool hasValidData = false;
+
+        //        // 2. 判断数据类型
+        //        //if (root.TryGetProperty("dataType", out var dataTypeElement))
+        //        //{
+        //        //    string dataType = dataTypeElement.GetString();
+        //        //    if (dataType == "waveform")
+        //        //    {
+        //        //        ParseWaveformData(root);
+        //        //        return;
+        //        //    }
+        //        //}
+
+        //        // 2. 先尝试解析波形数据（无论是否有 dataType 字段）
+        //        ParseWaveformData(root);  // 方法内部会检查字段是否存在，无字段时不做任何事
 
 
-                // 解析病人信息（如果存在）
-                if (root.TryGetProperty("patientinform", out var patientElement) && patientElement.ValueKind == JsonValueKind.Object)
-                {
-                    UpdatePatientInfo(patientElement);
-                    hasValidData = true;
-                }
+        //        // 3. 解析生理参数
+        //        bool hasValidData = false;
 
-                if (root.TryGetProperty("HR", out var hrElement))
-                {
-                    HeartRate = hrElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                    ParseRangeField("HR", root, v => HR_High = v, v => HR_Low = v);
-                }
-                if (root.TryGetProperty("SPO2", out var spo2Element))
-                {
-                    BloodOxygen = spo2Element.GetRawText().Trim('"');
-                    hasValidData = true;
-                    ParseRangeField("SPO2", root, v => SPO2_High = v, v => SPO2_Low = v);
-                }
-                if (root.TryGetProperty("RESP", out var respElement))
-                {
-                    RespirationRate = respElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                    ParseRangeField("RESP", root, v => RESP_High = v, v => RESP_Low = v);
-                }
-                if (root.TryGetProperty("NIBP_SYS", out var sysElement) &&
-                    root.TryGetProperty("NIBP_DIA", out var diaElement))
-                {
-                    string sys = sysElement.GetRawText().Trim('"');
-                    string dia = diaElement.GetRawText().Trim('"');
-                    BloodPressure = $"{sys}/{dia}";
-                    hasValidData = true;
-                    ParseRangeField("NIBP_SYS", root, v => NIBP_SYS_High = v, v => NIBP_SYS_Low = v);
-                }
-                if (root.TryGetProperty("BOX_TEMP", out var boxTempElement))
-                {
-                    BoxTemp = boxTempElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("TEMP_T1", out var t1Element))
-                {
-                    SkinTemp1 = t1Element.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("TEMP_T2", out var t2Element))
-                {
-                    SkinTemp2 = t2Element.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("HUMIDITY", out var humidityElement))
-                {
-                    Humidity = humidityElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("OXYGEN_CONC", out var oxygenConcElement))
-                {
-                    O2 = oxygenConcElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                }               
-                if (root.TryGetProperty("PI", out var piElement))
-                {
-                    PI = piElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                    ParseRangeField("PI", root, v => PI_High = v, v => PI_Low = v);
-                }
-                if (root.TryGetProperty("PR", out var prElement))
-                {
-                    PR = prElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                    ParseRangeField("PR", root, v => PR_High = v, v => PR_Low = v);
-                }
-                if (root.TryGetProperty("PVI", out var pviElement))
-                {
-                    PV1 = pviElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                    ParseRangeField("PVI", root, v => PVI_High = v, v => PVI_Low = v);
-                }
-                if (root.TryGetProperty("SpHb", out var sphbElement))
-                {
-                    SpHb = sphbElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                    ParseRangeField("SpHb", root, v => SpHb_High = v, v => SpHb_Low = v);
-                }
-                if (root.TryGetProperty("SpOC", out var spocElement))
-                {
-                    SpOC = spocElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                    ParseRangeField("SpOC", root, v => SpOC_High = v, v => SpOC_Low = v);
-                }
-                if (root.TryGetProperty("SpMet", out var spmetElement))
-                {
-                    SpMet = spmetElement.GetRawText().Trim('"');
-                    ParseRangeField("SpMet", root, v => SpMet_High = v, v => SpMet_Low = v);
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("SpCO", out var spcoElement))
-                {
-                    SpCO = spcoElement.GetRawText().Trim('"');
-                    ParseRangeField("SpCO", root, v => SpCO_High = v, v => SpCO_Low = v);
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("WorkMode", out var workModeElement))
-                {
-                    WorkMode = workModeElement.GetString().Trim('"');
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("WorkModePercent", out var percentElement))
-                {
-                    if (percentElement.ValueKind == JsonValueKind.Number)
-                    {
-                        WorkModePercent = percentElement.GetInt32();
-                        hasValidData = true;
-                    }
-                    else if (percentElement.ValueKind == JsonValueKind.String)
-                    {
-                        // 兼容字符串形式的数字
-                        if (int.TryParse(percentElement.GetString(), out int val))
-                        {
-                            WorkModePercent = val;
-                            hasValidData = true;
-                        }
-                    }
-                }
-                if (root.TryGetProperty("W1", out var w1El))
-                {
-                    int? val = NormalizeToInt(w1El);
-                    W1 = val == 1 ? "开" : (val == 0 ? "关" : w1El.GetRawText().Trim('"'));
-                }
-                if (root.TryGetProperty("LED", out var ledEl))
-                {
-                    int? val = NormalizeToInt(ledEl);
-                    LED = val == 1 ? "开" : (val == 0 ? "关" : ledEl.GetRawText().Trim('"'));
-                }
-                if (root.TryGetProperty("kangaroo_mode", out var kmEl))
-                {
-                    int? val = NormalizeToInt(kmEl);
-                    KangarooMode = val == 1 ? "开" : (val == 0 ? "关" : kmEl.GetRawText().Trim('"'));
-                }
-                // STATUS 和 WARM 保持原样，不做转换
-                if (root.TryGetProperty("STATUS", out var statusEl)) STATUS = statusEl.GetRawText().Trim('"');
-                if (root.TryGetProperty("WARM", out var warmEl)) WARM_Percent = warmEl.GetRawText().Trim('"');
-                if (root.TryGetProperty("C_AIR", out var cAirElement))
-                if (root.TryGetProperty("W_SKIN", out var wSkinEl)) W_SKIN = wSkinEl.GetRawText().Trim('"');
-                if (root.TryGetProperty("C_SKIN", out var cSkinEl)) C_SKIN = cSkinEl.GetRawText().Trim('"');
-                if (root.TryGetProperty("W_MAN", out var wManEl)) W_MAN = wManEl.GetRawText().Trim('"');
-                {
-                    C_AIR = cAirElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("C_HUM", out var cHumElement))
-                {
-                    C_HUM = cHumElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("C_O2", out var cO2Element))
-                {
-                    C_O2 = cO2Element.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
-                if (root.TryGetProperty("Qibo", out var qiboElement))
-                {
-                    Qibo = qiboElement.GetRawText().Trim('"');
-                    hasValidData = true;
-                }
-                // 报警信息
-                if (root.TryGetProperty("WarmInfomation", out var alarmElement))
-                {
-                    var alarmStr = alarmElement.GetString();
-                    var typesStr = root.TryGetProperty("WarmTypes", out var typesElement)
-                                   ? typesElement.GetString() : "";
 
-                    var alarmNames = alarmStr.Split('，').Select(s => s.Trim())
-                                             .Where(s => !string.IsNullOrEmpty(s)).ToList();
-                    var alarmTypes = typesStr.Split('，').Select(s => s.Trim())
-                                             .Where(s => !string.IsNullOrEmpty(s)).ToList();
+        //        // 解析病人信息（如果存在）
+        //        if (root.TryGetProperty("patientinform", out var patientElement) && patientElement.ValueKind == JsonValueKind.Object)
+        //        {
+        //            UpdatePatientInfo(patientElement);
+        //            hasValidData = true;
+        //        }
 
-                    for (int i = 0; i < alarmNames.Count; i++)
-                    {
-                        string type = i < alarmTypes.Count ? alarmTypes[i] : "生理报警";
-                        var priority = AlarmPriorityMap.TryGetValue(alarmNames[i], out var p) ? p : AlarmPriority.Medium;
-                        string level = priority switch
-                        {
-                            AlarmPriority.High => "紧急",
-                            AlarmPriority.Medium => "警告",
-                            AlarmPriority.Low => "轻微",
-                            _ => "警告"
-                        };
+        //        if (root.TryGetProperty("HR", out var hrElement))
+        //        {
+        //            HeartRate = hrElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //            ParseRangeField("HR", root, v => HR_High = v, v => HR_Low = v);
+        //        }
+        //        if (root.TryGetProperty("SPO2", out var spo2Element))
+        //        {
+        //            BloodOxygen = spo2Element.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //            ParseRangeField("SPO2", root, v => SPO2_High = v, v => SPO2_Low = v);
+        //        }
+        //        if (root.TryGetProperty("RESP", out var respElement))
+        //        {
+        //            RespirationRate = respElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //            ParseRangeField("RESP", root, v => RESP_High = v, v => RESP_Low = v);
+        //        }
+        //        if (root.TryGetProperty("NIBP_SYS", out var sysElement) &&
+        //            root.TryGetProperty("NIBP_DIA", out var diaElement))
+        //        {
+        //            string sys = sysElement.GetRawText().Trim('"');
+        //            string dia = diaElement.GetRawText().Trim('"');
+        //            BloodPressure = $"{sys}/{dia}";
+        //            hasValidData = true;
+        //            ParseRangeField("NIBP_SYS", root, v => NIBP_SYS_High = v, v => NIBP_SYS_Low = v);
+        //        }
+        //        if (root.TryGetProperty("BOX_TEMP", out var boxTempElement))
+        //        {
+        //            BoxTemp = boxTempElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("TEMP_T1", out var t1Element))
+        //        {
+        //            SkinTemp1 = t1Element.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("TEMP_T2", out var t2Element))
+        //        {
+        //            SkinTemp2 = t2Element.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("HUMIDITY", out var humidityElement))
+        //        {
+        //            Humidity = humidityElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("OXYGEN_CONC", out var oxygenConcElement))
+        //        {
+        //            O2 = oxygenConcElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }               
+        //        if (root.TryGetProperty("PI", out var piElement))
+        //        {
+        //            PI = piElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //            ParseRangeField("PI", root, v => PI_High = v, v => PI_Low = v);
+        //        }
+        //        if (root.TryGetProperty("PR", out var prElement))
+        //        {
+        //            PR = prElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //            ParseRangeField("PR", root, v => PR_High = v, v => PR_Low = v);
+        //        }
+        //        if (root.TryGetProperty("PVI", out var pviElement))
+        //        {
+        //            PV1 = pviElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //            ParseRangeField("PVI", root, v => PVI_High = v, v => PVI_Low = v);
+        //        }
+        //        if (root.TryGetProperty("SpHb", out var sphbElement))
+        //        {
+        //            SpHb = sphbElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //            ParseRangeField("SpHb", root, v => SpHb_High = v, v => SpHb_Low = v);
+        //        }
+        //        if (root.TryGetProperty("SpOC", out var spocElement))
+        //        {
+        //            SpOC = spocElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //            ParseRangeField("SpOC", root, v => SpOC_High = v, v => SpOC_Low = v);
+        //        }
+        //        if (root.TryGetProperty("SpMet", out var spmetElement))
+        //        {
+        //            SpMet = spmetElement.GetRawText().Trim('"');
+        //            ParseRangeField("SpMet", root, v => SpMet_High = v, v => SpMet_Low = v);
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("SpCO", out var spcoElement))
+        //        {
+        //            SpCO = spcoElement.GetRawText().Trim('"');
+        //            ParseRangeField("SpCO", root, v => SpCO_High = v, v => SpCO_Low = v);
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("WorkMode", out var workModeElement))
+        //        {
+        //            WorkMode = workModeElement.GetString().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("WorkModePercent", out var percentElement))
+        //        {
+        //            if (percentElement.ValueKind == JsonValueKind.Number)
+        //            {
+        //                WorkModePercent = percentElement.GetInt32();
+        //                hasValidData = true;
+        //            }
+        //            else if (percentElement.ValueKind == JsonValueKind.String)
+        //            {
+        //                // 兼容字符串形式的数字
+        //                if (int.TryParse(percentElement.GetString(), out int val))
+        //                {
+        //                    WorkModePercent = val;
+        //                    hasValidData = true;
+        //                }
+        //            }
+        //        }
+        //        if (root.TryGetProperty("W1", out var w1El))
+        //        {
+        //            int? val = NormalizeToInt(w1El);
+        //            W1 = val == 1 ? "开" : (val == 0 ? "关" : w1El.GetRawText().Trim('"'));
+        //        }
+        //        if (root.TryGetProperty("LED", out var ledEl))
+        //        {
+        //            int? val = NormalizeToInt(ledEl);
+        //            LED = val == 1 ? "开" : (val == 0 ? "关" : ledEl.GetRawText().Trim('"'));
+        //        }
+        //        if (root.TryGetProperty("kangaroo_mode", out var kmEl))
+        //        {
+        //            int? val = NormalizeToInt(kmEl);
+        //            KangarooMode = val == 1 ? "开" : (val == 0 ? "关" : kmEl.GetRawText().Trim('"'));
+        //        }
+        //        // STATUS 和 WARM 保持原样，不做转换
+        //        if (root.TryGetProperty("STATUS", out var statusEl)) STATUS = statusEl.GetRawText().Trim('"');
+        //        if (root.TryGetProperty("WARM", out var warmEl)) WARM_Percent = warmEl.GetRawText().Trim('"');
+        //        if (root.TryGetProperty("C_AIR", out var cAirElement))
+        //        if (root.TryGetProperty("W_SKIN", out var wSkinEl)) W_SKIN = wSkinEl.GetRawText().Trim('"');
+        //        if (root.TryGetProperty("C_SKIN", out var cSkinEl)) C_SKIN = cSkinEl.GetRawText().Trim('"');
+        //        if (root.TryGetProperty("W_MAN", out var wManEl)) W_MAN = wManEl.GetRawText().Trim('"');
+        //        {
+        //            C_AIR = cAirElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("C_HUM", out var cHumElement))
+        //        {
+        //            C_HUM = cHumElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("C_O2", out var cO2Element))
+        //        {
+        //            C_O2 = cO2Element.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        if (root.TryGetProperty("Qibo", out var qiboElement))
+        //        {
+        //            Qibo = qiboElement.GetRawText().Trim('"');
+        //            hasValidData = true;
+        //        }
+        //        // 报警信息
+        //        if (root.TryGetProperty("WarmInfomation", out var alarmElement))
+        //        {
+        //            var alarmStr = alarmElement.GetString();
+        //            var typesStr = root.TryGetProperty("WarmTypes", out var typesElement)
+        //                           ? typesElement.GetString() : "";
 
-                        var log = new AlarmLogItem
-                        {
-                            BedNumber = BedNumber,
-                            PatientName = PatientNameForDisplay,
-                            AlarmContent = alarmNames[i],
-                            AlarmType = type,
-                            AlarmLevel = level,
-                            AlarmTime = DateTime.Now,
-                            DeviceModel = DeviceType,  // 或 DeviceName
-                            ParameterName = null,      // 暂不填充
-                            CurrentValue = null
-                        };
-                        AlarmLogService.Instance.AddLog(log);
-                    }
+        //            var alarmNames = alarmStr.Split('，').Select(s => s.Trim())
+        //                                     .Where(s => !string.IsNullOrEmpty(s)).ToList();
+        //            var alarmTypes = typesStr.Split('，').Select(s => s.Trim())
+        //                                     .Where(s => !string.IsNullOrEmpty(s)).ToList();
 
-                    WaringInform = alarmStr;
-                    hasValidData = true;
-                }
+        //            for (int i = 0; i < alarmNames.Count; i++)
+        //            {
+        //                string type = i < alarmTypes.Count ? alarmTypes[i] : "生理报警";
+        //                var priority = AlarmPriorityMap.TryGetValue(alarmNames[i], out var p) ? p : AlarmPriority.Medium;
+        //                string level = priority switch
+        //                {
+        //                    AlarmPriority.High => "紧急",
+        //                    AlarmPriority.Medium => "警告",
+        //                    AlarmPriority.Low => "轻微",
+        //                    _ => "警告"
+        //                };
 
-                if (hasValidData && IsOffline)
-                    SetOffline(false);
-                if (!string.IsNullOrEmpty(DeviceIp))
-                {
-                    if (!LiveBeds.TryGetValue(DeviceIp, out var existing) || existing != this)
-                    {
-                        LiveBeds[DeviceIp] = this;
-                    }
-                }
+        //                var log = new AlarmLogItem
+        //                {
+        //                    BedNumber = BedNumber,
+        //                    PatientName = PatientNameForDisplay,
+        //                    AlarmContent = alarmNames[i],
+        //                    AlarmType = type,
+        //                    AlarmLevel = level,
+        //                    AlarmTime = DateTime.Now,
+        //                    DeviceModel = DeviceType,  // 或 DeviceName
+        //                    ParameterName = null,      // 暂不填充
+        //                    CurrentValue = null
+        //                };
+        //                AlarmLogService.Instance.AddLog(log);
+        //            }
 
-                OnPropertyChanged(nameof(PatientNameForDisplay));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"❌ 更新床位 {BedNumber} 数据时出错: {ex.Message}");
-            }
-        }
+        //            WaringInform = alarmStr;
+        //            hasValidData = true;
+        //        }
 
-        public static AlarmPriority GetAlarmPriority(string alarmName)
-        {
-            return AlarmPriorityMap.TryGetValue(alarmName, out var p) ? p : AlarmPriority.Medium;
-        }
+        //        if (hasValidData && IsOffline)
+        //            SetOffline(false);
+        //        if (!string.IsNullOrEmpty(DeviceIp))
+        //        {
+        //            if (!LiveBeds.TryGetValue(DeviceIp, out var existing) || existing != this)
+        //            {
+        //                LiveBeds[DeviceIp] = this;
+        //            }
+        //        }
+
+        //        OnPropertyChanged(nameof(PatientNameForDisplay));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"❌ 更新床位 {BedNumber} 数据时出错: {ex.Message}");
+        //    }
+        //}
+       
         private void ParseWaveformData(JsonElement root)
         {
             if (root.TryGetProperty("Wave_Ⅰ", out var w)) Hr_Ⅰ = Sanitize(w.GetString());
